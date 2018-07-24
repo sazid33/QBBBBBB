@@ -21,9 +21,11 @@
         @foreach($pages as $page)
         <tr>
             <td>{{ $page->name }}</td>
+            @foreach($users as $user)
             <td>
                 <input type="checkbox" >
             </td>
+            @endforeach
         </tr>
         @endforeach
         </tbody>

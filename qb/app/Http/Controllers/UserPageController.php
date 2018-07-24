@@ -54,30 +54,18 @@ class UserPageController extends Controller
      */
     public function show($company_id)
     {
-         
-        /*$users = DB::table('company_users', 'company_id', '=', $company_id)
-                        ->select('user_id')
-                        ->get();
-        
-        $user_page = DB::table('user_pages', 'user_id','=', $users)
-                    ->join('pages', 'id','=','user_pages.page_id')
-                    ->join('users', 'id','=',$users)
-                    ->select('pages.name as pages', 'users.name as users', 'is_active')
-                    ->get();
-        
-
-        $users = DB::table('users')
-                ->join('company_users', 'company_id', '=', $company_id)
-                ->select('')
-                ->get();
-*/
         $users = DB::select("select users.id as user_id, users.name as user_name from users WHERE users.id IN 
-                    (select company_users.user_id from company_users WHERE company_users.company_id=$company_id)");
-        $pages = Page::all();
-
+                (select company_users.user_id from company_users WHERE company_users.company_id=$company_id)");
         
+        $pages = Page::all();
+        
+        $is_active = DB::table('user_page')
+                    ->where('user_id', $users->user_id)
+                    ->where('page_id', $pages->id)
+                    ->select('is_active')
+                    ->get();
 
-        return view('superadmin/users_page_list/show', compact('users', 'pages'));
+        return view('superadmin/users_page_list/show', compact('users', 'pages', 'is_active'));
     }
 
     /**
