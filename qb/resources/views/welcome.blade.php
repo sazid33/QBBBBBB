@@ -62,6 +62,23 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .rotate {
+
+                /* Safari */
+                -webkit-transform: rotate(-90deg);
+
+                /* Firefox */
+                -moz-transform: rotate(-90deg);
+
+                /* IE */
+                -ms-transform: rotate(-90deg);
+
+                /* Opera */
+                -o-transform: rotate(-90deg);
+
+                float: left;
+            }
         </style>
     </head>
     <body>

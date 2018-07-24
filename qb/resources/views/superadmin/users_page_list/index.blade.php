@@ -4,44 +4,63 @@
 
 @section('content')
 
+<style>
+    .test {
 
+      /* Safari */
+      -webkit-transform: rotate(-90deg);
 
-<div class="">
-      <div class="box">
+      /* Firefox */
+      -moz-transform: rotate(-90deg);
 
-        <div class="box-body">
+      /* IE */
+      -ms-transform: rotate(-90deg);
 
-          <table class ="table table-responsive">
-            <thead>
-              <tr>
-                <th>User</th>
-                @foreach($pages as $page)
-                <th>{{$page->name}}</th>
-                @endforeach
-              </tr>
-            </thead>
+      /* Opera */
+      -o-transform: rotate(-90deg);
 
-            <tbody>
-              @foreach($users as $user)
-              <tr>
-                <td>{{$user->name}}</td>
-                @foreach($pages as $page)
-                <th>
-                <span class="">
-                    <input type="checkbox">
-                </span>
-                </th>
-                @endforeach
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
+      
+    }
+</style>
+<script>
+  function test()
+  {
+    company_id = document.getElementById("company_id").value;
+ 
+    alert("get_user_page/"+company_id);
+        $.ajax({
+          type="GET",
+          url: "get_user_page/"+company_id,
+          success: function(response){
+            $("#divresult").html(response);
+            alert(response);
+        }});
+  }
 
-        </div>
-      </div>
+  /* Load positions into postion <selec> */
 
-    <div class="button" pull-right>
-        <button type="button" class="btn btn-default">Update</button>
-    </div>
+</script>
+<div>
+  <h2>Select Company</h2>
+</div>
+
+<div class="box">
+
+  <div class="box-body">
+
+    <table class ="table table-responsive">
+      <tbody>
+        @foreach($companies as $company)
+        <tr>
+          <td><a href="user_pages_list/{{ $company->id }}">{{$company->name}}</a></td>
+          <td>{{$company->status}}</td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+
+  </div>
+</div>
+              
 
 @endsection

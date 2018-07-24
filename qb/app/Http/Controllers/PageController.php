@@ -53,7 +53,7 @@ class PageController extends Controller
         {
             $user_page = new UserPage();
             $user_page->user_id = $user->id;
-            $user_page->page_list_id = $page->id;
+            $user_page->page_id = $page->id;
             $user_page->is_active = 0;
             $user_page->save();
         }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Company;
 use App\User;
+use App\CompanyUser;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -40,7 +42,8 @@ class CompanyController extends Controller
     {
         //
         $company = new Company();
-        $company->name = $request->input('name');
+        $company->name = $request->input('company_name');
+        $company->status = $request->input('status');
         $company->save();
 
         $company = DB::table('companies')->orderBy('created_at', 'desc')->first();

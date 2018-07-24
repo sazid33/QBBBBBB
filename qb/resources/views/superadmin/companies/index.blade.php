@@ -14,7 +14,6 @@
           <table class ="table table-responsive">
             <thead>
               <tr>
-                <th>Company ID</th>
                 <th>Name</th>
                 <th>Status</th>
               </tr>
@@ -23,7 +22,6 @@
             <tbody>
               @foreach($companies as $company)
               <tr>
-                <td>{{$company->id}}</td>
                 <td>{{$company->name}}</td>
                 <td>{{$company->status}}</td>
               </tr>

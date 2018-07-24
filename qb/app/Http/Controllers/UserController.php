@@ -62,15 +62,13 @@ class UserController extends Controller
         $company_user->role_id = $request->input('role');
         $company_user->save();
 
-        //echo $user;
-
         $pages = Page::all();
         
         foreach($pages as $page)
         {
             $user_page = new UserPage();
             $user_page->user_id = $user->id;
-            $user_page->page_list_id = $page->id;
+            $user_page->page_id = $page->id;
             $user_page->is_active = 0;
             $user_page->save();
         }

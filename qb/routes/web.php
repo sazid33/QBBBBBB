@@ -1,6 +1,7 @@
 <?php
 
 use App\companies;
+use App\Company;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,4 @@ Route::resource('superadmin/pages', 'PageController');
 Route::resource('superadmin/user_pages_list', 'UserPageController');
 
 //Route::get('get_program', 'SubjectController@get_program');
+Route::get('superadmin/user_pages_list/{{company->id}}', 'UserPageController@show');
