@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Subject;
+use App\Topic;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class SubjectController extends Controller
+class TopicController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,20 +15,6 @@ class SubjectController extends Controller
     public function index()
     {
         //
-        $user = "";
-
-        if(Auth::check())
-        {
-            $subjects = Subject::all();
-            return view('superadmin/subjects/index', compact('subjects'));
-        }
-
-        else
-        {
-            $subjects = Subject::all();
-            return view('user/subjects/index', compact('subjects'));
-        }
-        
     }
 
     /**
@@ -51,23 +36,15 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         //
-        $subject = Subject::create([
-            'name' => $request->input('name'),
-            'company_programs_id' => $request->input('company_programs'),
-        ]);
-
-        if($subject){
-            return redirect()->route('subjects.index');
-        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function show(Subject $subject)
+    public function show(Topic $topic)
     {
         //
     }
@@ -75,10 +52,10 @@ class SubjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function edit(Subject $subject)
+    public function edit(Topic $topic)
     {
         //
     }
@@ -87,10 +64,10 @@ class SubjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Subject  $subject
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subject $subject)
+    public function update(Request $request, Topic $topic)
     {
         //
     }
@@ -98,10 +75,10 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subject $subject)
+    public function destroy(Topic $topic)
     {
         //
     }

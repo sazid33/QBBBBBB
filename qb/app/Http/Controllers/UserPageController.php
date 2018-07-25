@@ -58,14 +58,28 @@ class UserPageController extends Controller
                 (select company_users.user_id from company_users WHERE company_users.company_id=$company_id)");
         
         $pages = Page::all();
-        
-        $is_active = DB::table('user_page')
-                    ->where('user_id', $users->user_id)
-                    ->where('page_id', $pages->id)
-                    ->select('is_active')
-                    ->get();
 
-        return view('superadmin/users_page_list/show', compact('users', 'pages', 'is_active'));
+        $user_id_string = "";
+        foreach($users as $user)
+        {
+            $user_id_string=$user_id_string.$user->user_id.",";
+        }
+        $user_id_string = substr($user_id_string, 0, strlen($user_id_string)-1);
+
+        $page_id_string = "";
+
+        foreach($pages as $page)
+        {
+            $page_id_string = $page_id_string.$page->id.",";
+        }
+
+        $page_id_string = substr($page_id_string, 0, strlen($page_id_string)-1);
+        
+        $is_actives = DB::select("select * from user_pages where page_id IN (".$page_id_string.") and user_id IN (".$user_id_string.") order by page_id, user_id;");
+
+        $counter = 0;
+        
+        return view('superadmin/users_page_list/show', compact('users', 'pages', 'is_actives', 'counter'));
     }
 
     /**
