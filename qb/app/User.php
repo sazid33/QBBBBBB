@@ -32,4 +32,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function isSuperAdmin()
+    {
+        return $this->roles()->where('name', 'Super Admin')->exists();
+    }
+
 }

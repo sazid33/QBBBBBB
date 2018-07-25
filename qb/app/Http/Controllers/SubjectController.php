@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Subject;
+use App\CompanyUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,9 +18,15 @@ class SubjectController extends Controller
     public function index()
     {
         //
-        $user = "";
 
-        if(Auth::check())
+        $user = Auth::user();
+
+        $isSuperAdmin = DB::table('company_users')
+                        ->where('user_id','=',$user->id)
+                        ->select('role_id as role')
+                        ->get();
+
+        if($isSuperAdmin[0]->role == 1)
         {
             $subjects = Subject::all();
             return view('superadmin/subjects/index', compact('subjects'));
