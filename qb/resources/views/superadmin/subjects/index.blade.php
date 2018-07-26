@@ -12,16 +12,17 @@
             <table class ="table table-responsive">
                 <thead>
                 <tr>
-                    <th>Subject ID</th>
+                    <th>Company Name</th>
                     <th>Name</th>
+                    
                 </tr>
                 </thead>
 
                 <tbody>
                     @foreach($subjects as $subject)
                     <tr>
-                    <td>{{$subject->id}}</td>
-                    <td>{{$subject->name}}</td>
+                        <td>{{$subject->company}}</td>
+                        <td>{{$subject->name}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -68,19 +69,6 @@
                     @endif
                 </div>
                 </br>
-                <div>
-                    <select class="form-control" name="program" data-style="select-with-transition" title="Select Program" id="program" >
-                        @foreach($programs_array as $data)
-                        <option value="{{$data->id}}">{{$data->name}}</option>
-                        @endforeach
-                    </select>
-                
-                    @if ($errors->has('program'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('program') }}</strong>
-                    </span>
-                    @endif
-                </div>
                 </br>
                 <div class="form-group">
                     <input class="form-control" placeholder="Subject Name" name="subject_name" type="text" autofocus value="{{ old('name') }}">

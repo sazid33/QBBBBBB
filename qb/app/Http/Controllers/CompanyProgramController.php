@@ -24,6 +24,7 @@ class CompanyProgramController extends Controller
                             ->select('company_programs.status', 'companies.name as company', 'programs.name as program')
                             ->orderBy('company')
                             ->get();
+                            
         return view('superadmin/company_programs/index', compact('company_programs'));
     }
 
@@ -46,6 +47,17 @@ class CompanyProgramController extends Controller
     public function store(Request $request)
     {
         //
+        $company_program = new CompanyProgram();
+        $company_program->company_id = $request->input('company_id');
+        $company_program->program_id = $request->input('program_id');
+        $company_program->allowed_subject = $request->input('allowed_subject');
+        $company_program->status = $request->input('status');
+        $company_program->save();
+
+        if($company_program)
+        {
+            return redirect()->route('company_programs.index');
+        }
     }
 
     /**

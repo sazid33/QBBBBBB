@@ -20,7 +20,7 @@ class SubjectController extends Controller
     public function index()
     {
         //
-
+/*
         $user = Auth::user();
 
         $isSuperAdmin = DB::table('company_users')
@@ -39,7 +39,15 @@ class SubjectController extends Controller
             $subjects = Subject::all();
             return view('user/subjects/index', compact('subjects'));
         }
-        
+  */
+        $subjects = DB::table('subjects')
+                    ->join('companies', 'subjects.company_id','=','company_id')
+                    ->select('companies.name as company', 'subjects.name as name')
+                    ->orderBy('company')
+                    ->get();
+
+        return view('superadmin/subjects/index', compact('subjects'));
+  
     }
 
     /**
@@ -64,19 +72,10 @@ class SubjectController extends Controller
         $company = DB::table('companies')
                 ->where('id','=', $request->input('company'))
                 ->get();
-        
-        $program = DB::table('programs')
-                ->where('id', '=', $request->input('program'))
-                ->get();
-
-        $company_program = DB::table('company_programs')
-                        ->where('company_id','=',$company[0]->id)
-                        ->where('program_id', '=', $program[0]->id)
-                        ->get();
 
         $subject = Subject::create([
-            'name' => $request->input('name'),
-            'company_program_id' => $company_program[0]->id,
+            'name' => $request->input('subject_name'),
+            'company_id' => $company[0]->id,
         ]);
 
         if($subject){

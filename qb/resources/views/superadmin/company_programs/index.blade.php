@@ -55,7 +55,7 @@
               <fieldset>
 
               <div>
-                <select class="form-control" name="company" data-style="select-with-transition" title="Select Company" id="company" >
+                <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
                   @foreach($company_array as $data)
                   <option value="{{$data->id}}">{{$data->name}}</option>
                   @endforeach
@@ -71,7 +71,7 @@
               </br>
               
               <div>
-                <select class="form-control" name="program" data-style="select-with-transition" title="Select Program" id="program" >
+                <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
                   @foreach($programs_array as $data)
                   <option value="{{$data->id}}">{{$data->name}}</option>
                   @endforeach
@@ -83,6 +83,15 @@
                 </span>
                 @endif
               </div>
+
+              <div class="form-group">
+                <label>Enter Number of Subjects to be Allowed</label>
+                <input class="form-control" placeholder="Allowed Subject Number" name="allowed_subject" type="text" autofocus value="{{ old('name') }}">
+                @if ($errors->has('allowed_subject'))
+                <span class="help-block">{{ $errors->first('allowed_subject') }}</span>
+                @endif
+              </div>
+
               </br>
 
               <div class="form-group has-feedback {{ $errors->has('status') ? 'has-error' : '' }}">

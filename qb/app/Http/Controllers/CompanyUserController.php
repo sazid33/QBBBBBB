@@ -36,7 +36,7 @@ class CompanyUserController extends Controller
     public function store(Request $request)
     {
         //
-        $company_users = company_users::create([
+        $company_users = CompanyUser::create([
             'company_id' => $request->input('company_id'),
             'user_id' => $request->input('user_id'),
             'role_id' => $request->input('role_id'),
