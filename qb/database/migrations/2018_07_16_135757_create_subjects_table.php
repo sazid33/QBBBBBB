@@ -19,8 +19,8 @@ class CreateSubjectsTable extends Migration
                 $table->engine = 'InnoDB';
                 $table->integer('id', true);
                 $table->string('name');
-                $table->integer('company_program_id');
-                $table->foreign('company_program_id')->references('id')->on('company_programs');
+                $table->integer('company_id');
+                $table->foreign('company_id')->references('id')->on('companies');
                 $table->timestamps();
             });
         }

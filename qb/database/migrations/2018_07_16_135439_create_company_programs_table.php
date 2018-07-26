@@ -22,6 +22,7 @@ class CreateCompanyProgramsTable extends Migration
                 $table->foreign('company_id')->references('id')->on('companies');
                 $table->integer('program_id');
                 $table->foreign('program_id')->references('id')->on('programs');
+                $table->integer('allowed_subject');
                 $table->enum('status', ['active', 'inactive']);
                 $table->timestamps();
             });

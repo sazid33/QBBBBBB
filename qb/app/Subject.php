@@ -9,5 +9,5 @@ class Subject extends Model
     //
     protected $table = 'subjects';
 
-    protected $fillable = ['name', 'company_program_id'];
+    protected $fillable = ['name', 'company_id'];
 }

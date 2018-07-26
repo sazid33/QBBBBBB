@@ -16,6 +16,7 @@ class CreateTopicsTable extends Migration
         if(!Schema::hasTable('topics'))
         {
             Schema::create('topics', function (Blueprint $table) {
+                $table->engine = 'InnoDB';
                 $table->increments('id', true);
                 $table->string('name');
                 $table->integer('chapter_id');

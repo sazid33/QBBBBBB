@@ -9,5 +9,5 @@ class CompanyProgram extends Model
     //
     protected $table = 'company_programs';
 
-    protected $fillable = ['company_id', 'program_id', 'status'];
+    protected $fillable = ['company_id', 'program_id', 'allowed_subject','status'];
 }
