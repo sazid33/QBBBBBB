@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Subject;
+use App\Company;
+use App\Programs;
 use App\CompanyUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,9 +61,22 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         //
+        $company = DB::table('companies')
+                ->where('id','=', $request->input('company'))
+                ->get();
+        
+        $program = DB::table('programs')
+                ->where('id', '=', $request->input('program'))
+                ->get();
+
+        $company_program = DB::table('company_programs')
+                        ->where('company_id','=',$company[0]->id)
+                        ->where('program_id', '=', $program[0]->id)
+                        ->get();
+
         $subject = Subject::create([
             'name' => $request->input('name'),
-            'company_programs_id' => $request->input('company_programs'),
+            'company_program_id' => $company_program[0]->id,
         ]);
 
         if($subject){
