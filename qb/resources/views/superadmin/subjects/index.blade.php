@@ -36,13 +36,13 @@
     </div>
         </br>
     <div class="button">
-        <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal">
+        <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal-create">
         Add New Subject
         </button>
     </div>
   </div>
 
-  <div class="modal fade" id="ssModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="ssModal-create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">

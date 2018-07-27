@@ -41,7 +41,7 @@
     </div>
         </br>
     <div>
-      <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal2">
+      <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal-create">
         Add New User
       </button>
     </div>
@@ -50,7 +50,7 @@
     <!-- Button trigger modal -->
 
     <!-- Modal -->
-    <div class="modal fade" id="ssModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="ssModal-create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
