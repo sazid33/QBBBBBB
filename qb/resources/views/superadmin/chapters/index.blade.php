@@ -22,6 +22,7 @@
                     <th>Subject</th>
                     <th>Chapter Name</th>
                     <th>Edit</th>
+                    <th>View</th>
                     
                 </tr>
                 </thead>
@@ -32,6 +33,7 @@
                         <td>{{$chapter->subject}}</td>
                         <td id="$chapter->id">{{$chapter->name}}</td>
                         <td id="$chapter->id" value="$chapter->name"><a href="" data-toggle="modal" data-target="#ssModal-update">Edit</a></td>
+                        <td><a href="#">View</a></td>
                     </tr>
                     @endforeach
                 </tbody>
