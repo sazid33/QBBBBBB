@@ -25,11 +25,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Routes for Super Admins. This routes can only be accessed by a super admin.
 Route::resource('superadmin/companies', 'CompanyController');
 Route::resource('superadmin/users', 'UserController');
+Route::resource('superadmin/roles', 'RoleController');
 Route::resource('superadmin/degrees', 'DegreeController');
 Route::resource('superadmin/programs', 'ProgramController');
-Route::resource('superadmin/subjects', 'SubjectController');
-Route::resource('superadmin/roles', 'RoleController');
+
 Route::resource('superadmin/company_programs', 'CompanyProgramController');
+
+Route::resource('superadmin/subjects', 'SubjectController');
+Route::resource('superadmin/chapters', 'ChapterController');
+Route::post('superadmin/chapters/store', 'ChapterController@store');
+Route::resource('superadmin/topics', 'TopicController');
+
 Route::resource('superadmin/pages', 'PageController');
 Route::resource('superadmin/user_pages_list', 'UserPageController');
 Route::get('superadmin/user_pages_list/{{company->id}}', 'UserPageController@show');

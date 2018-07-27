@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Subject;
+use App\Chapter;
 use App\Topic;
 use Illuminate\Http\Request;
 
@@ -15,6 +18,15 @@ class TopicController extends Controller
     public function index()
     {
         //
+        $topics = DB::table('topics')
+                    ->join('chapters', 'topics.chapter_id','=','chapters.id')
+                    ->join('subjects', 'chapters.subject_id','=','subjects.id')
+                    ->select('subjects.name as subject', 'chapters.name as chapter', 'topics.name as topic')
+                    ->orderBy('subject')
+                    ->orderBy('chapter')
+                    ->get();
+
+        return view('superadmin/topics/index', compact('topics'));
     }
 
     /**

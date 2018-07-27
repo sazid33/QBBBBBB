@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Subject;
 use App\Chapter;
 use Illuminate\Http\Request;
 
@@ -15,6 +17,13 @@ class ChapterController extends Controller
     public function index()
     {
         //
+        $chapters = DB::table('chapters')
+                    ->join('subjects', 'chapters.subject_id','=','subjects.id')
+                    ->select('subjects.name as subject', 'chapters.name as name')
+                    ->orderBy('subject')
+                    ->get();
+
+        return view('superadmin/chapters/index', compact('chapters'));
     }
 
     /**
@@ -25,6 +34,7 @@ class ChapterController extends Controller
     public function create()
     {
         //
+        return view('superadmin/chapters/create');
     }
 
     /**
@@ -35,9 +45,37 @@ class ChapterController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        /*
+        $chapters = $request->get('chapters');
+        $subject = $request->get('subject_id');
+        dd($chapters);
+        
+        foreach($chapters as $chapter)
+        {
+            /*
+            $create_chapter = Chapter::create([
+                'name' => $chapter,
+                'subject_id' => $subject,
+            ]);
+            
+            $create_chapter = new Chapter();
+            $create_chapter->name = $chapter;
+            $create_chapter->subject_id = $subject;
+            $create_chapter->save();
+        }
+        */
 
+        $chapter = new Chapter();
+        $chapter->name = $request->input('chapter_name');
+        $chapter->subject_id = $request->input('subject');
+        $chapter->save();
+        
+        if($chapter)
+        {
+            return redirect()->route('chapters.index');
+        }
+        
+    }
     /**
      * Display the specified resource.
      *
