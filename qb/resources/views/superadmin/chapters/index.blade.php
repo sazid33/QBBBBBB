@@ -92,6 +92,7 @@
 
                 <!-- Change this to a button or input when using this as a form -->
                     <button type="submit" class="btn btn-med btn-success">Add Chapter</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </fieldset>
                 </form>
             </div>
@@ -132,6 +133,7 @@
 
                 <!-- Change this to a button or input when using this as a form -->
                     <button type="submit" class="btn btn-med btn-success">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </fieldset>
                 </form>
             </div>
