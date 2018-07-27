@@ -186,6 +186,7 @@ return [
         App\Providers\ProgramsProvider::class,
         App\Providers\CompanyProgramsProvider::class,
         App\Providers\SubjectProvider::class,
+        App\Providers\ChapterProvider::class,
         App\Providers\TestProvider::class,
 
     ],

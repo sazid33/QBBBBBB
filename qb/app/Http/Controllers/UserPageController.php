@@ -75,7 +75,8 @@ class UserPageController extends Controller
 
         $page_id_string = substr($page_id_string, 0, strlen($page_id_string)-1);
         
-        $is_actives = DB::select("select * from user_pages where page_id IN (".$page_id_string.") and user_id IN (".$user_id_string.") order by page_id, user_id;");
+        $is_actives = DB::select("select * from user_pages where page_id IN (".$page_id_string.") 
+                    and user_id IN (".$user_id_string.") order by page_id, user_id;");
 
         $counter = 0;
         

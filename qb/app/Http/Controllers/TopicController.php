@@ -21,7 +21,7 @@ class TopicController extends Controller
         $topics = DB::table('topics')
                     ->join('chapters', 'topics.chapter_id','=','chapters.id')
                     ->join('subjects', 'chapters.subject_id','=','subjects.id')
-                    ->select('subjects.name as subject', 'chapters.name as chapter', 'topics.name as topic')
+                    ->select('subjects.name as subject', 'chapters.name as chapter', 'topics.name as name')
                     ->orderBy('subject')
                     ->orderBy('chapter')
                     ->get();
@@ -48,6 +48,16 @@ class TopicController extends Controller
     public function store(Request $request)
     {
         //
+        $topics = new Topic();
+        $topics->name = $request->input('name');
+        $topics->chapter_id = $request->input('chapter');
+        $topics->save();
+
+        if($topics)
+        {
+            return redirect()->route('topics.index');
+        }
+
     }
 
     /**

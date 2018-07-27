@@ -53,12 +53,12 @@
           </div>
           <div class="modal-body">
             
-            <form action="{{ route('subjects.store') }}" method="POST">
+            <form action="{{ route('topics.store') }}" method="POST">
             {{ csrf_field() }}
             <fieldset>
                 
                 <div>
-                    <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Company" id="company" >
+                    <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
                         @foreach($subject_array as $data)
                         <option value="{{$data->id}}">{{$data->name}}</option>
                         @endforeach
@@ -71,11 +71,24 @@
                     @endif
                 </div>
                 </br>
+                <div>
+                    <select class="form-control" name="chapter" data-style="select-with-transition" title="Select Chapter" id="chapter" >
+                        @foreach($chapter_array as $data)
+                        <option value="{{$data->id}}">{{$data->name}}</option>
+                        @endforeach
+                    </select>
+                
+                    @if ($errors->has('chapter'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('chapter') }}</strong>
+                    </span>
+                    @endif
+                </div>
                 </br>
                 <div class="form-group">
-                    <input class="form-control" placeholder="Topic Name" name="subject_name" type="text" autofocus value="{{ old('name') }}">
-                    @if ($errors->has('subject'))
-                    <span class="help-block">{{ $errors->first('subject') }}</span>
+                    <input class="form-control" placeholder="Topic Name" name="name" type="text" autofocus value="{{ old('name') }}">
+                    @if ($errors->has('name'))
+                    <span class="help-block">{{ $errors->first('name') }}</span>
                     @endif
                 </div>
 
