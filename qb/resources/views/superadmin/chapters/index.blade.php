@@ -4,6 +4,39 @@
 
 @section('content')
 
+
+<script>
+$(document).ready(function(){
+
+
+    $(document).on('click', '.edit', function(){
+        var id = $(this).attr("id");
+        $('#form_output').html('');
+        var url = '/ajaxController/fetchChapter';
+        $.ajax({
+            url:url,
+            method:'GET',
+            data:{
+                id:id,
+            },
+            dataType: 'json',
+            success:function(data)
+            {
+                console.log(data);
+                console.log(url);
+                //$('#chapter_id').val(data.chapter_id);
+                $('#chapter_name_edit').val(data.chapter_name);
+                //$('#subject_id').val(data.subject_id);
+                $('#ssModal-update').modal('show');
+            },
+            error:function(data)
+            {
+                console.log(data);
+            }
+        })
+    });
+})
+</script>
 <!--
 <div class="button">
     <a type="button" class="btn btn-primary btn-med" href="chapters/create">
@@ -17,12 +50,13 @@
         <div class="box-body">
 
             <table class ="table table-responsive">
+            {{ csrf_field() }}
                 <thead>
                 <tr>
                     <th>Subject</th>
                     <th>Chapter Name</th>
-                    <th>Edit</th>
-                    <th>View</th>
+                    <th>Action</th>
+                    
                     
                 </tr>
                 </thead>
@@ -31,9 +65,8 @@
                     @foreach($chapters as $chapter)
                     <tr>
                         <td>{{$chapter->subject}}</td>
-                        <td id="$chapter->id">{{$chapter->name}}</td>
-                        <td id="$chapter->id" value="$chapter->name"><a href="" data-toggle="modal" data-target="#ssModal-update">Edit</a></td>
-                        <td><a href="#">View</a></td>
+                        <td id="">{{$chapter->name}}</td>
+                        <td><a href="#" class="btn btn-xs btn-primary edit" id="{{ $chapter->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -84,6 +117,7 @@
                     </br>
                     </br>
                     <div class="form-group">
+                        <label>Enter Chapter Name</label>
                         <input class="form-control" placeholder="Chapter Title" name="chapter_name" type="text" autofocus value="{{ old('name') }}">
                         @if ($errors->has('chapter'))
                         <span class="help-block">{{ $errors->first('chapter') }}</span>
@@ -112,24 +146,21 @@
           
             <div class="modal-body">
             
-                <form action="{{ route('chapters.store') }}" method="POST">
+                <form method="POST" id="chapter_form">
                 {{ csrf_field() }}
+                <span id="form_output"></span>
                 <fieldset>
-                    
-                <div class="form-group">
-                        <input class="form-control" placeholder="" value="{{$chapter->subject}}" name="subject" type="text" autofocus value="{{ old('name') }}">
-                        @if ($errors->has('subject'))
-                        <span class="help-block">{{ $errors->first('subject') }}</span>
-                        @endif
-                    </div>
-                    </br>
-                    </br>
+                
                     <div class="form-group">
-                        <input class="form-control" placeholder="Chapter Title" value="{{$chapter->name}}" name="chapter_name" type="text" autofocus value="{{ old('name') }}">
+                        <label>Enter Chapter Name</label>
+                        <input class="form-control" placeholder="Chapter Title" value="" id="chapter_name_edit" name="chapter_name_edit" type="text">
                         @if ($errors->has('chapter'))
                         <span class="help-block">{{ $errors->first('chapter') }}</span>
                         @endif
                     </div>
+
+                    <input type="hidden" name="chapter_id" id="chapter_id" value="" />
+                    <input type="hidden" name="subject_id" id="subject_id" value="" />
 
                 <!-- Change this to a button or input when using this as a form -->
                     <button type="submit" class="btn btn-med btn-success">Update</button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Subject;
 use App\Chapter;
+use Datatables;
 use Illuminate\Http\Request;
 
 class ChapterController extends Controller
@@ -19,7 +20,7 @@ class ChapterController extends Controller
         //
         $chapters = DB::table('chapters')
                     ->join('subjects', 'chapters.subject_id','=','subjects.id')
-                    ->select('subjects.name as subject', 'chapters.name as name')
+                    ->select('subjects.name as subject', 'chapters.name as name', 'chapters.id as id')
                     ->orderBy('subject')
                     ->get();
 
@@ -93,9 +94,10 @@ class ChapterController extends Controller
      * @param  \App\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function edit(Chapter $chapter)
+    public function edit($id)
     {
         //
+        $chapter = Chapter::find($id);
     }
 
     /**
@@ -119,5 +121,22 @@ class ChapterController extends Controller
     public function destroy(Chapter $chapter)
     {
         //
+    }
+
+    function fetchChapter(Request $request)
+    {
+        $id = $request->input("id");
+        $chapter = Chapter::find($id);
+
+       
+
+        $output = array(
+            'chapter_id' => $chapter->id,
+            'chapter_name' => $chapter->name,
+            'subject_id' => $chapter->subject_id,
+        );
+
+        return json_encode($output);
+        
     }
 }
