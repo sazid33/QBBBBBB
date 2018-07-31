@@ -107,9 +107,19 @@ class ChapterController extends Controller
      * @param  \App\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Chapter $chapter)
+    public function update(Request $request)
     {
         //
+        $id = $request->get('chapter_id_update');
+        $chapter->id = Chapter::where('id',$id);
+        $chapter->name = $request->get('chapter_name_update');
+        $chapter->update();
+
+        if($chapter)
+        {
+            return redirect()->route('chapters.index');
+        }
+
     }
 
     /**
@@ -127,8 +137,6 @@ class ChapterController extends Controller
     {
         $id = $request->input("id");
         $chapter = Chapter::find($id);
-
-       
 
         $output = array(
             'chapter_id' => $chapter->id,

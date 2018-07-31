@@ -29,6 +29,22 @@ class TopicController extends Controller
         return view('superadmin/topics/index', compact('topics'));
     }
 
+    public function getChapterAccordingToSubject(Request $request)
+    {
+        $subject_id = $request->get('subject_id');
+
+        $chapters = DB::table('chapters')
+                    ->where('subject_id', $subject_id)
+                    ->select('chapters.id as chapter_id', 'chapters.name as chapter_name')
+                    ->get();
+
+        $output = array(
+            'chapters' => $chapters
+        );
+
+        return response()->json($subject_id);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

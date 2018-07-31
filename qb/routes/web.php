@@ -38,8 +38,13 @@ Route::post('superadmin/chapters/store', 'ChapterController@store');
 //Ajax chapter routes
 
 Route::get('/chapters/fetchChapter', 'ChapterController@fetchChapter');
+Route::post('superadmin/chapters/update', 'ChapterController@update');
+
+
 
 Route::resource('superadmin/topics', 'TopicController');
+Route::get('/topics/getChapterAccordingToSubject', 'TopicController@getChapterAccordingToSubject');
+
 
 Route::resource('superadmin/pages', 'PageController');
 Route::resource('superadmin/user_pages_list', 'UserPageController');

@@ -18,7 +18,11 @@ class PageController extends Controller
     public function index()
     {
         //
-        $pages = Page::all();
+        $pages = DB::table('pages')
+                ->select('pages.id as id', 'pages.name as name')
+                ->orderBy('name')
+                ->get();
+
         return view('superadmin/pages/index', compact('pages'));
     }
 

@@ -4,6 +4,35 @@
 
 @section('content')
 
+<script>
+$(document).ready(function(){
+
+    $('#subject').on('change', function(event){
+
+        var subject_id = event.target.value;
+
+        $.getJSON('/topics/getChapterAccordingToSubject?subject_id=' +subject_id , function(data){
+            $('#chapter').empty();
+            console.log(data);
+
+            $.each(data,function(index,chaptersObjectForSelectedSubject){
+                if(index == 'chapter')
+                {
+                    chaptersObjectForSelectedSubject.forEach(function(element) {
+                        $('#chapter').append('<option value="'+element.chapter_id+'">'+element.chapter_name+'</option>');
+                    });
+                }
+            });
+        });
+    });
+
+});
+
+
+
+</script>
+
+
 <div class="">
     <div class="box">
 
@@ -59,6 +88,7 @@
                 
                 <div>
                     <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
+                        <option>--Select Subject--</option>
                         @foreach($subject_array as $data)
                         <option value="{{$data->id}}">{{$data->name}}</option>
                         @endforeach
@@ -73,9 +103,7 @@
                 </br>
                 <div>
                     <select class="form-control" name="chapter" data-style="select-with-transition" title="Select Chapter" id="chapter" >
-                        @foreach($chapter_array as $data)
-                        <option value="{{$data->id}}">{{$data->name}}</option>
-                        @endforeach
+                        <option value=""></option>
                     </select>
                 
                     @if ($errors->has('chapter'))

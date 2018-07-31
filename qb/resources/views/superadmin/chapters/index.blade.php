@@ -8,11 +8,10 @@
 <script>
 $(document).ready(function(){
 
-
     $(document).on('click', '.edit', function(){
         var id = $(this).attr("id");
         $('#form_output').html('');
-        var url = '/ajaxController/fetchChapter';
+        var url = '/chapters/fetchChapter';
         $.ajax({
             url:url,
             method:'GET',
@@ -22,19 +21,40 @@ $(document).ready(function(){
             dataType: 'json',
             success:function(data)
             {
-                console.log(data);
-                console.log(url);
-                //$('#chapter_id').val(data.chapter_id);
-                $('#chapter_name_edit').val(data.chapter_name);
-                //$('#subject_id').val(data.subject_id);
+                $('#chapter_id_update').val(data.chapter_id);
+                $('#chapter_name_update').val(data.chapter_name);
+                $('#subject_id_update').val(data.subject_id);
                 $('#ssModal-update').modal('show');
             },
             error:function(data)
             {
-                console.log(data);
+                
             }
         })
     });
+
+    $('#form_output').on('submit', function(event){
+        event.preventdefault();
+        var form_data = $(this).serialize();
+        var url = '/chapters/update';
+        alert(form_data);
+        
+        $.ajax({
+            url:url, 
+            method:'POST',
+            data:form_data,
+            dataType: 'json',
+            success:function(data)
+            {
+                
+            },
+            error:function(data)
+            {
+
+            }
+        })
+    });
+
 })
 </script>
 <!--
@@ -44,11 +64,12 @@ $(document).ready(function(){
 </a>
 </div>
 -->
+
 <div class="">
     <div class="box">
 
         <div class="box-body">
-
+            
             <table class ="table table-responsive">
             {{ csrf_field() }}
                 <thead>
@@ -153,17 +174,17 @@ $(document).ready(function(){
                 
                     <div class="form-group">
                         <label>Enter Chapter Name</label>
-                        <input class="form-control" placeholder="Chapter Title" value="" id="chapter_name_edit" name="chapter_name_edit" type="text">
+                        <input class="form-control" placeholder="Chapter Title" value="" id="chapter_name_update" name="chapter_name_update" type="text">
                         @if ($errors->has('chapter'))
                         <span class="help-block">{{ $errors->first('chapter') }}</span>
                         @endif
                     </div>
 
-                    <input type="hidden" name="chapter_id" id="chapter_id" value="" />
-                    <input type="hidden" name="subject_id" id="subject_id" value="" />
+                    <input type="hidden" name="chapter_id_update" id="chapter_id_update" value="" />
+                    <input type="hidden" name="subject_id_update" id="subject_id_update" value="" />
 
                 <!-- Change this to a button or input when using this as a form -->
-                    <button type="submit" class="btn btn-med btn-success">Update</button>
+                    <button id="button-update" type="submit" class="btn btn-med btn-success">Update</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </fieldset>
                 </form>
