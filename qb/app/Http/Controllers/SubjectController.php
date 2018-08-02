@@ -41,7 +41,7 @@ class SubjectController extends Controller
         }
   */
         $subjects = DB::table('subjects')
-                    ->join('companies', 'subjects.company_id','=','company_id')
+                    ->join('companies', 'subjects.company_id','=','companies.id')
                     ->select('companies.name as company', 'subjects.name as name')
                     ->orderBy('company')
                     ->get();
@@ -126,5 +126,24 @@ class SubjectController extends Controller
     public function destroy(Subject $subject)
     {
         //
+    }
+
+    public function getSubjectAccordingToProgram(Request $request)
+    {
+        $company_id = $request->get('company_id');
+        $program_id = $request->get('program_id');
+
+        $company_program = DB::select('SELECT id FROM company_programs WHERE company_id = :id1 AND program_id = :id2 ', ['id1' => $company_id, 'id2' => $program_id] );
+                            
+
+        $subjects = DB::select('SELECT subjects.id as subject_id, subjects.name as subject_name 
+                                    FROM subjects WHERE  id IN (SELECT subject_id 
+                                    FROM company_program_subjects WHERE company_program_id = :id)', ['id' => $company_program]);
+
+        $output = array(
+            'subjects' => $subjects
+        );
+
+        return response()->json($output);
     }
 }

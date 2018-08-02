@@ -10,6 +10,9 @@
     <a href="{{ url('superadmin/subjects') }}" class="active"><i class="fa fa-book fa-fw"></i> Subjects</a>
     <a href="{{ url('superadmin/chapters') }}" class="active"><i class="fa fa-book fa-fw"></i> Chapters</a>
     <a href="{{ url('superadmin/topics') }}" class="active"><i class="fa fa-book fa-fw"></i> Topics</a>
+    <a href="{{ url('superadmin/question_types') }}" class="active"><i class="fa fa-question fa-fw"></i>Question Types</a>
+    <a href="{{ url('superadmin/questions') }}" class="active"><i class="fa fa-question fa-fw"></i>Questions</a>
+
     <a href="{{ url('superadmin/roles') }}" class="active"><i class="fa fa-users fa-fw"></i> Roles</a>
     <a href="{{ url('superadmin/pages') }}" class="active"><i class="fa fa-file fa-fw"></i> Pages</a>
     <a href="{{ url('superadmin/company_programs') }}" class="active"><i class="fa fa-building fa-fw"></i>-

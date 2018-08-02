@@ -42,7 +42,7 @@ class TopicController extends Controller
             'chapters' => $chapters
         );
 
-        return response()->json($subject_id);
+        return response()->json($output);
     }
 
     /**

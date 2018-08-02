@@ -16,18 +16,16 @@ $(document).ready(function(){
             console.log(data);
 
             $.each(data,function(index,chaptersObjectForSelectedSubject){
-                if(index == 'chapter')
-                {
-                    chaptersObjectForSelectedSubject.forEach(function(element) {
-                        $('#chapter').append('<option value="'+element.chapter_id+'">'+element.chapter_name+'</option>');
-                    });
-                }
+                
+                chaptersObjectForSelectedSubject.forEach(function(element) {
+                    $('#chapter').append('<option value="'+element.chapter_id+'">'+element.chapter_name+'</option>');
+                });
+
             });
         });
     });
 
 });
-
 
 
 </script>
@@ -103,6 +101,7 @@ $(document).ready(function(){
                 </br>
                 <div>
                     <select class="form-control" name="chapter" data-style="select-with-transition" title="Select Chapter" id="chapter" >
+                        <option>--Select Chapter--</option>
                         <option value=""></option>
                     </select>
                 
@@ -121,7 +120,7 @@ $(document).ready(function(){
                 </div>
 
               <!-- Change this to a button or input when using this as a form -->
-                <button type="submit" class="btn btn-med btn-success">Add Subject</button>
+                <button type="submit" class="btn btn-med btn-success">Add Topic</button>
             </fieldset>
             </form>
           </div>

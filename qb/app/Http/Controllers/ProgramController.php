@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Program;
+use App\CompanyProgram;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
@@ -96,5 +97,24 @@ class ProgramController extends Controller
     public function destroy(Program $program)
     {
         //
+    }
+
+    public function getProgramAccordingToCompany(Request $request)
+    {
+        $company_id = $request->get('company_id');
+
+        $programs = DB::select('SELECT programs.id as program_id, programs.name as program_name FROM programs WHERE id IN 
+        (SELECT program_id FROM company_programs WHERE company_id = :id)', ['id' => $company_id]);
+
+        /*$programs = DB::table('programs')
+                    ->join('company_programs', 'company_id', '=', $company_id)
+                    ->select('programs.id as program_id', 'programs.name as program_name')
+                    ->get();
+*/
+        $output = array(
+            'programs' => $programs
+        );
+
+        return response()->json($output);
     }
 }

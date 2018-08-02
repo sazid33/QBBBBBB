@@ -45,6 +45,13 @@ Route::post('superadmin/chapters/update', 'ChapterController@update');
 Route::resource('superadmin/topics', 'TopicController');
 Route::get('/topics/getChapterAccordingToSubject', 'TopicController@getChapterAccordingToSubject');
 
+Route::resource('superadmin/question_types', 'QuestionTypeController');
+
+Route::resource('superadmin/questions', 'QuestionController');
+Route::get('/programs/getProgramAccordingToCompany', 'ProgramController@getProgramAccordingToCompany');
+Route::get('/subjects/getSubjectAccordingToProgram', 'SubjectController@getSubjectAccordingToProgram');
+
+
 
 Route::resource('superadmin/pages', 'PageController');
 Route::resource('superadmin/user_pages_list', 'UserPageController');
