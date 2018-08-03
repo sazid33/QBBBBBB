@@ -133,17 +133,37 @@ class SubjectController extends Controller
         $company_id = $request->get('company_id');
         $program_id = $request->get('program_id');
 
-        $company_program = DB::select('SELECT id FROM company_programs WHERE company_id = :id1 AND program_id = :id2 ', ['id1' => $company_id, 'id2' => $program_id] );
-                            
+
+        $company_program = DB::table('company_programs')->where([['company_id','=',$company_id],
+                            ['program_id','=', $program_id]])
+                            ->select('id as company_program_id')
+                            ->get();
 
         $subjects = DB::select('SELECT subjects.id as subject_id, subjects.name as subject_name 
                                     FROM subjects WHERE  id IN (SELECT subject_id 
-                                    FROM company_program_subjects WHERE company_program_id = :id)', ['id' => $company_program]);
+                                    FROM company_program_subjects WHERE company_program_id = :id)', 
+                                    ['id' => $company_program[0]->company_program_id]);
 
         $output = array(
             'subjects' => $subjects
         );
 
         return response()->json($output);
+    }
+
+    public function getSubjectAccordingToCompany(Request $request)
+    {  
+        $company_id = $request->get('company_id');
+
+        $subjects = DB::table('subjects')->where('company_id','=',$company_id)
+                            ->select('id as subject_id', 'name as subject_name')
+                            ->get();
+
+        $output = array(
+            'subjects' => $subjects
+        );
+
+        return response()->json($output);
+
     }
 }

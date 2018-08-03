@@ -120,4 +120,20 @@ class TopicController extends Controller
     {
         //
     }
+
+    public function getTopicAccordingToChapter(Request $request)
+    {
+        $chapter_id = $request->get('chapter_id');
+
+        $topics = DB::table('topics')
+                ->where('chapter_id','=',$chapter_id)
+                ->select('id as topic_id','name as topic_name')
+                ->get();
+
+        $output = array(
+            'topics' => $topics
+        );
+
+        return response()->json($output);
+    }
 }

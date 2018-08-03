@@ -145,6 +145,22 @@ class ChapterController extends Controller
         );
 
         return json_encode($output);
-        
+    }
+
+    public function getChapterAccordingToSubject(Request $request)
+    {
+        $subject_id = $request->get('subject_id');
+
+        $chapters = DB::table('chapters')
+                    ->where('subject_id','=', $subject_id)
+                    ->select('id as chapter_id','name as chapter_name')
+                    ->get();
+
+        $output = array(
+            'chapters' => $chapters
+        );
+
+        return response()->json($output);
+
     }
 }

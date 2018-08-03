@@ -30,6 +30,7 @@ Route::resource('superadmin/degrees', 'DegreeController');
 Route::resource('superadmin/programs', 'ProgramController');
 
 Route::resource('superadmin/company_programs', 'CompanyProgramController');
+Route::resource('superadmin/company_program_subjects', 'CompanyProgramSubjectController');
 
 Route::resource('superadmin/subjects', 'SubjectController');
 Route::resource('superadmin/chapters', 'ChapterController');
@@ -50,7 +51,9 @@ Route::resource('superadmin/question_types', 'QuestionTypeController');
 Route::resource('superadmin/questions', 'QuestionController');
 Route::get('/programs/getProgramAccordingToCompany', 'ProgramController@getProgramAccordingToCompany');
 Route::get('/subjects/getSubjectAccordingToProgram', 'SubjectController@getSubjectAccordingToProgram');
-
+Route::get('/subjects/getSubjectAccordingToCompany', 'SubjectController@getSubjectAccordingToCompany');
+Route::get('/chapters/getChapterAccordingToSubject', 'ChapterController@getChapterAccordingToSubject');
+Route::get('/topics/getTopicAccordingToChapter', 'TopicController@getTopicAccordingToChapter');
 
 
 Route::resource('superadmin/pages', 'PageController');

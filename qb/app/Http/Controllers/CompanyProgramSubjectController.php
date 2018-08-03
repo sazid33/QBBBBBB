@@ -15,6 +15,7 @@ class CompanyProgramSubjectController extends Controller
     public function index()
     {
         //
+        return view('superadmin/company_program_subjects/index');
     }
 
     /**
