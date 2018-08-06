@@ -15,7 +15,9 @@ var topic_id;
 $(document).ready(function(){
 
     $('#company').on('change', function(event){
+        
         company_id = event.target.value;
+        
         $('#program').empty();
         $('#program').append('<option>--Select Program--</option>');
         $('#subject').empty();
@@ -24,7 +26,9 @@ $(document).ready(function(){
         $('#chapter').append('<option>--Select Chapter--</option>');
         $('#topic').empty();
         $('#topic').append('<option>--Select Topic--</option>');
+
         var url = '/programs/getProgramAccordingToCompany';
+        
         $.ajax({
             url:url,
             method:'GET',
@@ -144,7 +148,6 @@ $(document).ready(function(){
 
     $('#topic').on('change', function(){
         topic_id = event.target.value;
-        var question = 
     });
 
     $('#submit').on('click', function(){
@@ -161,8 +164,9 @@ $(document).ready(function(){
                 option2:option2,
                 option3:option3,
                 option4:option4,
-                
-                
+                priority:priority,
+                difficulty:difficulty,
+
             },
         })
     });

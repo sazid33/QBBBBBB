@@ -41,18 +41,16 @@ class CompanyProgramSubjectController extends Controller
     public function store(Request $request)
     {
         //
-
-        $company_id = $request->get('company');
-        $program_id = $request->get('program');
-        $subject_id = $request->get('subject');
+        $company_id = $request->input('company');
+        $program_id = $request->input('program');
+        $subject_id = $request->input('subject');
 
         $company_program = DB::table('company_programs')->where([['company_id','=',$company_id],
                             ['program_id','=', $program_id]])
-                            ->select('id as company_program_id')
-                            ->get();
+                            ->first();
 
         $company_program_subject = new CompanyProgramSubject();
-        $company_program_subject->company_program_id = $company_program[0]->company_program_id;
+        $company_program_subject->company_program_id = $company_program->id;
         $company_program_subject->subject_id = $subject_id;
         $company_program_subject->save();
 
@@ -60,7 +58,6 @@ class CompanyProgramSubjectController extends Controller
         {
             return redirect()->route('superadmin/company_program_subjects/index');
         }
-
     }
 
     /**

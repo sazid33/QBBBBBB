@@ -8,7 +8,7 @@
 $(document).ready(function(){
 
     $('#company').on('change', function(event){
-        company_id = event.target.value;
+        var company_id = event.target.value;
         
         var url = '/programs/getProgramAccordingToCompany';
         $.ajax({
@@ -62,6 +62,12 @@ $(document).ready(function(){
         })
     });
 
+    $('#subject').on('change', function(event){
+
+    });
+
+    
+
 
 });
 
@@ -110,7 +116,7 @@ $(document).ready(function(){
             
             <div class="modal-body">
             
-                <form action="{{ route('company_program_subjects.store') }}" method="POST">
+                <form action="/company_program_subjects/store" method="POST">
                     {{ csrf_field() }}
                     <fieldset>
                 
@@ -140,10 +146,8 @@ $(document).ready(function(){
                     </div>
                     <br>
                 
-                
-
               <!-- Change this to a button or input when using this as a form -->
-                <button type="submit" class="btn btn-med btn-success">Add Topic</button>
+                <button id="submit" class="btn btn-med btn-success">Assign Subject</button>
             </fieldset>
             </form>
             </div>

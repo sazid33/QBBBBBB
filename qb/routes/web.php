@@ -28,13 +28,17 @@ Route::resource('superadmin/users', 'UserController');
 Route::resource('superadmin/roles', 'RoleController');
 Route::resource('superadmin/degrees', 'DegreeController');
 Route::resource('superadmin/programs', 'ProgramController');
-
+Route::resource('superadmin/topics', 'TopicController');
 Route::resource('superadmin/company_programs', 'CompanyProgramController');
 Route::resource('superadmin/company_program_subjects', 'CompanyProgramSubjectController');
+
 
 Route::resource('superadmin/subjects', 'SubjectController');
 Route::resource('superadmin/chapters', 'ChapterController');
 Route::post('superadmin/chapters/store', 'ChapterController@store');
+Route::post('/company_program_subjects/store', 'CompanyProgramSubjectController@store');
+
+//end routes for indexes
 
 //Ajax chapter routes
 
@@ -43,18 +47,23 @@ Route::post('superadmin/chapters/update', 'ChapterController@update');
 
 
 
-Route::resource('superadmin/topics', 'TopicController');
+
 Route::get('/topics/getChapterAccordingToSubject', 'TopicController@getChapterAccordingToSubject');
 
 Route::resource('superadmin/question_types', 'QuestionTypeController');
 
 Route::resource('superadmin/questions', 'QuestionController');
+
+//start route for dropdowns
+
 Route::get('/programs/getProgramAccordingToCompany', 'ProgramController@getProgramAccordingToCompany');
 Route::get('/subjects/getSubjectAccordingToProgram', 'SubjectController@getSubjectAccordingToProgram');
 Route::get('/subjects/getSubjectAccordingToCompany', 'SubjectController@getSubjectAccordingToCompany');
 Route::get('/chapters/getChapterAccordingToSubject', 'ChapterController@getChapterAccordingToSubject');
 Route::get('/topics/getTopicAccordingToChapter', 'TopicController@getTopicAccordingToChapter');
 
+
+//End routes for dropdowns
 
 Route::resource('superadmin/pages', 'PageController');
 Route::resource('superadmin/user_pages_list', 'UserPageController');

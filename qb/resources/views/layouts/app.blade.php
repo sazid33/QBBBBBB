@@ -17,8 +17,8 @@
     <a href="{{ url('superadmin/pages') }}" class="active"><i class="fa fa-file fa-fw"></i> Pages</a>
     <a href="{{ url('superadmin/company_programs') }}" class="active"><i class="fa fa-building fa-fw"></i>-
     <i class="fa fa-tasks fa-fw"></i> Company Programs</a>
-    <a href="{{ url('superadmin/user_pages_list') }}" class="active"><i class="fa fa-users fa-fw"></i>-
-    <i class="fa fa-file fa-fw"></i>Users Page</a>
+    <a href="{{ url('superadmin/user_pages_list') }}" class="active"><i class="fa fa-users fa-fw"></i>-<i class="fa fa-file fa-fw"></i>Users Page</a>
+    <a href="{{ url('superadmin/company_program_subjects') }}" class="active"><i class="fa fa-users fa-fw"></i>-<i class="fa fa-file fa-fw"></i>Assign Subjects to Program</a>
   </li>
 </ul>
 @endsection
