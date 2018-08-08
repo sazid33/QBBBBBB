@@ -19,6 +19,8 @@ class CompanyProgramSubjectController extends Controller
     public function index()
     {
         //
+        $company_program_subjects = DB::table('company_program_subjects');
+
         return view('superadmin/company_program_subjects/index');
     }
 
@@ -41,9 +43,9 @@ class CompanyProgramSubjectController extends Controller
     public function store(Request $request)
     {
         //
-        $company_id = $request->input('company');
-        $program_id = $request->input('program');
-        $subject_id = $request->input('subject');
+        $company_id = $request->get('company_id');
+        $program_id = $request->get('program_id');
+        $subject_id = $request->get('subject_id');
 
         $company_program = DB::table('company_programs')->where([['company_id','=',$company_id],
                             ['program_id','=', $program_id]])
@@ -56,7 +58,7 @@ class CompanyProgramSubjectController extends Controller
 
         if($company_program_subject)
         {
-            return redirect()->route('superadmin/company_program_subjects/index');
+            return redirect()->route('company_program_subjects.index');
         }
     }
 

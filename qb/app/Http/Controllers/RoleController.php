@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Role;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class RoleController extends Controller
     public function index()
     {
         //
-        $roles = Role::all();
+        $roles = Role::orderBy('priority')->get();
         return view('superadmin/roles/index', compact('roles'));
     }
 
@@ -41,6 +42,7 @@ class RoleController extends Controller
         $role = Role::create([
             'name' => $request->input('name'),
             'description' =>$request->input('description'),
+            'priority' => $request->input('priority'),
         ]);
 
         if($role){

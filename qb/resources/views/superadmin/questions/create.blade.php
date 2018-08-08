@@ -175,6 +175,7 @@ $(document).ready(function(){
 
 </script>
 
+
 <div>
     {{ csrf_field() }}
     <div class="row">
@@ -248,7 +249,18 @@ $(document).ready(function(){
         <div class="col-md-6">
             <div id="options">
                 <h4><label>Enter Your Options Here</label></h4>
-                <input type="text" class="form-control" placeholder="Option 1" id="mcq_option_1">
+                <div class="row">
+                    <div class="col-md-1">
+                        <input type="checkbox" name="right_answer" value="">
+                    </div>
+
+                    <div class="col-md-11">
+                        <input type="text" class="form-control pull-left" placeholder="Option 1" id="mcq_option_1">
+                    </div>
+                </div>
+                
+                
+                
                 <br>
                 <input type="text" class="form-control" placeholder="Option 2" id="mcq_option_2">
                 <br>

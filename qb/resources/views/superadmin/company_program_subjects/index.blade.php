@@ -89,9 +89,9 @@ $(document).ready(function(){
 
             <tbody>
                 <tr>
-                    <td>Shiram System</td>
-                    <td id="">Shiram Program 1</td>
-                    <td>Shiram Subject 1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 
             </tbody>

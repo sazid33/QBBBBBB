@@ -55,7 +55,9 @@
               <fieldset>
 
               <div>
+                
                 <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
+                  <option>--Select Company--</option>
                   @foreach($company_array as $data)
                   <option value="{{$data->id}}">{{$data->name}}</option>
                   @endforeach
@@ -71,7 +73,9 @@
               </br>
               
               <div>
+                <label>Select Program</label>
                 <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
+                <option>--Select Program--</option>
                   @foreach($programs_array as $data)
                   <option value="{{$data->id}}">{{$data->name}}</option>
                   @endforeach

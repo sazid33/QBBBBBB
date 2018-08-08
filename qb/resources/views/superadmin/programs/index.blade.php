@@ -11,16 +11,16 @@
             <table class ="table table-responsive">
                 <thead>
                 <tr>
-                    <th>Program Name</th>
                     <th>Degree Name</th>
+                    <th>Program Name</th>
                 </tr>
                 </thead>
 
                 <tbody>
                     @foreach($programs as $program)
                     <tr>
-                    <td>{{$program->name}}</td>
                     <td>{{$program->degree}}</td>
+                    <td>{{$program->name}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -54,14 +54,6 @@
             <form action="{{ route('programs.store') }}" method="POST">
             {{ csrf_field() }}
             <fieldset>
-                <div class="form-group">
-                    <label>Enter Program Name</label>
-                    <input class="form-control" placeholder="Program Name" name="name" type="text" autofocus value="{{ old('name') }}">
-                    @if ($errors->has('name'))
-                    <span class="help-block">{{ $errors->first('name') }}</span>
-                    @endif
-                </div>
-
                 <div>
                     <label>Select Degree Name</label>
                     <select class="form-control" name="degree" data-style="select-with-transition" title="Select Degree" id="" >
@@ -77,6 +69,17 @@
                     @endif
                 </div>
                 </br>
+
+
+                <div class="form-group">
+                    <label>Enter Program Name</label>
+                    <input class="form-control" placeholder="Program Name" name="name" type="text" autofocus value="{{ old('name') }}">
+                    @if ($errors->has('name'))
+                    <span class="help-block">{{ $errors->first('name') }}</span>
+                    @endif
+                </div>
+
+                
                 
               <!-- Change this to a button or input when using this as a form -->
                 <button type="submit" class="btn btn-med btn-success">Add Program</button>

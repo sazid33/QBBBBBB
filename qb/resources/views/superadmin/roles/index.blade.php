@@ -13,6 +13,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Role Priority</th>
                 </tr>
                 </thead>
 
@@ -21,6 +22,7 @@
                     <tr>
                     <td>{{$role->name}}</td>
                     <td>{{$role->description}}</td>
+                    <td>{{$role->priority}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -67,6 +69,11 @@
                 @if ($errors->has('description'))
                 <span class="help-block">{{ $errors->first('description') }}</span>
                 @endif
+              </div>
+
+              <div class="form-group">
+                <label>Enter Role Priority</label>
+                <input class="form-control" placeholder="Role Priority" name="priority" type="number">
               </div>
                 
               <!-- Change this to a button or input when using this as a form -->

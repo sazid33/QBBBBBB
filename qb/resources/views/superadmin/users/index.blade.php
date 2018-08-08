@@ -120,7 +120,6 @@
             </br>
             <!-- Change this to a button or input when using this as a form -->
             <button type="submit" class="btn btn-lg btn-success btn-block">Register</button>
-            <a href="{{ route('login') }}" class="btn btn-lg btn-primary btn-block">Login</a>
           </fieldset>
         </form>
           </div>

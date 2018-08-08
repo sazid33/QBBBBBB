@@ -8,6 +8,35 @@
 <script>
 $(document).ready(function(){
 
+    $('#company').on('change', function(event){
+        company_id = event.target.value;
+        $('#subject').empty();
+        $('#subject').append('<option>--Select Subject--</option>');
+        
+        var url = '/subjects/getSubjectAccordingToCompany';
+        $.ajax({
+            url:url,
+            method:'GET',
+            data:{
+                company_id:company_id,
+            },
+            dataType: 'json',
+            success:function(data)
+            {
+                $.each(data,function(index,subjectsObjectForSelectedCompany){
+                
+                    subjectsObjectForSelectedCompany.forEach(function(element) {
+                        $('#subject').append('<option value="'+element.subject_id+'">'+element.subject_name+'</option>');
+                    });
+                });
+            },
+            error:function(data)
+            {
+                
+            }
+        })
+    });
+
     $(document).on('click', '.edit', function(){
         var id = $(this).attr("id");
         $('#form_output').html('');
@@ -121,19 +150,21 @@ $(document).ready(function(){
                 <form action="{{ route('chapters.store') }}" method="POST">
                 {{ csrf_field() }}
                 <fieldset>
-                    
+
                     <div>
-                        <select class="form-control" name="subject" data-style="select-with-transition" title="Select Subject" id="subject" >
-                            @foreach($subject_array as $data)
+                        <select class="form-control" name="company" data-style="select-with-transition" title="Select Company" id="company" >
+                            <option>--Select Company--</option>
+                            @foreach($company_array as $data)
                             <option value="{{$data->id}}">{{$data->name}}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <br>
                     
-                        @if ($errors->has('subject'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('subject') }}</strong>
-                        </span>
-                        @endif
+                    <div>
+                        <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
+                            <option>--Select Subject--</option>
+                        </select>
                     </div>
                     </br>
                     </br>
