@@ -249,24 +249,46 @@ $(document).ready(function(){
         <div class="col-md-6">
             <div id="options">
                 <h4><label>Enter Your Options Here</label></h4>
-                <div class="row">
-                    <div class="col-md-1">
-                        <input type="checkbox" name="right_answer" value="">
-                    </div>
 
-                    <div class="col-md-11">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" name="right_answer_1">
+                        </span>
                         <input type="text" class="form-control pull-left" placeholder="Option 1" id="mcq_option_1">
-                    </div>
-                </div>
+                    </div><!-- /input-group --><br>
+                </div><!-- /.col-lg-6 -->
+
                 
-                
-                
-                <br>
-                <input type="text" class="form-control" placeholder="Option 2" id="mcq_option_2">
-                <br>
-                <input type="text" class="form-control" placeholder="Option 3" id="mcq_option_3">
-                <br>
-                <input type="text" class="form-control" placeholder="Option 4" id="mcq_option_4">
+
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" name="right_answer_2">
+                        </span>
+                        <input type="text" class="form-control pull-left" placeholder="Option 2" id="mcq_option_2">
+                    </div><!-- /input-group --><br>
+                </div><!-- /.col-lg-6 -->
+
+
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" name="right_answer_3">
+                        </span>
+                        <input type="text" class="form-control pull-left" placeholder="Option 3" id="mcq_option_3">
+                    </div><!-- /input-group --><br>
+                </div><!-- /.col-lg-6 -->
+
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" name="right_answer_4">
+                        </span>
+                        <input type="text" class="form-control pull-left" placeholder="Option 4" id="mcq_option_4">
+                    </div><!-- /input-group --><br>
+                </div><!-- /.col-lg-6 -->
+
             </div>
         </div>
     </div>

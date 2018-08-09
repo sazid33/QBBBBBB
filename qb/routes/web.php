@@ -77,3 +77,9 @@ Route::get('superadmin/user_pages_list/{{company->id}}', 'UserPageController@sho
 Route::resource('user/subjects', 'SubjectController');
 Route::resource('user/chapters', 'ChapterController');
 Route::resource('user/topics', 'TopicController');
+
+
+
+//Search Routes
+
+Route::get('/users/searchUsers', 'SearchController@searchUsers');

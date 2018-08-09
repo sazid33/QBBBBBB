@@ -5,8 +5,114 @@
 @section('content')
 
 
+<script>
+
+$(document).ready(function(){
+
+  var user_id;
+  var company_id;
+  var role_id;
+  
+  function searchFunction()
+  {
+    user_id = $("#user").val();
+    company_id = $("#company").val();
+    role_id = $("#role").val();
+
+    if(user_id == 0 && company_id == 0 && role_id == 0)
+    {
+      $("#search").prop('disabled', true);
+    }
+
+    else
+    {
+      $("#search").prop('disabled', false);
+    }
+  }
+
+  $('#user').on('change', function(){
+    searchFunction();
+  });
+
+  $('#company').on('change', function(){
+    searchFunction();
+  });
+
+  $('#role').on('change', function(){
+    searchFunction();
+  });
+
+
+  $('#search').on('click', function(){
+    var url = '/users/searchUsers';
+    $.ajax({
+      url:url,
+      method:'GET',
+      data:{
+        user_id:user_id,
+        company_id:company_id,
+        role_id:role_id,
+      },
+      dataType: 'json',
+    })
+  });
+});
+
+</script>
+
+
+<div>
+    {{ csrf_field() }}
+    <div class="row">
+        <div class="col-md-3">
+            <div id="choose_company">
+                <h4><label>Search By Name</label></h4>
+                <select class="form-control" name="user_id" data-style="select-with-transition" title="Select User" id="user" >
+                    <option value="0">--Select User Name--</option>
+                    @foreach($user_array as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div id="choose_program">
+                <h4><label>Search By Company</label></h4>
+                <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
+                    <option value="0">--Select Company--</option>
+                    @foreach($company_array as $company)
+                    <option value="{{$company->id}}">{{$company->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="choose_subject">
+                <h4><label>Search By User Role</label></h4>
+                <select class="form-control" name="role_id" data-style="select-with-transition" title="Select Subject" id="role" >
+                    <option value="0">--Select User Role--</option>
+                    @foreach($role_array as $role)
+                    <option value="{{$role->id}}">{{$role->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="button" pull-right>
+            <h4><label>Search</label></h4>
+            <button type="button" id="search" name="search" class="btn btn-primary btn-block" disabled>Search</button>
+          </div>
+        </div>
+    </div><br>
+</div>
 
 <div class="">
+
+
+
       <div class="box">
 
         <div class="box-body">

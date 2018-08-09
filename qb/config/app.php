@@ -189,6 +189,7 @@ return [
         App\Providers\ChapterProvider::class,
         App\Providers\TestProvider::class,
         App\Providers\QuestionTypesProvider::class,
+        App\Providers\UserProvider::class,
 
     ],
 
