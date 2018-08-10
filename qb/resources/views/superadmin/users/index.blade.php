@@ -22,6 +22,29 @@ $(document).ready(function(){
     if(user_id == 0 && company_id == 0 && role_id == 0)
     {
       $("#search").prop('disabled', true);
+      var url = '/users/searchUsers';
+      $.ajax({
+        url:url,
+        method:'GET',
+        data:{
+          
+        },
+        dataType: 'json',
+        success:function(data){
+          console.log(data);
+          $('#user_table').empty();
+          $.each(data,function(index,usersBasedOnSearch){
+            usersBasedOnSearch.forEach(function(element){
+              $('#user_table').append('<tr><td>'+element.user_name+'</td><td>'+element.user_email+'</td><td>'+element.company_name+'</td><td>'+element.role_name+'</td></tr>');
+            });
+          });
+        },
+
+        error:function(data){
+        
+        }
+
+      })
     }
 
     else
@@ -54,6 +77,20 @@ $(document).ready(function(){
         role_id:role_id,
       },
       dataType: 'json',
+      success:function(data){
+        console.log(data);
+        $('#user_table').empty();
+        $.each(data,function(index,usersBasedOnSearch){
+          usersBasedOnSearch.forEach(function(element){
+            $('#user_table').append('<tr><td>'+element.user_name+'</td><td>'+element.user_email+'</td><td>'+element.company_name+'</td><td>'+element.role_name+'</td></tr>');
+          });
+        });
+      },
+
+      error:function(data){
+        
+      }
+
     })
   });
 });
@@ -127,13 +164,13 @@ $(document).ready(function(){
               </tr>
             </thead>
 
-            <tbody>
+            <tbody id="user_table">
               @foreach($users as $user)
               <tr>
-                <td>{{$user->user_name}}</td>
-                <td>{{$user->user_email}}</td>
-                <td>{{$user->company_name}}</td>
-                <td>{{$user->role_name}}</td>
+                <td id>{{$user->user_name}}</td>
+                <td id>{{$user->user_email}}</td>
+                <td id>{{$user->company_name}}</td>
+                <td id>{{$user->role_name}}</td>
               </tr>
               @endforeach
             </tbody>
@@ -168,6 +205,39 @@ $(document).ready(function(){
           <form action="{{ route('users.store') }}" method="POST">
           {{ csrf_field() }}
           <fieldset>
+            <div>
+                <label>Select Company</label>
+                <select class="form-control" name="company" data-style="select-with-transition" title="Select Company" id="company" >
+                    @foreach($company_array as $data)
+                        <option value="{{$data->id}}">{{$data->name}}</option>
+                    @endforeach
+                </select>
+                
+                @if ($errors->has('company'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('company') }}</strong>
+                </span>
+                @endif
+            </div>
+            </br>
+            <div>
+                <label>Select Role</label>
+                <select class="form-control" name="role" data-style="select-with-transition" title="Select Role" id="role" >
+                    @foreach($role_array as $data)
+                    <option value="{{$data->id}}">{{$data->name}}</option>
+                    @endforeach
+                </select>
+                
+                @if ($errors->has('role'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('role') }}</strong>
+                </span>
+                @endif
+            </div>
+            </br>
+
+
+
             <div class="form-group">
               <input class="form-control" placeholder="Full name" name="name" type="text" autofocus value="{{ old('name') }}">
               @if ($errors->has('name'))
@@ -194,36 +264,7 @@ $(document).ready(function(){
               @endif
             </div>
             <br>
-            <div>
-                <label>Select Company</label>
-                <select class="form-control" name="company" data-style="select-with-transition" title="Select Degree" id="" >
-                    @foreach($company_array as $data)
-                        <option value="{{$data->id}}">{{$data->name}}</option>
-                    @endforeach
-                </select>
-                
-                @if ($errors->has('company'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('company') }}</strong>
-                </span>
-                @endif
-            </div>
-            </br>
-            <div>
-                <label>Select Role</label>
-                <select class="form-control" name="role" data-style="select-with-transition" title="Select Degree" id="" >
-                    @foreach($role_array as $data)
-                    <option value="{{$data->id}}">{{$data->name}}</option>
-                    @endforeach
-                </select>
-                
-                @if ($errors->has('role'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('role') }}</strong>
-                </span>
-                @endif
-            </div>
-            </br>
+            
             <!-- Change this to a button or input when using this as a form -->
             <button type="submit" class="btn btn-lg btn-success btn-block">Register</button>
           </fieldset>

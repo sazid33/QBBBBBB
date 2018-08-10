@@ -21,6 +21,7 @@ class ChapterController extends Controller
         $chapters = DB::table('chapters')
                     ->join('subjects', 'chapters.subject_id','=','subjects.id')
                     ->select('subjects.name as subject', 'chapters.name as name', 'chapters.id as id')
+                    ->orderBy('name')
                     ->orderBy('subject')
                     ->get();
 
@@ -161,6 +162,7 @@ class ChapterController extends Controller
         );
 
         return response()->json($output);
-
     }
+
+
 }

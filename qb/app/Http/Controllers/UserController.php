@@ -23,9 +23,10 @@ class UserController extends Controller
                 ->join('users','users.id', '=', 'company_users.user_id')
                 ->join('companies','companies.id', '=', 'company_users.company_id')
                 ->join('roles', 'roles.id', '=', 'company_users.role_id')
-                ->select('companies.*', 'users.name as user_name', 'users.email as user_email', 'companies.name as company_name', 'roles.name as role_name')
+                ->select('users.name as user_name', 'users.email as user_email', 'companies.name as company_name', 'roles.name as role_name')
                 ->get();
 
+        
         return view('superadmin/users/index', compact('users'));
     }
 

@@ -132,7 +132,8 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success:function(data)
-            {              
+            {
+                console.log(data);
                 $.each(data,function(index,topicsObjectForSelectedChapter){
                     topicsObjectForSelectedChapter.forEach(function(element){
                         $('#topic').append('<option value="'+element.topic_id+'">'+element.topic_name+'</option>');
