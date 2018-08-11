@@ -83,3 +83,4 @@ Route::resource('user/topics', 'TopicController');
 //Search Routes
 
 Route::get('/users/searchUsers', 'SearchController@searchUsers');
+Route::get('/subjects/searchSubjects', 'SearchController@searchSubjects');

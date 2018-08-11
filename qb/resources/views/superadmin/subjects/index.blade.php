@@ -4,6 +4,129 @@
 
 @section('content')
 
+<script>
+
+$(document).ready(function(){
+
+    var company_id;
+    var subject_id;
+
+    function searchFunction()
+    {
+        company_id = $("#company").val();
+        subject_id = $("#subject").val();
+
+        if(company_id == 0 && subject_id == 0)
+        {
+            $("#search").prop('disabled', true);
+            console.log(data);
+            var url = '/subjects/searchSubjects';
+            
+            $.ajax({
+                url:url,
+                method:'GET',
+                data:{
+            
+                },
+                dataType: 'json',
+                success:function(data){
+                    console.log(data);
+                    $('#user_table').empty();
+                    $.each(data,function(index,usersBasedOnSearch){
+                        usersBasedOnSearch.forEach(function(element){
+                            $('#user_table').append('<tr><td>'+element.user_name+'</td><td>'+element.user_email+'</td><td>'+element.company_name+'</td><td>'+element.role_name+'</td></tr>');
+                        });
+                    });
+                },
+
+                error:function(data){
+            
+                }
+
+            })
+        }
+
+        else
+        {
+            $("#search").prop('disabled', false);
+        }
+    }
+
+    $("#company").on('change', function(){
+        searchFunction();
+    });
+
+    $("#subject").on('change', function(){
+        searchFunction();
+    });
+
+    $("#search").on('click', function(){
+
+        url = '/subjects/searchSubjects';
+
+        $.ajax({
+            url:url,
+            method:'GET',
+            data:{
+                company_id:company_id,
+                subject_id:subject_id,
+            },
+            dataType: 'json',
+            sucess:function(data){
+                console.log(data);
+                $("#subject_table").empty();
+            }
+        });
+        
+    });
+
+});
+
+</script>
+
+
+<div>
+    {{ csrf_field() }}
+    <div class="row">
+        <div class="col-md-3">
+            <div id="choose_company">
+                <h4><label>Search By Company</label></h4>
+                <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
+                    <option value="0">--Select Company--</option>
+                    @foreach($company_array as $company)
+                    <option value="{{$company->id}}">{{$company->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div id="choose_program">
+                <h4><label>Search By Subject</label></h4>
+                <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
+                    <option value="0">--Select Subject--</option>
+                    @foreach($subject_array as $subject)
+                    <option value="{{$subject->id}}">{{$subject->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+
+        </div>
+
+        <div class="col-md-3">
+          <div class="button" pull-right>
+            <h4><label>Search</label></h4>
+            <button type="button" id="search" name="search" class="btn btn-primary btn-block" disabled>Search</button>
+          </div>
+        </div>
+    </div><br>
+</div>
+
+
+
 <div class="">
     <div class="box">
 
@@ -18,7 +141,7 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="subject_table">
                     @foreach($subjects as $subject)
                     <tr>
                         <td>{{$subject->company}}</td>

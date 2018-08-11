@@ -12,6 +12,8 @@ use DB;
 
 class SearchController extends Controller
 {
+    //Function for Search in User Table
+
     //
     public function searchUsers(Request $request){
         $user_id = $request->get('user_id');
@@ -117,5 +119,61 @@ class SearchController extends Controller
         
         return response()->json($output);
        
+    }
+
+    //Function for Search in Subject Page
+
+    //
+
+    public function searchSubjects(Request $request)
+    {
+        $company_id = $request->get('company_id');
+        $subject_id = $request->get('subject_id');
+
+        if( $company_id != 0 && $subject_id != 0)
+        {
+            $subjects = DB::table('subjects')
+                    ->where([['company_id', '=', $company_id],
+                            ['subject_id', '=', $subject_id]])
+                    ->join('companies', 'subjects.company_id','=','companies.id')
+                    ->select('companies.name as company', 'subjects.name as name')
+                    ->orderBy('company')
+                    ->get();
+        }
+
+        else if($company_id != 0)
+        {
+            $subjects = DB::table('subjects')
+                    ->where([['company_id', '=', $company_id]])
+                    ->join('companies', 'subjects.company_id','=','companies.id')
+                    ->select('companies.name as company', 'subjects.name as name')
+                    ->orderBy('company')
+                    ->get();
+        }
+
+        else if($subject_id != 0)
+        {
+            $subjects = DB::table('subjects')
+                    ->where([['subject_id', '=', $subject_id]])
+                    ->join('companies', 'subjects.company_id','=','companies.id')
+                    ->select('companies.name as company', 'subjects.name as name')
+                    ->orderBy('company')
+                    ->get();
+        }
+
+        else
+        {
+            $subjects = DB::table('subjects')
+            ->join('companies', 'subjects.company_id','=','companies.id')
+            ->select('companies.name as company', 'subjects.name as name')
+            ->orderBy('company')
+            ->get();
+        }
+
+        $output = array(
+            'subjects' => $subjects
+        );
+        
+        return response()->json($output);
     }
 }

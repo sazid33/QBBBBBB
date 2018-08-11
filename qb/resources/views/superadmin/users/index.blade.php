@@ -78,7 +78,6 @@ $(document).ready(function(){
       },
       dataType: 'json',
       success:function(data){
-        console.log(data);
         $('#user_table').empty();
         $.each(data,function(index,usersBasedOnSearch){
           usersBasedOnSearch.forEach(function(element){
