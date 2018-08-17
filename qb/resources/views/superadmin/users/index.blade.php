@@ -46,7 +46,7 @@ $(document).ready(function(){
 
       })
     }
-
+    
     else
     {
       $("#search").prop('disabled', false);

@@ -11,21 +11,57 @@ var program_id;
 var subject_id;
 var chapter_id;
 var topic_id;
+var question;
+var option1; 
+var option2;
+var option3;
+var option4;
+var option1_is_answer;
+var option2_is_answer;
+var option3_is_answer;
+var option4_is_answer;
+var priority;
+var difficulty;
 
 $(document).ready(function(){
+
+    function checkFunction(){
+        topic_id = document.getElementById("topic").value;
+        question = document.getElementById("mcq_question").value;
+        option1 = document.getElementById("mcq_option_1").value;
+        option2 = document.getElementById("mcq_option_2").value;
+        option3 = document.getElementById("mcq_option_3").value;
+        option4 = document.getElementById("mcq_option_4").value;
+        priority = document.getElementById("priority").value;
+        difficulty = document.getElementById("difficulty").value;
+
+        if(topic_id != 0 && question != 0 && option1 != 0 && option2 != 0 && option3 != 0 && option4 != 0 && priority != 0 && difficulty != 0)
+        {
+            if(option1_is_answer != 0 || option2_is_answer != 0 || option3_is_answer != 0 || option4_is_answer != 0)
+            {
+                $("#add_question").prop('disabled', false);
+            }
+        }
+
+        else
+        {
+            $('#add_question').prop('disabled', true);
+        }
+    }
+
 
     $('#company').on('change', function(event){
         
         company_id = event.target.value;
         
         $('#program').empty();
-        $('#program').append('<option>--Select Program--</option>');
+        $('#program').append('<option value="0">--Select Program--</option>');
         $('#subject').empty();
-        $('#subject').append('<option>--Select Subject--</option>');
+        $('#subject').append('<option value="0">--Select Subject--</option>');
         $('#chapter').empty();
-        $('#chapter').append('<option>--Select Chapter--</option>');
+        $('#chapter').append('<option value="0">--Select Chapter--</option>');
         $('#topic').empty();
-        $('#topic').append('<option>--Select Topic--</option>');
+        $('#topic').append('<option value="0">--Select Topic--</option>');
 
         var url = '/programs/getProgramAccordingToCompany';
         
@@ -56,11 +92,11 @@ $(document).ready(function(){
         
         program_id = event.target.value;
         $('#subject').empty();
-        $('#subject').append('<option>--Select Subject--</option>');
+        $('#subject').append('<option value="0">--Select Subject--</option>');
         $('#chapter').empty();
-        $('#chapter').append('<option>--Select Chapter--</option>');
+        $('#chapter').append('<option value="0">--Select Chapter--</option>');
         $('#topic').empty();
-        $('#topic').append('<option>--Select Topic--</option>');
+        $('#topic').append('<option value="0">--Select Topic--</option>');
         var url = '/subjects/getSubjectAccordingToProgram';
         $.ajax({
             url:url,
@@ -92,9 +128,9 @@ $(document).ready(function(){
         
         subject_id = event.target.value;
         $('#chapter').empty();
-        $('#chapter').append('<option>--Select Chapter--</option>');
+        $('#chapter').append('<option value="0">--Select Chapter--</option>');
         $('#topic').empty();
-        $('#topic').append('<option>--Select Topic--</option>');
+        $('#topic').append('<option value="0">--Select Topic--</option>');
         var url = '/chapters/getChapterAccordingToSubject';
         $.ajax({
             url:url,
@@ -122,7 +158,7 @@ $(document).ready(function(){
         
         chapter_id = event.target.value;
         $('#topic').empty();
-        $('#topic').append('<option>--Select Topic--</option>');
+        $('#topic').append('<option value="0">--Select Topic--</option>');
         var url = '/topics/getTopicAccordingToChapter';
         $.ajax({
             url:url,
@@ -133,7 +169,6 @@ $(document).ready(function(){
             dataType: 'json',
             success:function(data)
             {
-                console.log(data);
                 $.each(data,function(index,topicsObjectForSelectedChapter){
                     topicsObjectForSelectedChapter.forEach(function(element){
                         $('#topic').append('<option value="'+element.topic_id+'">'+element.topic_name+'</option>');
@@ -151,10 +186,36 @@ $(document).ready(function(){
         topic_id = event.target.value;
     });
 
-    $('#submit').on('click', function(){
-        var question = document.getElementById("mcq_question").value;
+    $('#mcq_question').on('change', function(){
+        checkFunction();
+    });
+
+    $('#priority').on('change', function(){
+        checkFunction();
+    });
+
+    $('#difficulty').on('change', function(){
+        checkFunction();
+    });
+
+    $('#add_question').on('click', function(){
+
         var url = '/questions/store';
+
+        if(question == 0)
+        {
+            console.log("Enter Question");
+        }
         
+        console.log(topic_id);
+        console.log(question);
+        console.log(option1);
+        console.log(option2);
+        console.log(option3);
+        console.log(option4);
+        console.log(priority);
+        console.log(difficulty);
+
         $.ajax({
             url:url,
             method:'POST',
@@ -184,7 +245,7 @@ $(document).ready(function(){
             <div id="choose_company">
                 <h4><label>Choose Company</label></h4>
                 <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
-                    <option>--Select Company--</option>
+                    <option value="0">--Select Company--</option>
                     @foreach($company_array as $company)
                     <option value="{{$company->id}}">{{$company->name}}</option>
                     @endforeach
@@ -196,7 +257,7 @@ $(document).ready(function(){
             <div id="choose_program">
                 <h4><label>Choose Program</label></h4>
                 <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
-                    <option>--Select Program--</option>
+                    <option value="0">--Select Program--</option>
                 </select>
             </div>
         </div>
@@ -205,7 +266,7 @@ $(document).ready(function(){
             <div id="choose_subject">
                 <h4><label>Choose Subject</label></h4>
                 <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
-                    <option>--Select Subject--</option> 
+                    <option value="0">--Select Subject--</option> 
                 </select>
             </div>
         </div>
@@ -219,7 +280,7 @@ $(document).ready(function(){
             <div id="choose_chapter">
                 <h4><label>Choose Chapter</label></h4>
                 <select class="form-control" name="chapter_id" data-style="select-with-transition" title="Select Chapter" id="chapter" >
-                    <option>--Select Chapter--</option>
+                    <option value="0">--Select Chapter--</option>
                 </select>
             </div>
         </div>
@@ -228,7 +289,7 @@ $(document).ready(function(){
             <div id="choose_topic">
                 <h4><label>Choose Topic</label></h4>
                 <select class="form-control" name="topic_id" data-style="select-with-transition" title="Select Topic" id="topic" >
-                    <option>--Select Topic--</option>
+                    <option value="0">--Select Topic--</option>
                 </select>
             </div>
         </div>
@@ -243,7 +304,7 @@ $(document).ready(function(){
 
             <div id="question">
                 <h4><label>Enter Your Question Here</label></h4>
-                <textarea rows="9" class="form-control" id="mcq_question"></textarea>
+                <textarea rows="9" class="form-control" id="mcq_question" value="0"></textarea>
             </div>
         </div>
         
@@ -299,7 +360,7 @@ $(document).ready(function(){
             <div id="choose-priority">
                 <h4><label>Select Priority</label></h4>
                 <select class="form-control" name="priority" data-style="select-with-transition" title="Select Topic" id="priority" >
-                    <option>--Select Priority--</option>
+                    <option value="0">--Select Priority--</option>
                     <option value="1">1 - Lowest</option>
                     <option value="2">2 - Lower</option>
                     <option value="3">3 - Medium</option>
@@ -313,7 +374,7 @@ $(document).ready(function(){
             <div id="choose-priority">
                 <h4><label>Select Difficulty</label></h4>
                 <select class="form-control" name="difficulty" data-style="select-with-transition" title="Select Topic" id="difficulty" >
-                    <option>--Select Difficulty--</option>
+                    <option value="0">--Select Difficulty--</option>
                     <option value="1">Easy</option>
                     <option value="2">Medium</option>
                     <option value="3">Hard</option>
@@ -324,7 +385,7 @@ $(document).ready(function(){
     <br>
 <br>
 <div>
-    <button type="submit" class="btn btn-med btn-primary">Add Question</button>
+    <button type="submit" id="add_question" class="btn btn-med btn-primary" disabled>Add Question</button>
 </div>
 <br>
 
