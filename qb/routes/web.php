@@ -40,7 +40,7 @@ Route::post('/company_program_subjects/store', 'CompanyProgramSubjectController@
 
 //end routes for indexes
 
-//Ajax chapter routes
+//chapter routes
 
 Route::get('/chapters/fetchChapter', 'ChapterController@fetchChapter');
 Route::post('superadmin/chapters/update', 'ChapterController@update');
@@ -84,3 +84,8 @@ Route::resource('user/topics', 'TopicController');
 
 Route::get('/users/searchUsers', 'SearchController@searchUsers');
 Route::get('/subjects/searchSubjects', 'SearchController@searchSubjects');
+
+
+//post Routes
+
+Route::post('/questions/store');

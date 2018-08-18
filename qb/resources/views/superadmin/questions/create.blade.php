@@ -16,10 +16,7 @@ var option1;
 var option2;
 var option3;
 var option4;
-var option1_is_answer;
-var option2_is_answer;
-var option3_is_answer;
-var option4_is_answer;
+var right_answer;
 var priority;
 var difficulty;
 
@@ -47,6 +44,10 @@ $(document).ready(function(){
         {
             $('#add_question').prop('disabled', true);
         }
+    }
+
+    function checkRightAnswer(){
+        
     }
 
 
@@ -182,7 +183,7 @@ $(document).ready(function(){
         })
     });
 
-    $('#topic').on('change', function(){
+    $('#topic').on('change', function(event){
         topic_id = event.target.value;
     });
 
@@ -226,6 +227,7 @@ $(document).ready(function(){
                 option2:option2,
                 option3:option3,
                 option4:option4,
+                right_answer:right_answer;
                 priority:priority,
                 difficulty:difficulty,
 
@@ -236,6 +238,17 @@ $(document).ready(function(){
 });
 
 </script>
+
+<style>
+    .row{
+        padding-top:20px;
+        padding-bottom:10px;
+    }
+
+    .question_options{
+        background-color:AliceBlue;
+    }
+</style>
 
 
 <div>
@@ -273,8 +286,6 @@ $(document).ready(function(){
     </div>
     
 
-   
-
     <div class="row">
         <div class="col-md-4">
             <div id="choose_chapter">
@@ -301,60 +312,46 @@ $(document).ready(function(){
 
     <div class="row">
         <div class="col-md-6">
-
             <div id="question">
                 <h4><label>Enter Your Question Here</label></h4>
                 <textarea rows="9" class="form-control" id="mcq_question" value="0"></textarea>
             </div>
         </div>
-        
+
         <div class="col-md-6">
-            <div id="options">
-                <h4><label>Enter Your Options Here</label></h4>
-
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" name="right_answer_1">
-                        </span>
-                        <input type="text" class="form-control pull-left" placeholder="Option 1" id="mcq_option_1">
-                    </div><!-- /input-group --><br>
-                </div><!-- /.col-lg-6 -->
-
-                
-
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" name="right_answer_2">
-                        </span>
-                        <input type="text" class="form-control pull-left" placeholder="Option 2" id="mcq_option_2">
-                    </div><!-- /input-group --><br>
-                </div><!-- /.col-lg-6 -->
-
-
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" name="right_answer_3">
-                        </span>
-                        <input type="text" class="form-control pull-left" placeholder="Option 3" id="mcq_option_3">
-                    </div><!-- /input-group --><br>
-                </div><!-- /.col-lg-6 -->
-
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" name="right_answer_4">
-                        </span>
-                        <input type="text" class="form-control pull-left" placeholder="Option 4" id="mcq_option_4">
-                    </div><!-- /input-group --><br>
-                </div><!-- /.col-lg-6 -->
-
+            <div id="question">
+                <h4><label>Your Question</label></h4>
+                <textarea rows="9" class="form-control" id="mcq_question" value="0" readonly></textarea>
             </div>
         </div>
     </div>
     <br>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Enter Your Options</h4>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Your Options</h4>
+        </div>
+    </div>
+    <br>
+    <div class="row question_options">
+        <div class="col-md-6">
+            <div class="input-group col-md-12" >
+                <textarea rows="3" class="form-control" id="mcq_option_1" placeholder="Option 1" style="padding-bottom:5px"></textarea>
+                <input type="checkbox" id="right_answer_1">Make This Answer
+            </div><!-- /.col-md-12 -->
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group col-md-12" >
+                <textarea rows="3" class="form-control" id="mcq_option_1" placeholder="Option 1" readonly></textarea>
+            </div><!-- /input-group --><br><br>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-6">
             <div id="choose-priority">
