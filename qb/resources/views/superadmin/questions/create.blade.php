@@ -4,19 +4,18 @@
 
 @section('content')
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML-full"></script>
+
+
 <script>
 
 var company_id;
 var program_id;
 var subject_id;
 var chapter_id;
+var options[];
+var answer[];
 var topic_id;
-var question;
-var option1; 
-var option2;
-var option3;
-var option4;
-var right_answer;
 var priority;
 var difficulty;
 
@@ -25,30 +24,27 @@ $(document).ready(function(){
     function checkFunction(){
         topic_id = document.getElementById("topic").value;
         question = document.getElementById("mcq_question").value;
-        option1 = document.getElementById("mcq_option_1").value;
-        option2 = document.getElementById("mcq_option_2").value;
-        option3 = document.getElementById("mcq_option_3").value;
-        option4 = document.getElementById("mcq_option_4").value;
         priority = document.getElementById("priority").value;
         difficulty = document.getElementById("difficulty").value;
-
-        if(topic_id != 0 && question != 0 && option1 != 0 && option2 != 0 && option3 != 0 && option4 != 0 && priority != 0 && difficulty != 0)
-        {
-            if(option1_is_answer != 0 || option2_is_answer != 0 || option3_is_answer != 0 || option4_is_answer != 0)
-            {
-                $("#add_question").prop('disabled', false);
-            }
-        }
-
-        else
-        {
-            $('#add_question').prop('disabled', true);
-        }
     }
 
     function checkRightAnswer(){
         
     }
+
+    function Update_Preview(td_selector) {
+        var Text = $(td_selector).children(".text-input").val();
+        $(td_selector).siblings(".preview").html(Text.replace("\n", "<br/>"));
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, $(td_selector).siblings(".preview")[0]]);
+    }
+
+
+    $("body").on("change", ".text-input", function () {
+        var selector = $(this);
+        setTimeout(function () {
+            Update_Preview(selector.parents("td"));
+        }, 200);
+    });
 
 
     $('#company').on('change', function(event){
@@ -183,39 +179,9 @@ $(document).ready(function(){
         })
     });
 
-    $('#topic').on('change', function(event){
-        topic_id = event.target.value;
-    });
-
-    $('#mcq_question').on('change', function(){
-        checkFunction();
-    });
-
-    $('#priority').on('change', function(){
-        checkFunction();
-    });
-
-    $('#difficulty').on('change', function(){
-        checkFunction();
-    });
-
     $('#add_question').on('click', function(){
 
         var url = '/questions/store';
-
-        if(question == 0)
-        {
-            console.log("Enter Question");
-        }
-        
-        console.log(topic_id);
-        console.log(question);
-        console.log(option1);
-        console.log(option2);
-        console.log(option3);
-        console.log(option4);
-        console.log(priority);
-        console.log(difficulty);
 
         $.ajax({
             url:url,
@@ -223,11 +189,7 @@ $(document).ready(function(){
             data:{
                 topic_id:topic_id,
                 question:question,
-                option1:option1,
-                option2:option2,
-                option3:option3,
-                option4:option4,
-                right_answer:right_answer;
+
                 priority:priority,
                 difficulty:difficulty,
 
@@ -251,139 +213,135 @@ $(document).ready(function(){
 </style>
 
 
-<div>
-    {{ csrf_field() }}
-    <div class="row">
-        <div class="col-md-4">
-            <div id="choose_company">
-                <h4><label>Choose Company</label></h4>
-                <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
-                    <option value="0">--Select Company--</option>
-                    @foreach($company_array as $company)
-                    <option value="{{$company->id}}">{{$company->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        
-        <div class="col-md-4">
-            <div id="choose_program">
-                <h4><label>Choose Program</label></h4>
-                <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
-                    <option value="0">--Select Program--</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div id="choose_subject">
-                <h4><label>Choose Subject</label></h4>
-                <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
-                    <option value="0">--Select Subject--</option> 
-                </select>
-            </div>
-        </div>
-    </div>
-    
-
-    <div class="row">
-        <div class="col-md-4">
-            <div id="choose_chapter">
-                <h4><label>Choose Chapter</label></h4>
-                <select class="form-control" name="chapter_id" data-style="select-with-transition" title="Select Chapter" id="chapter" >
-                    <option value="0">--Select Chapter--</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div id="choose_topic">
-                <h4><label>Choose Topic</label></h4>
-                <select class="form-control" name="topic_id" data-style="select-with-transition" title="Select Topic" id="topic" >
-                    <option value="0">--Select Topic--</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
-
-<br>
 <div id="mcq-question-section">
+<div class="col-md-12">
+    {{ csrf_field() }}
+    <table class="table table-bordered table-striped table-condensed">
+        <tbody>
+            <tr>
+                <td>Company</td>
+                <td colspan="2">
+                    <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
+                        <option value="0">--Select Company--</option>
+                        @foreach($company_array as $company)
+                            <option value="{{$company->id}}">{{$company->name}}</option>
+                        @endforeach
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Program</td>
+                <td colspan="2">
+                    <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
+                        <option value="0">--Select Program--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Subject</td>
+                <td colspan="2">
+                    <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
+                        <option value="0">--Select Subject--</option> 
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Chapter</td>
+                <td colspan="2">
+                    <select class="form-control" name="chapter_id" data-style="select-with-transition" title="Select Chapter" id="chapter" >
+                        <option value="0">--Select Chapter--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Topic</td>
+                <td colspan="2">
+                    <select class="form-control" name="topic_id" data-style="select-with-transition" title="Select Topic" id="topic" >
+                        <option value="0">--Select Topic--</option>
+                    </select>
+                </td>
+            </tr>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div id="question">
-                <h4><label>Enter Your Question Here</label></h4>
-                <textarea rows="9" class="form-control" id="mcq_question" value="0"></textarea>
-            </div>
-        </div>
+            
+            <tr>
+                <br>
+                <br>
+            </tr>
 
-        <div class="col-md-6">
-            <div id="question">
-                <h4><label>Your Question</label></h4>
-                <textarea rows="9" class="form-control" id="mcq_question" value="0" readonly></textarea>
-            </div>
-        </div>
-    </div>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>Enter Your Options</h4>
-        </div>
+            <tr>
+                <td>Question</td>
+                <td style="width: 45%">
+                    <textarea rowspan="4" name="question_body" placeholder="Question" class="form-control text-input"></textarea>
+                </td>
+                <td class="preview" style="width: 45%"></td>
+            </tr>
+            
+            <tr>
+                <td>Option 1</td>
+                <td style="width: 45%">
+                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <div class="checkbox"><label><input type="checkbox" class="answer" value="1" name="answer[]"> Make Answer</label></div>
+                </td>
+                <td class="preview" style="width: 45%"></td>
+            </tr>
+            <tr>
+                <td>Option 2</td>
+                <td style="width: 45%">
+                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <div class="checkbox"><label><input type="checkbox" class="answer" value="2" name="answer[]"> Make Answer</label></div>
+                </td>
+                <td class="preview" style="width: 45%"></td>
+            </tr>
+            <tr>
+                <td>Option 3</td>
+                <td style="width: 45%">
+                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <div class="checkbox"><label><input type="checkbox" class="answer" value="3" name="answer[]"> Make Answer</label></div>
+                </td>
+                <td class="preview" style="width: 45%"></td>
+            </tr>
+            <tr>
+                <td>Option 4</td>
+                <td style="width: 45%">
+                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <div class="checkbox"><label><input type="checkbox" class="answer" value="4" name="answer[]"> Make Answer</label></div>
+                </td>
+                <td class="preview" style="width: 45%"></td>
+            </tr>
 
-        <div class="col-md-6">
-            <h4>Your Options</h4>
-        </div>
-    </div>
-    <br>
-    <div class="row question_options">
-        <div class="col-md-6">
-            <div class="input-group col-md-12" >
-                <textarea rows="3" class="form-control" id="mcq_option_1" placeholder="Option 1" style="padding-bottom:5px"></textarea>
-                <input type="checkbox" id="right_answer_1">Make This Answer
-            </div><!-- /.col-md-12 -->
-        </div>
+            <tr>
+                <td>Question Priority</td>
+                <td colspan="2">
+                    <select class="form-control" name="priority" data-style="select-with-transition" title="Select Topic" id="priority" >
+                        <option value="0">--Select Priority--</option>
+                        <option value="1">1 - Lowest</option>
+                        <option value="2">2 - Lower</option>
+                        <option value="3">3 - Medium</option>
+                        <option value="4">4 - Higher</option>
+                        <option value="5">5 - Highest</option>
+                    </select>
+                </td>
+            </tr>
 
-        <div class="col-md-6">
-            <div class="input-group col-md-12" >
-                <textarea rows="3" class="form-control" id="mcq_option_1" placeholder="Option 1" readonly></textarea>
-            </div><!-- /input-group --><br><br>
-        </div>
-    </div>
+            <tr>
+                <td>Question Difficulty</td>
+                <td colspan="2">
+                    <select class="form-control" name="difficulty" data-style="select-with-transition" title="Select Topic" id="difficulty" >
+                        <option value="0">--Select Difficulty--</option>
+                        <option value="1">Easy</option>
+                        <option value="2">Medium</option>
+                        <option value="3">Hard</option>
+                    </select>
+                </td>
+            </tr>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div id="choose-priority">
-                <h4><label>Select Priority</label></h4>
-                <select class="form-control" name="priority" data-style="select-with-transition" title="Select Topic" id="priority" >
-                    <option value="0">--Select Priority--</option>
-                    <option value="1">1 - Lowest</option>
-                    <option value="2">2 - Lower</option>
-                    <option value="3">3 - Medium</option>
-                    <option value="4">4 - Higher</option>
-                    <option value="5">5 - Highest</option>
-                </select>
-            </div>
-        </div>
+            <tr>
+                <td class="text-center" colspan="3"><div class="col-md-12 text-center"><input id="add_question" type="submit" name="add_question" value="Add Question" class="btn btn-primary"></div></td>
+            </tr>
 
-        <div class="col-md-6">
-            <div id="choose-priority">
-                <h4><label>Select Difficulty</label></h4>
-                <select class="form-control" name="difficulty" data-style="select-with-transition" title="Select Topic" id="difficulty" >
-                    <option value="0">--Select Difficulty--</option>
-                    <option value="1">Easy</option>
-                    <option value="2">Medium</option>
-                    <option value="3">Hard</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <br>
-<br>
-<div>
-    <button type="submit" id="add_question" class="btn btn-med btn-primary" disabled>Add Question</button>
+        </tbody>
+    </table>
 </div>
-<br>
+</div>
 
 @endsection
