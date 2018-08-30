@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Question;
+use App\Topic;
+use App\TopicQuestion;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -37,6 +40,43 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         //
+        $topic_id = $request->get('topic_id');
+        $question_type_id = $request->get('question_type_id');
+        $question = $request->get('question');
+        $options = $request->get('options');
+        $answer = $request->get('answer');
+        $priority = $request->get('priority');
+        $difficulty = $request->get('difficulty');
+
+        $output = array(
+            'question' => $question,
+            'options' => $options,
+            'answer' => $answer
+        );
+
+        $output = serialize($output);
+
+
+        $question = new Question();
+
+        $question->question_type_id = $question_type_id;
+        $question->text = $output;
+        $question->priority = $priority;
+        $question->difficulty = $difficulty;
+
+        $question->save();
+
+        $question = DB::table('questions')->orderBy('created_at', 'desc')->first();
+
+        $topic_question = new TopicQuestion();
+
+        $topic_question->topic_id = $topic_id;
+        $topic_question->question_id = $question->id;
+
+        $topic_question->save();
+
+
+        return response()->json("success");
     }
 
     /**

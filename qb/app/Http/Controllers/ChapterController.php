@@ -72,6 +72,7 @@ class ChapterController extends Controller
         $chapter->subject_id = $request->input('subject');
         $chapter->save();
         
+        
         if($chapter)
         {
             return redirect()->route('chapters.index');

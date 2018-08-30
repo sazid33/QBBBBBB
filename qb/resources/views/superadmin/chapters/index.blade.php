@@ -26,7 +26,7 @@ $(document).ready(function(){
                 $.each(data,function(index,subjectsObjectForSelectedCompany){
                 
                     subjectsObjectForSelectedCompany.forEach(function(element) {
-                        $('#subject').append('<option value="'+element.subject_id+'">'+element.subject_name+'</option>');
+                        $('#subject_id').append('<option value="'+element.subject_id+'">'+element.subject_name+'</option>');
                     });
                 });
             },
@@ -63,10 +63,12 @@ $(document).ready(function(){
     });
 
     $('#form_output').on('submit', function(event){
-        event.preventdefault();
+       
         var form_data = $(this).serialize();
-        var url = '/chapters/update';
+        
         alert(form_data);
+        var url = '/chapters/update';
+        
         
         $.ajax({
             url:url, 
@@ -79,6 +81,7 @@ $(document).ready(function(){
             },
             error:function(data)
             {
+
 
             }
         })
@@ -162,7 +165,7 @@ $(document).ready(function(){
                     <br>
                     
                     <div>
-                        <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
+                        <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject_id" >
                             <option>--Select Subject--</option>
                         </select>
                     </div>
@@ -204,7 +207,7 @@ $(document).ready(function(){
                 <fieldset>
                 
                     <div class="form-group">
-                        <label>Enter Chapter Name</label>
+                        <label>Edit Chapter Name</label>
                         <input class="form-control" placeholder="Chapter Title" value="" id="chapter_name_update" name="chapter_name_update" type="text">
                         @if ($errors->has('chapter'))
                         <span class="help-block">{{ $errors->first('chapter') }}</span>

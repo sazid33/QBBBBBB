@@ -45,11 +45,6 @@ Route::post('/company_program_subjects/store', 'CompanyProgramSubjectController@
 Route::get('/chapters/fetchChapter', 'ChapterController@fetchChapter');
 Route::post('superadmin/chapters/update', 'ChapterController@update');
 
-
-
-
-Route::get('/topics/getChapterAccordingToSubject', 'TopicController@getChapterAccordingToSubject');
-
 Route::resource('superadmin/question_types', 'QuestionTypeController');
 
 Route::resource('superadmin/questions', 'QuestionController');
@@ -61,6 +56,7 @@ Route::get('/subjects/getSubjectAccordingToProgram', 'SubjectController@getSubje
 Route::get('/subjects/getSubjectAccordingToCompany', 'SubjectController@getSubjectAccordingToCompany');
 Route::get('/chapters/getChapterAccordingToSubject', 'ChapterController@getChapterAccordingToSubject');
 Route::get('/topics/getTopicAccordingToChapter', 'TopicController@getTopicAccordingToChapter');
+Route::get('/topics/getChapterAccordingToSubject', 'TopicController@getChapterAccordingToSubject');
 
 
 //End routes for dropdowns
@@ -88,4 +84,4 @@ Route::get('/subjects/searchSubjects', 'SearchController@searchSubjects');
 
 //post Routes
 
-Route::post('/questions/store');
+Route::get('/questions/store', 'QuestionController@store');

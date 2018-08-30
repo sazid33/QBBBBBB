@@ -13,24 +13,14 @@ var company_id;
 var program_id;
 var subject_id;
 var chapter_id;
-var options[];
-var answer[];
+var question;
+var options = [];
+var answers = [];
 var topic_id;
 var priority;
 var difficulty;
 
 $(document).ready(function(){
-
-    function checkFunction(){
-        topic_id = document.getElementById("topic").value;
-        question = document.getElementById("mcq_question").value;
-        priority = document.getElementById("priority").value;
-        difficulty = document.getElementById("difficulty").value;
-    }
-
-    function checkRightAnswer(){
-        
-    }
 
     function Update_Preview(td_selector) {
         var Text = $(td_selector).children(".text-input").val();
@@ -39,7 +29,7 @@ $(document).ready(function(){
     }
 
 
-    $("body").on("change", ".text-input", function () {
+    $("body").on("keypress", ".text-input", function () {
         var selector = $(this);
         setTimeout(function () {
             Update_Preview(selector.parents("td"));
@@ -179,43 +169,143 @@ $(document).ready(function(){
         })
     });
 
-    $('#add_question').on('click', function(){
+    $("#form").submit(function(){
+        var data = {};
+        data.topic_id = $("#topic").val();
+        data.priority = $("#priority").val();
+        data.difficulty = $("#difficulty").val();
+        data.question_type_id = 1;
+        var counter = 0;
+        var optionArray = [];
+        var optionsArray = [];
+        var answerArray = [];
 
-        var url = '/questions/store';
+        $(".text-input").each(function() {
+            counter++;
+            if(counter === 1)
+            {
+                data.question_body = $(this).val();
+                //data.question_html = $(this).parents("tr").children(".preview").html();
+            }
 
-        $.ajax({
-            url:url,
-            method:'POST',
-            data:{
-                topic_id:topic_id,
-                question:question,
+            else
+            {
+                if($(this).parents("tr").find("input:checkbox:first").is(":checked"))
+                {
+                    optionArray.push({"option_body": $(this).val(),"option_html": $(this).parents("tr").children(".preview").html(), "answer": "1"});
+                }
 
-                priority:priority,
-                difficulty:difficulty,
+                else
+                {
+                    optionArray.push({"option_body": $(this).val(),"option_html": $(this).parents("tr").children(".preview").html(), "answer": "0"});
+                }
 
-            },
-        })
+                optionsArray.push($(this).val());
+            }
+        });
+        
+        data.option = optionArray;
+
+        if(data.topic_id != 0 && data.question_body != "" && data.option != "")
+        {
+            var empty = false;
+            var ans = 0;
+
+            for(var i in data.option)
+            {
+                if(data.option[i].option_body != "" && data.option[i].option_html != "")
+                {
+                    if(data.option[i].answer == "1")
+                    {
+                        ans++;
+                        answerArray.push(i);
+                    }
+                }
+
+                else
+                {
+                    empty = true;
+                }
+            }
+            
+            data.option = optionsArray;
+            data.answer = answerArray;
+            
+
+            if(!empty)
+            {
+                var acceptMultiAns = true;
+                var acceptEmptyAns = true;
+
+                if(ans)
+                {
+                    if(ans > 1)
+                    {
+                        acceptMultiAns = confirm("Multiple Answers Found.\nReally want Multiple Answers?");
+                    }
+                }
+
+                else
+                {
+                    acceptEmptyAns = confirm("No Answer Found.\nReally do not want to set answer?");
+                }
+
+                if(acceptMultiAns && acceptEmptyAns)
+                {
+                    $("#submit").attr("disabled", true).val("Submitting....");
+
+
+                    var url = '/questions/store';
+                    $.ajax({
+                        url:url,
+                        method:'get',
+                        data:{
+                            topic_id:data.topic_id,
+                            question_type_id:data.question_type_id,
+                            priority:data.priority,
+                            difficulty:data.difficulty,
+                            question:data.question_body,
+                            options:data.option,
+                            answer:data.answer,
+                        },
+                        dataType:'json',
+                        success:function(data){
+                            $("#submit").attr("disabled", false).val("Add Question");
+                            $(".text-input").each(function () {
+                                $(this).val("");
+                                $(this).parents("tr").children(".preview").html("");
+                                $(this).parents("td").find("input:checkbox:first").prop('checked', false);
+                            });
+                        },
+                        error:function(data){
+
+                            console.log(data);
+                        },
+
+                    });
+                }
+            }
+            else
+            {
+                alert("Answer is Empty...");
+            }
+        }
+
+        else
+        {
+            alert("Empty Necessary Field(s)")
+        }
     });
+
+    
 
 });
 
 </script>
 
-<style>
-    .row{
-        padding-top:20px;
-        padding-bottom:10px;
-    }
-
-    .question_options{
-        background-color:AliceBlue;
-    }
-</style>
-
-
-<div id="mcq-question-section">
+<form id="form" onsubmit="return false">
+{{ csrf_field() }}
 <div class="col-md-12">
-    {{ csrf_field() }}
     <table class="table table-bordered table-striped table-condensed">
         <tbody>
             <tr>
@@ -271,7 +361,7 @@ $(document).ready(function(){
             <tr>
                 <td>Question</td>
                 <td style="width: 45%">
-                    <textarea rowspan="4" name="question_body" placeholder="Question" class="form-control text-input"></textarea>
+                    <textarea id="question" rowspan="4" name="question_body" placeholder="Question" class="form-control text-input"></textarea>
                 </td>
                 <td class="preview" style="width: 45%"></td>
             </tr>
@@ -279,7 +369,7 @@ $(document).ready(function(){
             <tr>
                 <td>Option 1</td>
                 <td style="width: 45%">
-                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <textarea id="option[]" name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
                     <div class="checkbox"><label><input type="checkbox" class="answer" value="1" name="answer[]"> Make Answer</label></div>
                 </td>
                 <td class="preview" style="width: 45%"></td>
@@ -287,7 +377,7 @@ $(document).ready(function(){
             <tr>
                 <td>Option 2</td>
                 <td style="width: 45%">
-                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <textarea id="option[]" name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
                     <div class="checkbox"><label><input type="checkbox" class="answer" value="2" name="answer[]"> Make Answer</label></div>
                 </td>
                 <td class="preview" style="width: 45%"></td>
@@ -295,7 +385,7 @@ $(document).ready(function(){
             <tr>
                 <td>Option 3</td>
                 <td style="width: 45%">
-                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <textarea id="option[]" name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
                     <div class="checkbox"><label><input type="checkbox" class="answer" value="3" name="answer[]"> Make Answer</label></div>
                 </td>
                 <td class="preview" style="width: 45%"></td>
@@ -303,7 +393,7 @@ $(document).ready(function(){
             <tr>
                 <td>Option 4</td>
                 <td style="width: 45%">
-                    <textarea name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
+                    <textarea id="option[]" name="option_body[]" placeholder="Option" class="form-control text-input"></textarea>
                     <div class="checkbox"><label><input type="checkbox" class="answer" value="4" name="answer[]"> Make Answer</label></div>
                 </td>
                 <td class="preview" style="width: 45%"></td>
@@ -336,12 +426,12 @@ $(document).ready(function(){
             </tr>
 
             <tr>
-                <td class="text-center" colspan="3"><div class="col-md-12 text-center"><input id="add_question" type="submit" name="add_question" value="Add Question" class="btn btn-primary"></div></td>
+                <td class="text-center" colspan="3"><div class="col-md-12 text-center"><input id="submit" type="submit" name="submit" value="Add Question" class="btn btn-primary"></div></td>
             </tr>
 
         </tbody>
     </table>
 </div>
-</div>
+</form>
 
 @endsection
