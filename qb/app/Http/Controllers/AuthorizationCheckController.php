@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Degree;
 use Illuminate\Http\Request;
 
-class DegreeController extends Controller
+class AuthorizationCheckController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,7 @@ class DegreeController extends Controller
      */
     public function index()
     {
-        //
-        $degrees = Degree::all();
-        return view('superadmin/degrees/index', compact('degrees'));
+        return view('/unauthorizedAlert');
     }
 
     /**
@@ -27,7 +24,6 @@ class DegreeController extends Controller
     public function create()
     {
         //
-        return view('superadmin/degrees/create');
     }
 
     /**
@@ -39,36 +35,15 @@ class DegreeController extends Controller
     public function store(Request $request)
     {
         //
-
-        $utils = new UtilityController();
-
-        $present_user_role = $utils->getUserRole();
-        
-        if($present_user_role[0]->role_name=="Super Admin")
-        {
-            $degree = new Degree();
-            $degree->name = $request->input('name');
-            $degree->save();
-
-            if($degree){
-                return redirect()->route('degrees.index');
-            }
-        }
-
-        else
-        {
-            return view('/unauthorizedAlert');
-        }
-        
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Degree  $degree
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Degree $degree)
+    public function show($id)
     {
         //
     }
@@ -76,10 +51,10 @@ class DegreeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Degree  $degree
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Degree $degree)
+    public function edit($id)
     {
         //
     }
@@ -88,10 +63,10 @@ class DegreeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Degree  $degree
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Degree $degree)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -99,10 +74,10 @@ class DegreeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Degree  $degree
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Degree $degree)
+    public function destroy($id)
     {
         //
     }

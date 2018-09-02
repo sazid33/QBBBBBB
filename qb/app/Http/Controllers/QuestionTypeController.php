@@ -39,14 +39,29 @@ class QuestionTypeController extends Controller
     public function store(Request $request)
     {
         //
-        $question_type = new QuestionType();
-        $question_type->name = $request->input('name');
-        $question_type->header_text = $request->input('header_text');
-        $question_type->save();
 
-        if($question_type){
-            return redirect()->route('question_types.index');
+        $utils = new UtilityController();
+
+        $present_user_role = $utils->getUserRole();
+        
+        if($present_user_role[0]->role_name=="Super Admin")
+        {
+            $question_type = new QuestionType();
+            $question_type->name = $request->input('name');
+            $question_type->header_text = $request->input('header_text');
+            $question_type->save();
+
+            if($question_type){
+                return redirect()->route('question_types.index');
+            }
         }
+
+        else
+        {
+            return view('/unauthorizedAlert');
+        }
+
+        
     }
 
     /**

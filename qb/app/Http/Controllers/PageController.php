@@ -45,26 +45,42 @@ class PageController extends Controller
     public function store(Request $request)
     {
         //
-        $page = new Page();
-        $page->name = $request->input('name');
-        $page->save();
+        $utils = new UtilityController();
 
-        $page = DB::table('pages')->orderBy('created_at', 'desc')->first();
-
-        $users = User::all();
-
-        foreach($users as $user)
-        {
-            $user_page = new UserPage();
-            $user_page->user_id = $user->id;
-            $user_page->page_id = $page->id;
-            $user_page->is_active = 0;
-            $user_page->save();
-        }
+        $present_user_role = $utils->getUserRole();
         
+        if($present_user_role[0]->role_name=="Super Admin")
+        {
+            $page = new Page();
+            $page->name = $request->input('name');
+            $page->save();
 
-        if($page){
-            return redirect()->route('pages.index');
+            $page = DB::table('pages')->orderBy('created_at', 'desc')->first();
+
+            $users = User::all();
+
+            foreach($users as $user)
+            {
+                $user_page = new UserPage();
+                $user_page->user_id = $user->id;
+                $user_page->page_id = $page->id;
+                $user_page->allowed_view = 0;
+                $user_page->allowed_add = 0;
+                $user_page->allowed_update = 0;
+                $user_page->allowed_delete = 0;
+                $user_page->save();
+            }
+            
+
+            if($page)
+            {
+                return redirect()->route('pages.index');
+            }
+        }
+
+        else
+        {
+            return view('/unauthorizedAlert');
         }
     }
 

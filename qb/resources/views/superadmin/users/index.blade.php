@@ -12,6 +12,8 @@ $(document).ready(function(){
   var user_id;
   var company_id;
   var role_id;
+
+  
   
   function searchFunction()
   {
@@ -31,7 +33,6 @@ $(document).ready(function(){
         },
         dataType: 'json',
         success:function(data){
-          console.log(data);
           $('#user_table').empty();
           $.each(data,function(index,usersBasedOnSearch){
             usersBasedOnSearch.forEach(function(element){
@@ -221,17 +222,9 @@ $(document).ready(function(){
             </br>
             <div>
                 <label>Select Role</label>
-                <select class="form-control" name="role" data-style="select-with-transition" title="Select Role" id="role" >
-                    @foreach($role_array as $data)
-                    <option value="{{$data->id}}">{{$data->name}}</option>
-                    @endforeach
+                <select class="form-control" name="role_user_create" data-style="select-with-transition" title="Select Role" id="role_user_create" >
+                  
                 </select>
-                
-                @if ($errors->has('role'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('role') }}</strong>
-                </span>
-                @endif
             </div>
             </br>
 

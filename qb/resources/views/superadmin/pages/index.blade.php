@@ -26,10 +26,6 @@
 
         </div>
     </div>
-
-    <div class="button" pull-right>
-        <button type="button" class="btn btn-default">Update</button>
-    </div>
     </br>
     <div class="button">
         <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal-create">

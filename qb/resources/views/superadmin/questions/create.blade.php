@@ -61,6 +61,8 @@ $(document).ready(function(){
             dataType: 'json',
             success:function(data)
             {
+                console.log(data);
+                
                 $.each(data,function(index,programsObjectForSelectedCompany){
                 
                     programsObjectForSelectedCompany.forEach(function(element) {

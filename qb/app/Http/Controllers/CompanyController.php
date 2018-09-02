@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use DB;
 use App\Company;
 use App\User;
@@ -41,30 +42,45 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         //
-        $company = new Company();
-        $company->name = $request->input('company_name');
-        $company->status = $request->input('status');
-        $company->save();
+        $utils = new UtilityController();
 
-        $company = DB::table('companies')->orderBy('created_at', 'desc')->first();
+        $present_user_role = $utils->getUserRole();
+        
+        if($present_user_role[0]->role_name=="Super Admin")
+        {
+            $company = new Company();
+            $company->name = $request->input('company_name');
+            $company->status = $request->input('status');
+            $company->save();
 
-        $user = new User();
-        $user->name = $request->input('user_name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
+            $company = DB::table('companies')->orderBy('created_at', 'desc')->first();
 
-        $user = DB::table('users')->orderBy('created_at', 'desc')->first();
+            $user = new User();
+            $user->name = $request->input('user_name');
+            $user->email = $request->input('email');
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
 
-        $company_user = new CompanyUser();
-        $company_user->company_id = $company->id;
-        $company_user->user_id = $user->id;
-        $company_user->role_id = $request->input('role');
-        $company_user->save();
+            $user = DB::table('users')->orderBy('created_at', 'desc')->first();
 
-        if($company && $user && $company_user){
-            return redirect()->route('companies.index');
+            $company_user = new CompanyUser();
+            $company_user->company_id = $company->id;
+            $company_user->user_id = $user->id;
+            $company_user->role_id = $request->input('role_user_create');
+            $company_user->save();
+
+            if($company && $user && $company_user){
+                return redirect()->route('companies.index');
+            }
         }
+
+        else
+        {
+            return view('/unauthorizedAlert');
+        }
+        
+
+        
     }
 
     /**

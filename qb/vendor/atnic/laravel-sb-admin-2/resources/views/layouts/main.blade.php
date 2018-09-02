@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="Atnic">
+  <meta name="_token" content="{!! csrf_token() !!}" />
 
   <title>@yield('SS QB', config('app.name', 'SS QB'))</title>
 
@@ -19,6 +20,41 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous">
   
+  </script>
+
+  <script>
+
+  $(document).ready(function(){
+    $(function getRoleAccordingToPresentUserRole()
+    {
+      var url='/roles/getRoleAccordingToPresentUsersRole';
+
+      $.ajax({
+          url:url,
+          method:'GET',
+          data:{
+
+          },
+          dataType:'json',
+          success:function(data)
+          {
+            $('#role_user_create').append('<option>--Select Role--</option>');
+            $.each(data,function(index,rolesObjectAccordingToPresentUser){
+              
+              rolesObjectAccordingToPresentUser.forEach(function(element){
+                $('#role_user_create').append('<option value="'+element.role_id+'">'+element.role_name+'</option>');
+              });
+            });
+            
+          },
+          error:function(data)
+          {
+            console.log(data);
+          }
+      })
+    });
+  });
+
   </script>
 
 

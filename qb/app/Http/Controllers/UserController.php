@@ -60,7 +60,7 @@ class UserController extends Controller
         $company_user = new CompanyUser();
         $company_user->company_id = $request->input('company');
         $company_user->user_id = $user->id;
-        $company_user->role_id = $request->input('role');
+        $company_user->role_id = $request->input('role_user_create');
         $company_user->save();
 
         $pages = Page::all();

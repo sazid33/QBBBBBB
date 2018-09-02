@@ -44,14 +44,28 @@ class ProgramController extends Controller
     public function store(Request $request)
     {
         //
-        $program = Program::create([
-            'name' => $request->input('name'),
-            'degree_id' => $request->input('degree'),
-        ]);
+        $utils = new UtilityController();
 
-        if($program){
-            return redirect()->route('programs.index');
+        $present_user_role = $utils->getUserRole();
+        
+        if($present_user_role[0]->role_name=="Super Admin")
+        {
+            $program = Program::create([
+                'name' => $request->input('name'),
+                'degree_id' => $request->input('degree'),
+            ]);
+    
+            if($program){
+                return redirect()->route('programs.index');
+            }
         }
+
+        else
+        {
+            return view('/unauthorizedAlert');
+        }
+
+        
     }
 
     /**

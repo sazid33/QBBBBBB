@@ -32,9 +32,7 @@
         </div>
       </div>
 
-    <div class="button" pull-right>
-        <button type="button" class="btn btn-default">Update</button>
-    </div>
+    
         </br>
     <div>
       <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal-create">
@@ -103,17 +101,9 @@
               
               <div>
                 <label>Select Role</label>
-                <select class="form-control" name="role" data-style="select-with-transition" title="Select Degree" id="" >
-                    @foreach($role_array as $data)
-                    <option value="{{$data->id}}">{{$data->name}}</option>
-                    @endforeach
-                </select>
+                <select class="form-control" name="role_user_create" data-style="select-with-transition" title="Select Role" id="role_user_create" >
                 
-                @if ($errors->has('role'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('role') }}</strong>
-                </span>
-                @endif
+                </select>
               </div>
 
               </br>

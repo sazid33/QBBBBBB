@@ -9,7 +9,12 @@ use Datatables;
 use Illuminate\Http\Request;
 
 class ChapterController extends Controller
-{
+{   
+    public function getId()
+    {
+
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -18,14 +23,29 @@ class ChapterController extends Controller
     public function index()
     {
         //
-        $chapters = DB::table('chapters')
+        $util = new UtilityController();
+
+        $page_id = $util->getPageId("Chapter");
+        $is_allowed = $util->getUserPageAuthentication($page_id[0]->id, "view");
+
+        if($is_allowed[0]->is_allowed==1)
+        {
+            $chapters = DB::table('chapters')
                     ->join('subjects', 'chapters.subject_id','=','subjects.id')
-                    ->select('subjects.name as subject', 'chapters.name as name', 'chapters.id as id')
+                    ->join('companies', 'companies.id', '=', 'subjects.company_id')
+                    ->select('companies.name as company', 'subjects.name as subject', 'chapters.name as name', 'chapters.id as id')
+                    ->orderBy('company')
                     ->orderBy('name')
                     ->orderBy('subject')
                     ->get();
 
-        return view('superadmin/chapters/index', compact('chapters'));
+            return view('superadmin/chapters/index', compact('chapters'));
+        }
+
+        else
+        {
+            return view('/unauthorizedAlert');
+        }        
     }
 
     /**
@@ -47,37 +67,29 @@ class ChapterController extends Controller
      */
     public function store(Request $request)
     {
-        /*
-        $chapters = $request->get('chapters');
-        $subject = $request->get('subject_id');
-        dd($chapters);
-        
-        foreach($chapters as $chapter)
-        {
-            /*
-            $create_chapter = Chapter::create([
-                'name' => $chapter,
-                'subject_id' => $subject,
-            ]);
-            
-            $create_chapter = new Chapter();
-            $create_chapter->name = $chapter;
-            $create_chapter->subject_id = $subject;
-            $create_chapter->save();
-        }
-        */
+        $util = new UtilityController();
 
-        $chapter = new Chapter();
-        $chapter->name = $request->input('chapter_name');
-        $chapter->subject_id = $request->input('subject');
-        $chapter->save();
-        
-        
-        if($chapter)
+        $page_id = $util->getPageId("Chapter");
+        $is_allowed = $util->getUserPageAuthentication($page_id[0]->id, "add");
+
+        if($is_allowed[0]->is_allowed==1)
         {
-            return redirect()->route('chapters.index');
+            $chapter = new Chapter();
+            $chapter->name = $request->input('chapter_name');
+            $chapter->subject_id = $request->input('subject_id');
+            $chapter->save();
+            
+            
+            if($chapter)
+            {
+                return redirect()->route('chapters.index');
+            }
         }
-        
+
+        else
+        {
+            return view('/unauthorizedAlert');
+        }   
     }
     /**
      * Display the specified resource.
@@ -99,7 +111,21 @@ class ChapterController extends Controller
     public function edit($id)
     {
         //
-        $chapter = Chapter::find($id);
+
+        $util = new UtilityController();
+
+        $page_id = $util->getPageId("Chapter Update");
+        $is_active = $util->getUserPageAuthentication($page_id[0]->id);
+
+        if($is_active[0]->is_active==1)
+        {
+            $chapter = Chapter::find($id);
+        }
+
+        else
+        {
+            return view('/unauthorizedAlert');
+        }
     }
 
     /**
@@ -112,16 +138,27 @@ class ChapterController extends Controller
     public function update(Request $request)
     {
         //
-        $id = $request->get('chapter_id_update');
-        $chapter->id = Chapter::where('id',$id);
-        $chapter->name = $request->get('chapter_name_update');
-        $chapter->update();
+        $util = new UtilityController();
 
-        if($chapter)
+        $page_id = $util->getPageId("Chapter");
+        $is_allowed = $util->getUserPageAuthentication($page_id[0]->id, "update");
+
+        if($is_allowed[0]->is_allowed==1)
         {
-            return redirect()->route('chapters.index');
-        }
+            $id = $request->get('chapter_id_update');
+            $updated_chapter_name = $request->get('chapter_name_update');
 
+            $chapter = DB::table('chapters')
+                    ->where('id', '=', $id)
+                    ->update(['name' => $updated_chapter_name]);
+            
+            return response()->json($chapter);
+        }
+        
+        else
+        {
+            return view('/unauthorizedAlert');
+        }
     }
 
     /**
@@ -147,6 +184,7 @@ class ChapterController extends Controller
         );
 
         return json_encode($output);
+
     }
 
     public function getChapterAccordingToSubject(Request $request)

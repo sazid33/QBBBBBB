@@ -62,27 +62,44 @@ $(document).ready(function(){
         })
     });
 
-    $('#form_output').on('submit', function(event){
+
+    $(document).on('click', '.delete', function(){
+        alert("Do you really want to Delete???");
+    });
+
+    $('#button-update').on('click', function(event){
        
-        var form_data = $(this).serialize();
+        var chapter_name_updated = $('#chapter_name_update').val();
+        var chapter_id_updated = $('#chapter_id_update').val();
+        var subject_id_updated = $('#subject_id_update').val();
         
-        alert(form_data);
         var url = '/chapters/update';
         
-        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        })
+
         $.ajax({
             url:url, 
-            method:'POST',
-            data:form_data,
+            method:'PUT',
+            data:{
+                chapter_id_update:chapter_id_updated,
+                chapter_name_update:chapter_name_updated,
+                subject_id_update:subject_id_updated,
+            },
             dataType: 'json',
             success:function(data)
             {
-                
+                console.log(data);
+                $('#ssModal-update').modal('hide');
+                location.reload();
+
             },
             error:function(data)
             {
-
-
+                console.log(data);
             }
         })
     });
@@ -106,9 +123,10 @@ $(document).ready(function(){
             {{ csrf_field() }}
                 <thead>
                 <tr>
+                    <th>Company</th>
                     <th>Subject</th>
                     <th>Chapter Name</th>
-                    <th>Action</th>
+                    <th class="text-center">Action</th>
                     
                     
                 </tr>
@@ -117,9 +135,15 @@ $(document).ready(function(){
                 <tbody>
                     @foreach($chapters as $chapter)
                     <tr>
+                        <td>{{$chapter->company}}</td>
                         <td>{{$chapter->subject}}</td>
                         <td id="">{{$chapter->name}}</td>
-                        <td><a href="#" class="btn btn-xs btn-primary edit" id="{{ $chapter->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-xs btn-success view" id="{{ $chapter->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                            <a href="#" class="btn btn-xs btn-primary edit" id="{{ $chapter->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                            <a href="#" class="btn btn-xs btn-danger delete" id="{{ $chapter->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
+                        </td>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -128,10 +152,7 @@ $(document).ready(function(){
         </div>
     </div>
 
-    <div class="button" pull-right>
-        <button type="button" class="btn btn-default">Update</button>
-    </div>
-        </br>
+    
     <div>
       <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal-create">
         Add New Chapter
@@ -201,17 +222,13 @@ $(document).ready(function(){
           
             <div class="modal-body">
             
-                <form method="POST" id="chapter_form">
-                {{ csrf_field() }}
+                <form id="chapter_form">
                 <span id="form_output"></span>
                 <fieldset>
                 
                     <div class="form-group">
                         <label>Edit Chapter Name</label>
-                        <input class="form-control" placeholder="Chapter Title" value="" id="chapter_name_update" name="chapter_name_update" type="text">
-                        @if ($errors->has('chapter'))
-                        <span class="help-block">{{ $errors->first('chapter') }}</span>
-                        @endif
+                        <input  type="text" class="form-control" placeholder="Chapter Title" id="chapter_name_update" name="chapter_name_update"  value="Subject 2 - Chapter 3">
                     </div>
 
                     <input type="hidden" name="chapter_id_update" id="chapter_id_update" value="" />

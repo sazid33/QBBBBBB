@@ -21,6 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('/unauthorizedAlert', 'AuthorizationCheckController');
 
 //Routes for Super Admins. This routes can only be accessed by a super admin.
 Route::resource('superadmin/companies', 'CompanyController');
@@ -85,3 +86,13 @@ Route::get('/subjects/searchSubjects', 'SearchController@searchSubjects');
 //post Routes
 
 Route::get('/questions/store', 'QuestionController@store');
+
+
+//Get Role According To Present User's Role Route
+
+Route::get('/roles/getRoleAccordingToPresentUsersRole', 'RoleController@getRoleAccordingToPresentUsersRole');
+
+
+//Update Routes
+
+Route::put('/chapters/update', 'ChapterController@update');
