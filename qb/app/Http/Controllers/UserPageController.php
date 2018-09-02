@@ -42,8 +42,18 @@ class UserPageController extends Controller
      */
     public function store(Request $request)
     {
-        //
         
+        
+    }
+
+    public function storePagesForUserWhileCreatingNewUser()
+    {
+        
+    }
+
+    public function storePagesForUserWhileCreateNewPage()
+    {
+
     }
 
     /**
@@ -119,5 +129,8 @@ class UserPageController extends Controller
 
     public function getCompanyUsers($company_id)
 	{
-	}
+
+    }
+    
+    
 }

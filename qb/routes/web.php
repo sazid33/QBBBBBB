@@ -44,6 +44,7 @@ Route::post('/company_program_subjects/store', 'CompanyProgramSubjectController@
 //chapter routes
 
 Route::get('/chapters/fetchChapter', 'ChapterController@fetchChapter');
+Route::get('/chapters/fetchChapterforView', 'ChapterController@fetchChapterForView');
 Route::post('superadmin/chapters/update', 'ChapterController@update');
 
 Route::resource('superadmin/question_types', 'QuestionTypeController');

@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class ChapterController extends Controller
 {   
-    public function getId()
-    {
-
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -111,21 +106,6 @@ class ChapterController extends Controller
     public function edit($id)
     {
         //
-
-        $util = new UtilityController();
-
-        $page_id = $util->getPageId("Chapter Update");
-        $is_active = $util->getUserPageAuthentication($page_id[0]->id);
-
-        if($is_active[0]->is_active==1)
-        {
-            $chapter = Chapter::find($id);
-        }
-
-        else
-        {
-            return view('/unauthorizedAlert');
-        }
     }
 
     /**
@@ -147,18 +127,22 @@ class ChapterController extends Controller
         {
             $id = $request->get('chapter_id_update');
             $updated_chapter_name = $request->get('chapter_name_update');
-
+                
             $chapter = DB::table('chapters')
-                    ->where('id', '=', $id)
-                    ->update(['name' => $updated_chapter_name]);
+                ->where('id', '=', $id)
+                ->update(['name' => $updated_chapter_name]);
             
             return response()->json($chapter);
         }
-        
+
         else
         {
-            return view('/unauthorizedAlert');
+            $chapter = 0;
+
+            return response()->json($chapter);
         }
+        
+
     }
 
     /**
@@ -184,7 +168,28 @@ class ChapterController extends Controller
         );
 
         return json_encode($output);
+    }
 
+    function fetchChapterForView(Request $request)
+    {
+        $id = $request->input("id");
+        
+        $chapters = DB::table('chapters', 'id', '=', $id)
+                    ->join('subjects', 'chapters.subject_id','=','subjects.id')
+                    ->join('companies', 'companies.id', '=', 'subjects.company_id')
+                    ->select('companies.name as company', 'subjects.name as subject', 'chapters.name as name', 'chapters.id as id')
+                    ->orderBy('company')
+                    ->orderBy('name')
+                    ->orderBy('subject')
+                    ->get();
+
+        $output = array(
+            'view_company_name' => $chapters->company,
+            'view_subject_name' => $chapters->subject,
+            'view_chapter_name' => $chapters->name
+        );
+
+        return json_encode($output);
     }
 
     public function getChapterAccordingToSubject(Request $request)

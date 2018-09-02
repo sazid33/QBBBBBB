@@ -67,6 +67,32 @@ $(document).ready(function(){
         alert("Do you really want to Delete???");
     });
 
+    $(document).on('click', '.view', function(){
+        var id = $(this).attr("id");
+        $('#form_output').html('');
+        var url = '/chapters/fetchChapterforView';
+        $.ajax({
+            url:url,
+            method:'GET',
+            data:{
+                id:id,
+            },
+            dataType: 'json',
+            success:function(data)
+            {
+                console.log(data);
+                $('#view_company_name').val(data.view_company_name);
+                $('#view_chapter_name').val(data.view_chapter_name);
+                $('#view_subject_name').val(data.view_subject_name);
+                $('#ssModal-view').modal('show');
+            },
+            error:function(data)
+            {
+                console.log(data);  
+            }
+        })
+    });
+
     $('#button-update').on('click', function(event){
        
         var chapter_name_updated = $('#chapter_name_update').val();
@@ -80,39 +106,49 @@ $(document).ready(function(){
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         })
+        
+        
+            $.ajax({
+                url:url, 
+                method:'PUT',
+                data:{
+                    chapter_id_update:chapter_id_updated,
+                    chapter_name_update:chapter_name_updated,
+                    subject_id_update:subject_id_updated,
+                },
+                dataType: 'json',
+                success:function(data)
+                {
+                    if(data == 1)
+                    {
+                        $('#ssModal-update').modal('hide');
+                        window.location.reload();
+                    }
 
-        $.ajax({
-            url:url, 
-            method:'PUT',
-            data:{
-                chapter_id_update:chapter_id_updated,
-                chapter_name_update:chapter_name_updated,
-                subject_id_update:subject_id_updated,
-            },
-            dataType: 'json',
-            success:function(data)
-            {
+                    else if(data == 0)
+                    {
+                        console.log(status);
+                        window.location.href =  ('/unauthorizedAlert');
+                    }
+                    
+                    
+                },
+            })
+            /*.done(function(data) {
                 console.log(data);
-                $('#ssModal-update').modal('hide');
-                location.reload();
-
-            },
-            error:function(data)
-            {
-                console.log(data);
-            }
-        })
+                //$('#ssModal-update').modal('hide');
+                //window.location.reload();
+            })
+                
+            .fail(function(xhr, status, error) {
+                console.log(status);
+                //window.location.href =  ('/unauthorizedAlert');
+            })*/
+        
     });
 
 })
 </script>
-<!--
-<div class="button">
-    <a type="button" class="btn btn-primary btn-med" href="chapters/create">
-       Add New Chapter
-</a>
-</div>
--->
 
 <div class="">
     <div class="box">
@@ -157,6 +193,8 @@ $(document).ready(function(){
       <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal-create">
         Add New Chapter
       </button>
+      <br>
+      <br>
     </div>
 </div>
 
@@ -228,7 +266,7 @@ $(document).ready(function(){
                 
                     <div class="form-group">
                         <label>Edit Chapter Name</label>
-                        <input  type="text" class="form-control" placeholder="Chapter Title" id="chapter_name_update" name="chapter_name_update"  value="Subject 2 - Chapter 3">
+                        <input type="text" class="form-control" placeholder="Chapter Title" id="chapter_name_update" name="chapter_name_update"  value="Subject 2 - Chapter 3">
                     </div>
 
                     <input type="hidden" name="chapter_id_update" id="chapter_id_update" value="" />
@@ -236,6 +274,42 @@ $(document).ready(function(){
 
                 <!-- Change this to a button or input when using this as a form -->
                     <button id="button-update" type="submit" class="btn btn-med btn-success">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ssModal-view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Selected Chapter</h4>
+            </div>
+          
+            <div class="modal-body">
+            
+                <form id="chapter_form">
+                <span id="form_output"></span>
+                <fieldset>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_company_name" name="view_company_name"  value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subject Name</label>
+                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_subject_name" name="view_subject_name"  value="">
+
+                    <div class="form-group">
+                        <label>Chapter Name</label>
+                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_chapter_name" name="view_chapter_name"  value="">
+                    </div>
+
+                <!-- Change this to a button or input when using this as a form -->
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </fieldset>
                 </form>
