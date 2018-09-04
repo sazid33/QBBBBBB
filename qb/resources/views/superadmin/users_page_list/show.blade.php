@@ -24,18 +24,64 @@
             <td>{{ $page->name }}</td>
                 @foreach($users as $user)
                 <td>
-                    <input  
-                        type="checkbox" 
+                    
+                    <input type="checkbox" 
 
                         @if($user->user_id==$is_actives[$counter]->user_id && 
                         $page->id==$is_actives[$counter]->page_id && 
-                        $is_actives[$counter]->is_active==1) 
+                        $is_actives[$counter]->allowed_view==1) 
+                            checked="checked"
+                            
+                        @endif 
+
+                        id="{{$page->id}}+{{$user->user_id}}+view"
+                        name="{{$page->id}}+{{$user->user_id}}+view"
+                    >View
+                    <br>
+                    <input type="checkbox" 
+
+                        @if($user->user_id==$is_actives[$counter]->user_id && 
+                        $page->id==$is_actives[$counter]->page_id && 
+                        $is_actives[$counter]->allowed_add==1) 
                             checked="checked" 
                             
                         @endif 
+
+                        id="{{$page->id}}+{{$user->user_id}}+add"
+                        name="{{$page->id}}+{{$user->user_id}}+add"
+
+                    >Add
+                    <br>
+                    <input type="checkbox" 
+
+                        @if($user->user_id==$is_actives[$counter]->user_id && 
+                        $page->id==$is_actives[$counter]->page_id && 
+                        $is_actives[$counter]->allowed_update==1) 
+                            checked="checked" 
+                            
+                        @endif
+
+                        id="{{$page->id}}+{{$user->user_id}}+update"
+                        name="{{$page->id}}+{{$user->user_id}}+update"
+                    >Update
+                    <br>
+                    <input type="checkbox" 
+
+                        @if($user->user_id==$is_actives[$counter]->user_id && 
+                        $page->id==$is_actives[$counter]->page_id && 
+                        $is_actives[$counter]->allowed_delete==1) 
+                            checked="checked" 
+                            
+                        @endif
+
+                        id="{{$page->id}}+{{$user->user_id}}+delete"
+                        name="{{$page->id}}+{{$user->user_id}}+delete"
+
                         {{ $counter++ }}
-                    >
+                    >Delete
+                  
                 </td>
+                
                 @endforeach
         </tr>
         @endforeach

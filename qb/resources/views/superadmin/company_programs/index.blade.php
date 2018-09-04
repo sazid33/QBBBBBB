@@ -4,6 +4,40 @@
 
 @section('content')
 
+<div>
+    {{ csrf_field() }}
+    <div class="row">  
+        <div class="col-md-3">
+            <div id="choose_program">
+                <h4><label>Search By Company</label></h4>
+                <select class="form-control" name="company_for_searching" data-style="select-with-transition" title="Select Company" id="company_for_searching" >
+                    
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="choose_subject">
+                <h4><label>Search By User Role</label></h4>
+                <select class="form-control" name="role_id" data-style="select-with-transition" title="Select Subject" id="role" >
+                    <option value="0">--Select User Role--</option>
+                    @foreach($role_array as $role)
+                    <option value="{{$role->id}}">{{$role->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="button" pull-right>
+            <h4><label>Search</label></h4>
+            <button type="button" id="search" name="search" class="btn btn-primary btn-block" disabled>Search</button>
+          </div>
+        </div>
+    </div><br>
+</div>
+
+
 <div class="">
       <div class="box">
 
@@ -55,19 +89,11 @@
               <fieldset>
 
               <div>
-                
-                <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
-                  <option>--Select Company--</option>
-                  @foreach($company_array as $data)
-                  <option value="{{$data->id}}">{{$data->name}}</option>
-                  @endforeach
+                <label>Select Company</label>
+                <select class="form-control" name="current_user_company" data-style="select-with-transition" title="Select Company" id="current_user_company" >
+                  
                 </select>
                 
-                @if ($errors->has('company'))
-                <span class="help-block">
-                <strong>{{ $errors->first('company') }}</strong>
-                </span>
-                @endif
               </div>
             
               </br>
@@ -75,17 +101,12 @@
               <div>
                 <label>Select Program</label>
                 <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
-                <option>--Select Program--</option>
+                  <option>--Select Program--</option>
                   @foreach($programs_array as $data)
                   <option value="{{$data->id}}">{{$data->name}}</option>
                   @endforeach
                 </select>
                 
-                @if ($errors->has('program'))
-                <span class="help-block">
-                <strong>{{ $errors->first('program') }}</strong>
-                </span>
-                @endif
               </div>
 
               <div class="form-group">

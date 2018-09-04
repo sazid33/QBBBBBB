@@ -114,6 +114,7 @@ class UserPageController extends Controller
     public function update(Request $request, UserPage $userPage)
     {
         //
+        
     }
 
     /**

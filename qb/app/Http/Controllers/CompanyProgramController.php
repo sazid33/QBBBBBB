@@ -54,7 +54,7 @@ class CompanyProgramController extends Controller
         if($present_user_role[0]->role_name=="Super Admin")
         {
             $company_program = new CompanyProgram();
-            $company_program->company_id = $request->input('company_id');
+            $company_program->company_id = $request->input('current_user_company');
             $company_program->program_id = $request->input('program_id');
             $company_program->allowed_subject = $request->input('allowed_subject');
             $company_program->status = $request->input('status');

@@ -21,7 +21,7 @@ class TopicController extends Controller
         $topics = DB::table('topics')
                     ->join('chapters', 'topics.chapter_id','=','chapters.id')
                     ->join('subjects', 'chapters.subject_id','=','subjects.id')
-                    ->select('subjects.name as subject', 'chapters.name as chapter', 'topics.name as name')
+                    ->select('topics.id as id', 'subjects.name as subject', 'chapters.name as chapter', 'topics.name as name')
                     ->orderBy('subject')
                     ->orderBy('chapter')
                     ->get();

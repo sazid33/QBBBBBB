@@ -25,10 +25,53 @@
   <script>
 
   $(document).ready(function(){
+    
+    $(function getCurrentUserCompany()
+    {
+      var url='/companies/getCurrentUserCompany';
+
+      $.ajax({
+        url:url,
+        method:'GET',
+        data:{
+
+        },
+        dataType:'json',
+        success:function(data)
+        {
+          $('#current_user_company').empty();
+          if(data.company.length > 1)
+          {
+            $('#current_user_company').append('<option>--Select Company--</option>');
+            $('#company_for_searching').append('<option>--Select Company--</option>');
+          }
+
+          else
+          {
+            $("#company_for_searching").prop("disabled", true);
+            $("#current_user_company").prop("disabled", true);
+          }
+
+          $.each(data,function(index,companiesObjectAccordingToPresentUser){
+              
+              companiesObjectAccordingToPresentUser.forEach(function(element){
+                $('#current_user_company').append('<option value="'+element.company_id+'">'+element.company_name+'</option>');
+                $('#company_for_searching').append('<option value="'+element.company_id+'">'+element.company_name+'</option>');
+              });
+            });
+        },
+        error:function(data)
+        {
+          console.log(data);
+        },
+      });
+    });
+    
+    
+
     $(function getRoleAccordingToPresentUserRole()
     {
       var url='/roles/getRoleAccordingToPresentUsersRole';
-
       $.ajax({
           url:url,
           method:'GET',
@@ -38,6 +81,7 @@
           dataType:'json',
           success:function(data)
           {
+            
             $('#role_user_create').append('<option>--Select Role--</option>');
             $.each(data,function(index,rolesObjectAccordingToPresentUser){
               

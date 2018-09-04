@@ -11,6 +11,51 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    public function getCompanyAccordingToPresentUser()
+    {
+        
+        $util = new UtilityController();
+        
+        $is_superAdmin = $util->checkSuperAdmin();
+
+        if($is_superAdmin == 1)
+        {
+            $present_user_company = DB::table('companies')
+                                ->select('id as company_id', 'name as company_name')
+                                ->get();
+
+            $output = array(
+                'company' => $present_user_company,
+            );
+
+            return response()->json($output);
+        }
+
+        else
+        {
+            $present_user_company_id = DB::table('company_users')
+                            ->where('user_id','=', Auth::id())
+                            ->select('company_id as company_id')
+                            ->get();
+
+            $present_user_company = DB::table('companies')
+                                ->where('id', '=', $present_user_company_id[0]->company_id)
+                                ->select('id as company_id', 'name as company_name')
+                                ->get();
+
+            $output = array(
+                'company' => $present_user_company,
+            );
+
+            return response()->json($output);
+
+        }
+
+        
+        
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -68,6 +113,20 @@ class CompanyController extends Controller
             $company_user->user_id = $user->id;
             $company_user->role_id = $request->input('role_user_create');
             $company_user->save();
+
+            $pages = Page::all();
+        
+            foreach($pages as $page)
+            {
+                $user_page = new UserPage();
+                $user_page->user_id = $user->id;
+                $user_page->page_id = $page->id;
+                $user_page->allowed_view = 0;
+                $user_page->allowed_add = 0;
+                $user_page->allowed_update = 0;
+                $user_page->allowed_delete = 0;
+                $user_page->save();
+            }
 
             if($company && $user && $company_user){
                 return redirect()->route('companies.index');
@@ -127,4 +186,6 @@ class CompanyController extends Controller
     {
         //
     }
+
+    
 }

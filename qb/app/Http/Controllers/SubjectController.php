@@ -42,7 +42,7 @@ class SubjectController extends Controller
   */
         $subjects = DB::table('subjects')
                     ->join('companies', 'subjects.company_id','=','companies.id')
-                    ->select('companies.name as company', 'subjects.name as name')
+                    ->select('subjects.id as id','companies.name as company', 'subjects.name as name')
                     ->orderBy('company')
                     ->get();
 

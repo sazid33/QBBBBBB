@@ -16,6 +16,7 @@
               <tr>
                 <th>Name</th>
                 <th>Status</th>
+                <th class="text-center">Action</th>
               </tr>
             </thead>
 
@@ -24,6 +25,11 @@
               <tr>
                 <td>{{$company->name}}</td>
                 <td>{{$company->status}}</td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-xs btn-success view" id="{{ $company->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                  <a href="#" class="btn btn-xs btn-primary edit" id="{{ $company->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                  <a href="#" class="btn btn-xs btn-danger delete" id="{{ $company->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
+                </td>
               </tr>
               @endforeach
             </tbody>

@@ -3408,6 +3408,7 @@ class ComposerStaticInit09063acb929e27586d6894652d6a6efa
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
         'UpdateUserPagesTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_02_104633_update_user_pages_table.php',
+        'UpdateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_04_113712_update_users_table.php',
         'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',

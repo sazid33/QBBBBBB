@@ -18,7 +18,7 @@ $(document).ready(function(){
   function searchFunction()
   {
     user_id = $("#user").val();
-    company_id = $("#company").val();
+    company_id = $("#company_for_searching").val();
     role_id = $("#role").val();
 
     if(user_id == 0 && company_id == 0 && role_id == 0)
@@ -116,11 +116,8 @@ $(document).ready(function(){
         <div class="col-md-3">
             <div id="choose_program">
                 <h4><label>Search By Company</label></h4>
-                <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
-                    <option value="0">--Select Company--</option>
-                    @foreach($company_array as $company)
-                    <option value="{{$company->id}}">{{$company->name}}</option>
-                    @endforeach
+                <select class="form-control" name="company_for_searching" data-style="select-with-transition" title="Select Company" id="company_for_searching" >
+                    
                 </select>
             </div>
         </div>
@@ -161,6 +158,7 @@ $(document).ready(function(){
                 <th>Email</th>
                 <th>Company</th>
                 <th>Role</th>
+                <th class="Action">Action</th>
               </tr>
             </thead>
 
@@ -171,6 +169,11 @@ $(document).ready(function(){
                 <td id>{{$user->user_email}}</td>
                 <td id>{{$user->company_name}}</td>
                 <td id>{{$user->role_name}}</td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-xs btn-success view" id="{{ $user->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                  <a href="#" class="btn btn-xs btn-primary edit" id="{{ $user->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                  <a href="#" class="btn btn-xs btn-danger delete" id="{{ $user->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -207,17 +210,9 @@ $(document).ready(function(){
           <fieldset>
             <div>
                 <label>Select Company</label>
-                <select class="form-control" name="company" data-style="select-with-transition" title="Select Company" id="company" >
-                    @foreach($company_array as $data)
-                        <option value="{{$data->id}}">{{$data->name}}</option>
-                    @endforeach
+                <select class="form-control" name="current_user_company" data-style="select-with-transition" title="Select Company" id="current_user_company" >
+                    
                 </select>
-                
-                @if ($errors->has('company'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('company') }}</strong>
-                </span>
-                @endif
             </div>
             </br>
             <div>

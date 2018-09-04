@@ -37,7 +37,7 @@ $(document).ready(function(){
     });
 
 
-    $('#company').on('change', function(event){
+    $('#current_user_company').on('change', function(event){
         
         company_id = event.target.value;
         
@@ -313,11 +313,8 @@ $(document).ready(function(){
             <tr>
                 <td>Company</td>
                 <td colspan="2">
-                    <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
-                        <option value="0">--Select Company--</option>
-                        @foreach($company_array as $company)
-                            <option value="{{$company->id}}">{{$company->name}}</option>
-                        @endforeach
+                    <select class="form-control" name="current_user_company" data-style="select-with-transition" title="Select Company" id="current_user_company" >
+                        
                     </select>
                 </td>
             </tr>

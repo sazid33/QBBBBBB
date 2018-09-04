@@ -4,6 +4,40 @@
 
 @section('content')
 
+<div>
+    {{ csrf_field() }}
+    <div class="row">  
+        <div class="col-md-3">
+            <div id="choose_program">
+                <h4><label>Search By Company</label></h4>
+                <select class="form-control" name="company_for_searching" data-style="select-with-transition" title="Select Company" id="company_for_searching" >
+                    
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="choose_subject">
+                <h4><label>Search By User Role</label></h4>
+                <select class="form-control" name="role_id" data-style="select-with-transition" title="Select Subject" id="role" >
+                    <option value="0">--Select User Role--</option>
+                    @foreach($role_array as $role)
+                    <option value="{{$role->id}}">{{$role->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="button" pull-right>
+            <h4><label>Search</label></h4>
+            <button type="button" id="search" name="search" class="btn btn-primary btn-block" disabled>Search</button>
+          </div>
+        </div>
+    </div><br>
+</div>
+
+
 <div class="">
     <div class="box">
         <div class="box-body">
@@ -11,16 +45,23 @@
             <table class ="table table-responsive">
                 <thead>
                 <tr>
+
                     <th>Degree Name</th>
                     <th>Program Name</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
 
                 <tbody>
                     @foreach($programs as $program)
                     <tr>
-                    <td>{{$program->degree}}</td>
-                    <td>{{$program->name}}</td>
+                        <td>{{$program->degree}}</td>
+                        <td>{{$program->name}}</td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-xs btn-success view" id="{{ $program->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                            <a href="#" class="btn btn-xs btn-primary edit" id="{{ $program->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                            <a href="#" class="btn btn-xs btn-danger delete" id="{{ $program->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

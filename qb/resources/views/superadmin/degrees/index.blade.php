@@ -13,6 +13,7 @@
                 <thead>
                 <tr>
                     <th>Name</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
 
@@ -20,6 +21,11 @@
                     @foreach($degrees as $degree)
                     <tr>
                     <td>{{$degree->name}}</td>
+                    <td class="text-center">
+                        <a href="#" class="btn btn-xs btn-success view" id="{{ $degree->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                        <a href="#" class="btn btn-xs btn-primary edit" id="{{ $degree->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                        <a href="#" class="btn btn-xs btn-danger delete" id="{{ $degree->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
+                    </td>
                     </tr>
                     @endforeach
                 </tbody>

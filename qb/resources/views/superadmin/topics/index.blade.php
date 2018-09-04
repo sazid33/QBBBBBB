@@ -42,6 +42,7 @@ $(document).ready(function(){
                     <th>Subject Name</th>
                     <th>Chapter Name</th>
                     <th>Topic Name</th>
+                    <th class="text-center">Action</th>
                     
                 </tr>
                 </thead>
@@ -52,6 +53,11 @@ $(document).ready(function(){
                         <td>{{$topic->subject}}</td>
                         <td>{{$topic->chapter}}</td>
                         <td>{{$topic->name}}</td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-xs btn-success view" id="{{ $topic->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                            <a href="#" class="btn btn-xs btn-primary edit" id="{{ $topic->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                            <a href="#" class="btn btn-xs btn-danger delete" id="{{ $topic->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

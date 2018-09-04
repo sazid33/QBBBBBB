@@ -64,7 +64,28 @@ $(document).ready(function(){
 
 
     $(document).on('click', '.delete', function(){
-        alert("Do you really want to Delete???");
+        var id = $(this).attr("id");
+        //alert(id);
+        var url = '/chapters/delete';
+
+        $.ajax({
+            url:url,
+            method:'DELETE',
+            data:{
+                id:id,
+            },
+            dataType:'json',
+            success:function(data)
+            {
+                console.log(data);
+                window.location.reload();
+            },
+
+            error:function(data)
+            {
+                console.log(data);
+            }
+        })
     });
 
     $(document).on('click', '.view', function(){
@@ -80,7 +101,6 @@ $(document).ready(function(){
             dataType: 'json',
             success:function(data)
             {
-                console.log(data);
                 $('#view_company_name').val(data.view_company_name);
                 $('#view_chapter_name').val(data.view_chapter_name);
                 $('#view_subject_name').val(data.view_subject_name);
@@ -133,18 +153,7 @@ $(document).ready(function(){
                     
                     
                 },
-            })
-            /*.done(function(data) {
-                console.log(data);
-                //$('#ssModal-update').modal('hide');
-                //window.location.reload();
-            })
-                
-            .fail(function(xhr, status, error) {
-                console.log(status);
-                //window.location.href =  ('/unauthorizedAlert');
-            })*/
-        
+            })       
     });
 
 })
@@ -297,16 +306,17 @@ $(document).ready(function(){
                 <fieldset>
                     <div class="form-group">
                         <label>Company Name</label>
-                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_company_name" name="view_company_name"  value="">
+                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_company_name" name="view_company_name"  value="" disabled>
                     </div>
 
                     <div class="form-group">
                         <label>Subject Name</label>
-                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_subject_name" name="view_subject_name"  value="">
+                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_subject_name" name="view_subject_name"  value="" disabled>
+                    </div>
 
                     <div class="form-group">
                         <label>Chapter Name</label>
-                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_chapter_name" name="view_chapter_name"  value="">
+                        <input type="text" class="form-control" placeholder="Chapter Title" id="view_chapter_name" name="view_chapter_name"  value="" disabled>
                     </div>
 
                 <!-- Change this to a button or input when using this as a form -->

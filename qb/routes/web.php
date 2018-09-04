@@ -92,8 +92,10 @@ Route::get('/questions/store', 'QuestionController@store');
 //Get Role According To Present User's Role Route
 
 Route::get('/roles/getRoleAccordingToPresentUsersRole', 'RoleController@getRoleAccordingToPresentUsersRole');
+Route::get('/companies/getCurrentUserCompany', 'CompanyController@getCompanyAccordingToPresentUser');
 
 
 //Update Routes
 
 Route::put('/chapters/update', 'ChapterController@update');
+Route::delete('/chapters/delete', 'ChapterController@destroy');

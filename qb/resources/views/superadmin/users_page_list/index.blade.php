@@ -16,6 +16,7 @@
       <tbody>
         @foreach($companies as $company)
         <tr>
+        
           <td><a href="user_pages_list/{{ $company->id }}">{{$company->name}}</a></td>
           <td>{{$company->status}}</td>
         </tr>

@@ -14,15 +14,21 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Role Priority</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
 
                 <tbody>
                     @foreach($roles as $role)
                     <tr>
-                    <td>{{$role->name}}</td>
-                    <td>{{$role->description}}</td>
-                    <td>{{$role->priority}}</td>
+                      <td>{{$role->name}}</td>
+                      <td>{{$role->description}}</td>
+                      <td>{{$role->priority}}</td>
+                      <td class="text-center">
+                        <a href="#" class="btn btn-xs btn-success view" id="{{ $role->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                        <a href="#" class="btn btn-xs btn-primary edit" id="{{ $role->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                        <a href="#" class="btn btn-xs btn-danger delete" id="{{ $role->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
+                      </td>
                     </tr>
                     @endforeach
                 </tbody>

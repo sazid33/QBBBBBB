@@ -23,7 +23,7 @@ class UserController extends Controller
                 ->join('users','users.id', '=', 'company_users.user_id')
                 ->join('companies','companies.id', '=', 'company_users.company_id')
                 ->join('roles', 'roles.id', '=', 'company_users.role_id')
-                ->select('users.name as user_name', 'users.email as user_email', 'companies.name as company_name', 'roles.name as role_name')
+                ->select('users.id as id', 'users.name as user_name', 'users.email as user_email', 'companies.name as company_name', 'roles.name as role_name')
                 ->get();
 
         
@@ -70,7 +70,10 @@ class UserController extends Controller
             $user_page = new UserPage();
             $user_page->user_id = $user->id;
             $user_page->page_id = $page->id;
-            $user_page->is_active = 0;
+            $user_page->allowed_view = 0;
+            $user_page->allowed_add = 0;
+            $user_page->allowed_update = 0;
+            $user_page->allowed_delete = 0;
             $user_page->save();
         }
 

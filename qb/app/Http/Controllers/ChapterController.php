@@ -121,6 +121,7 @@ class ChapterController extends Controller
         $util = new UtilityController();
 
         $page_id = $util->getPageId("Chapter");
+        
         $is_allowed = $util->getUserPageAuthentication($page_id[0]->id, "update");
 
         if($is_allowed[0]->is_allowed==1)
@@ -151,9 +152,18 @@ class ChapterController extends Controller
      * @param  \App\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Chapter $chapter)
+    public function destroy(Request $request)
     {
         //
+        return response()->json($request->input("id"));
+
+        $id = $request->input("id");
+
+        return response()->json($id);
+
+        $chapter = Chapter::destroy($id);
+
+        return response()->json($chapter);
     }
 
     function fetchChapter(Request $request)
@@ -174,22 +184,24 @@ class ChapterController extends Controller
     {
         $id = $request->input("id");
         
-        $chapters = DB::table('chapters', 'id', '=', $id)
-                    ->join('subjects', 'chapters.subject_id','=','subjects.id')
-                    ->join('companies', 'companies.id', '=', 'subjects.company_id')
-                    ->select('companies.name as company', 'subjects.name as subject', 'chapters.name as name', 'chapters.id as id')
-                    ->orderBy('company')
-                    ->orderBy('name')
-                    ->orderBy('subject')
-                    ->get();
+        $chapter = Chapter::find($id);
 
+        $subject_id = $chapter->subject_id;
+        $subject = Subject::find($subject_id);
+
+        $company_id = $subject->company_id;
+        $company = DB::table('companies')
+                ->where('id', '=', $company_id)
+                ->get();
+        
+        
         $output = array(
-            'view_company_name' => $chapters->company,
-            'view_subject_name' => $chapters->subject,
-            'view_chapter_name' => $chapters->name
+            'view_chapter_name' => $chapter->name,
+            'view_subject_name' => $subject->name,
+            'view_company_name' => $company[0]->name
         );
 
-        return json_encode($output);
+        return response()->json($output);
     }
 
     public function getChapterAccordingToSubject(Request $request)

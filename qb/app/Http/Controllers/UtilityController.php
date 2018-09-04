@@ -10,6 +10,36 @@ use DB;
 class UtilityController extends Controller
 {
     //
+    public function checkSuperAdmin()
+    {
+        $present_user_id = Auth::id();
+
+        $present_user_role = DB::table('company_users')
+                            ->where('user_id', '=', $present_user_id)
+                            ->select('role_id as role_id')
+                            ->get();
+
+        $present_user_role_priority = DB::table('roles')
+                                    ->where('id', '=', $present_user_role[0]->role_id)
+                                    ->select('priority as priority')
+                                    ->get();
+
+        $super_admin_priority = DB::table('roles')
+                        ->where('name', '=', 'Super Admin')
+                        ->select('priority as priority')
+                        ->get();
+
+        if($present_user_role_priority[0]->priority == $super_admin_priority[0]->priority)
+        {
+            return 1;
+        }
+
+        else
+        {
+            return 0;
+        }
+    }
+
     public function getUserRole()
     {
         $present_user_id = Auth::id();
