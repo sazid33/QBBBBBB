@@ -33,6 +33,8 @@ Route::resource('superadmin/topics', 'TopicController');
 Route::resource('superadmin/company_programs', 'CompanyProgramController');
 Route::resource('superadmin/company_program_subjects', 'CompanyProgramSubjectController');
 
+Route::resource('questiongeneration/choose', 'QuestionGenerationController');
+
 
 Route::resource('superadmin/subjects', 'SubjectController');
 Route::resource('superadmin/chapters', 'ChapterController');
@@ -93,6 +95,9 @@ Route::get('/questions/store', 'QuestionController@store');
 
 Route::get('/roles/getRoleAccordingToPresentUsersRole', 'RoleController@getRoleAccordingToPresentUsersRole');
 Route::get('/companies/getCurrentUserCompany', 'CompanyController@getCompanyAccordingToPresentUser');
+Route::get('/users/getUsersAccordingToCurrentUser', 'UserController@getUsersAccordingToCurrentUser');
+Route::get('/subjects/getSubjectAccordingToPresentUser', 'SubjectController@getSubjectAccordingToPresentUser');
+
 
 
 //Update Routes

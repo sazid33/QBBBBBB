@@ -289,6 +289,7 @@ class ComposerStaticInit09063acb929e27586d6894652d6a6efa
     public static $classMap = array (
         'App\\Authorization' => __DIR__ . '/../..' . '/app/Authorization.php',
         'App\\Chapter' => __DIR__ . '/../..' . '/app/Chapter.php',
+        'App\\ChapterQuestion' => __DIR__ . '/../..' . '/app/ChapterQuestion.php',
         'App\\Company' => __DIR__ . '/../..' . '/app/Company.php',
         'App\\CompanyProgram' => __DIR__ . '/../..' . '/app/CompanyProgram.php',
         'App\\CompanyProgramSubject' => __DIR__ . '/../..' . '/app/CompanyProgramSubject.php',
@@ -368,6 +369,7 @@ class ComposerStaticInit09063acb929e27586d6894652d6a6efa
         'Carbon\\Laravel\\ServiceProvider' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'CreateAuthorizationsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_16_135258_create_authorizations_table.php',
+        'CreateChapterQuestionsTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_06_102039_create_chapter_questions_table.php',
         'CreateChaptersTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_16_135811_create_chapters_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_16_135204_create_companies_table.php',
         'CreateCompanyProgramSubjectsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_26_124915_create_company_program_subjects_table.php',

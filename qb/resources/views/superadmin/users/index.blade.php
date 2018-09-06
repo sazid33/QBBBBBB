@@ -13,16 +13,14 @@ $(document).ready(function(){
   var company_id;
   var role_id;
 
-  
-  
   function searchFunction()
   {
-    user_id = $("#user").val();
+    user_id = $("#user_for_searching").val();
     company_id = $("#company_for_searching").val();
-    role_id = $("#role").val();
+    role_id = $("#role_for_searching").val();
 
     if(user_id == 0 && company_id == 0 && role_id == 0)
-    {
+    { 
       $("#search").prop('disabled', true);
       var url = '/users/searchUsers';
       $.ajax({
@@ -36,15 +34,14 @@ $(document).ready(function(){
           $('#user_table').empty();
           $.each(data,function(index,usersBasedOnSearch){
             usersBasedOnSearch.forEach(function(element){
-              $('#user_table').append('<tr><td>'+element.user_name+'</td><td>'+element.user_email+'</td><td>'+element.company_name+'</td><td>'+element.role_name+'</td></tr>');
+              $('#user_table').append('<tr><td>'+element.user_name+'</td><td>'+element.user_email+'</td><td>'+element.company_name+'</td><td>'+element.role_name+'</td><td class="text-center"><a href="#" class="btn btn-xs btn-success view" id="'+element.user_id+'"><i class="glyphicon glyphicon-eye-open"></i> View</a> <a href="#" class="btn btn-xs btn-primary edit" id="'+element.user_id+'"><i class="glyphicon glyphicon-edit"></i> Edit </a> <a href="#" class="btn btn-xs btn-danger delete" id="'+element.user_id+'"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a></td></tr>');
             });
           });
         },
 
         error:function(data){
-        
+          console.log(data);
         }
-
       })
     }
     
@@ -54,21 +51,23 @@ $(document).ready(function(){
     }
   }
 
-  $('#user').on('change', function(){
+  $('#user_for_searching').on('change', function(){
     searchFunction();
   });
 
-  $('#company').on('change', function(){
+  $('#company_for_searching').on('change', function(){
     searchFunction();
   });
 
-  $('#role').on('change', function(){
+  $('#role_for_searching').on('change', function(){
     searchFunction();
   });
 
 
   $('#search').on('click', function(){
     var url = '/users/searchUsers';
+
+
     $.ajax({
       url:url,
       method:'GET',
@@ -82,7 +81,7 @@ $(document).ready(function(){
         $('#user_table').empty();
         $.each(data,function(index,usersBasedOnSearch){
           usersBasedOnSearch.forEach(function(element){
-            $('#user_table').append('<tr><td>'+element.user_name+'</td><td>'+element.user_email+'</td><td>'+element.company_name+'</td><td>'+element.role_name+'</td></tr>');
+            $('#user_table').append('<tr><td>'+element.user_name+'</td><td>'+element.user_email+'</td><td>'+element.company_name+'</td><td>'+element.role_name+'</td><td class="text-center"><a href="#" class="btn btn-xs btn-success view" id="'+element.user_id+'"><i class="glyphicon glyphicon-eye-open"></i> View</a> <a href="#" class="btn btn-xs btn-primary edit" id="'+element.user_id+'"><i class="glyphicon glyphicon-edit"></i> Edit </a> <a href="#" class="btn btn-xs btn-danger delete" id="'+element.user_id+'"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a></td></tr>');
           });
         });
       },
@@ -103,18 +102,6 @@ $(document).ready(function(){
     <div class="row">
         <div class="col-md-3">
             <div id="choose_company">
-                <h4><label>Search By Name</label></h4>
-                <select class="form-control" name="user_id" data-style="select-with-transition" title="Select User" id="user" >
-                    <option value="0">--Select User Name--</option>
-                    @foreach($user_array as $user)
-                    <option value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div id="choose_program">
                 <h4><label>Search By Company</label></h4>
                 <select class="form-control" name="company_for_searching" data-style="select-with-transition" title="Select Company" id="company_for_searching" >
                     
@@ -123,13 +110,19 @@ $(document).ready(function(){
         </div>
 
         <div class="col-md-3">
-            <div id="choose_subject">
+            <div id="choose_user_name">
+                <h4><label>Search By Name</label></h4>
+                <select class="form-control" name="user_for_searching" data-style="select-with-transition" title="Select User" id="user_for_searching" >
+                    
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="choose_user_role">
                 <h4><label>Search By User Role</label></h4>
-                <select class="form-control" name="role_id" data-style="select-with-transition" title="Select Subject" id="role" >
-                    <option value="0">--Select User Role--</option>
-                    @foreach($role_array as $role)
-                    <option value="{{$role->id}}">{{$role->name}}</option>
-                    @endforeach
+                <select class="form-control" name="role_for_searching" data-style="select-with-transition" title="Select Subject" id="role_for_searching" >
+                    
                 </select>
             </div>
         </div>
@@ -158,24 +151,12 @@ $(document).ready(function(){
                 <th>Email</th>
                 <th>Company</th>
                 <th>Role</th>
-                <th class="Action">Action</th>
+                <th class="text-center">Action</th>
               </tr>
             </thead>
 
             <tbody id="user_table">
-              @foreach($users as $user)
-              <tr>
-                <td id>{{$user->user_name}}</td>
-                <td id>{{$user->user_email}}</td>
-                <td id>{{$user->company_name}}</td>
-                <td id>{{$user->role_name}}</td>
-                <td class="text-center">
-                  <a href="#" class="btn btn-xs btn-success view" id="{{ $user->id }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                  <a href="#" class="btn btn-xs btn-primary edit" id="{{ $user->id }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                  <a href="#" class="btn btn-xs btn-danger delete" id="{{ $user->id }}"><i class="glyphicon glyphicon-warning-sign"></i> Delete</a>
-                </td>
-              </tr>
-              @endforeach
+              
             </tbody>
           </table>
 
@@ -211,7 +192,8 @@ $(document).ready(function(){
             <div>
                 <label>Select Company</label>
                 <select class="form-control" name="current_user_company" data-style="select-with-transition" title="Select Company" id="current_user_company" >
-                    
+
+                     
                 </select>
             </div>
             </br>

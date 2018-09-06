@@ -6,6 +6,8 @@ use Auth;
 use DB;
 use App\Company;
 use App\User;
+use App\Page;
+use App\UserPage;
 use App\CompanyUser;
 use Illuminate\Http\Request;
 

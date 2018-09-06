@@ -41,6 +41,7 @@ class QuestionController extends Controller
     {
         //
         $topic_id = $request->get('topic_id');
+        $chapter_id = $request->get('chapter_id');
         $question_type_id = $request->get('question_type_id');
         $question = $request->get('question');
         $options = $request->get('options');
@@ -74,6 +75,13 @@ class QuestionController extends Controller
         $topic_question->question_id = $question->id;
 
         $topic_question->save();
+
+        $chapter_question = new ChapterQuestion();
+
+        $chapter_question->chapter_id = $chapter_id;
+        $chapter_question->question_id = $question->id;
+
+        $chapter_question->save();
 
 
         return response()->json("success");

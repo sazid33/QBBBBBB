@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Authorization' => $baseDir . '/app/Authorization.php',
     'App\\Chapter' => $baseDir . '/app/Chapter.php',
+    'App\\ChapterQuestion' => $baseDir . '/app/ChapterQuestion.php',
     'App\\Company' => $baseDir . '/app/Company.php',
     'App\\CompanyProgram' => $baseDir . '/app/CompanyProgram.php',
     'App\\CompanyProgramSubject' => $baseDir . '/app/CompanyProgramSubject.php',
@@ -87,6 +88,7 @@ return array(
     'Carbon\\Laravel\\ServiceProvider' => $vendorDir . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
     'Carbon\\Translator' => $vendorDir . '/nesbot/carbon/src/Carbon/Translator.php',
     'CreateAuthorizationsTable' => $baseDir . '/database/migrations/2018_07_16_135258_create_authorizations_table.php',
+    'CreateChapterQuestionsTable' => $baseDir . '/database/migrations/2018_09_06_102039_create_chapter_questions_table.php',
     'CreateChaptersTable' => $baseDir . '/database/migrations/2018_07_16_135811_create_chapters_table.php',
     'CreateCompaniesTable' => $baseDir . '/database/migrations/2018_07_16_135204_create_companies_table.php',
     'CreateCompanyProgramSubjectsTable' => $baseDir . '/database/migrations/2018_07_26_124915_create_company_program_subjects_table.php',

@@ -263,6 +263,7 @@ $(document).ready(function(){
                         method:'get',
                         data:{
                             topic_id:data.topic_id,
+                            chapter_id:data.chapter_id,
                             question_type_id:data.question_type_id,
                             priority:data.priority,
                             difficulty:data.difficulty,

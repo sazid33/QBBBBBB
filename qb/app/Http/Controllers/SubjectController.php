@@ -12,6 +12,44 @@ use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
+    public function getSubjectAccordingToPresentUser(Request $request)
+    {
+        $company_id = $request->id;
+        $util = new UtilityController();
+
+        $is_superAdmin = $util->checkSuperAdmin();
+
+        if($is_superAdmin == 0)
+        {
+            $subjects = DB::table('subjects')
+                    ->join('companies', 'subjects.company_id','=','companies.id')
+                    ->select('subjects.id as id','companies.name as company', 'subjects.name as name')
+                    ->orderBy('company')
+                    ->get();
+
+            $output = array(
+                'subjects' => $subjects
+            );
+
+            return response()->json($output);
+        }
+
+        else
+        {
+            $subjects = DB::table('subjects')
+                    ->join('companies', 'subjects.company_id','=','companies.id')
+                    ->select('subjects.id as id','companies.name as company', 'subjects.name as name')
+                    ->orderBy('company')
+                    ->get();
+
+            $output = array(
+                'subjects' => $subjects
+            );
+
+            return response()->json($output);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *

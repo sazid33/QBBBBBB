@@ -11,6 +11,50 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function getUsersAccordingToCurrentUser(Request $request)
+    {
+
+        $company_id = $request->id;
+        $util = new UtilityController();
+
+        $is_superAdmin = $util->checkSuperAdmin();
+
+        if($is_superAdmin == 0)
+        {
+            $users = DB::table('company_users')
+                ->where('company_id', '=', $company_id)
+                ->join('users','users.id', '=', 'company_users.user_id')
+                ->join('companies','companies.id', '=', 'company_users.company_id')
+                ->join('roles', 'roles.id', '=', 'company_users.role_id')
+                ->select('users.id as id', 'users.name as user_name', 'users.email as user_email',
+                 'companies.name as company_name', 'companies.id as company_id','roles.name as role_name')
+                ->get();
+        
+            $output = array(
+                'users' => $users,
+            );
+
+            return response()->json($output);
+        }
+
+        else
+        {
+            $users = DB::table('company_users')
+                ->join('companies','companies.id', '=', 'company_users.company_id')
+                ->join('users','users.id', '=', 'company_users.user_id')
+                ->join('roles', 'roles.id', '=', 'company_users.role_id')
+                ->select('users.id as id', 'users.name as user_name', 'users.email as user_email', 'companies.name as company_name', 'roles.name as role_name')
+                ->get();
+
+            $output = array(
+                'users' => $users,
+            );
+
+            return response()->json($output);
+        }
+        
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +62,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        
         $users = DB::table('company_users')
                 ->join('users','users.id', '=', 'company_users.user_id')
                 ->join('companies','companies.id', '=', 'company_users.company_id')
@@ -26,8 +70,7 @@ class UserController extends Controller
                 ->select('users.id as id', 'users.name as user_name', 'users.email as user_email', 'companies.name as company_name', 'roles.name as role_name')
                 ->get();
 
-        
-        return view('superadmin/users/index', compact('users'));
+        return view('superadmin/users/index');
     }
 
     /**
@@ -58,7 +101,7 @@ class UserController extends Controller
         $user = DB::table('users')->orderBy('created_at', 'desc')->first();
 
         $company_user = new CompanyUser();
-        $company_user->company_id = $request->input('company');
+        $company_user->company_id = $request->input('current_user_company');
         $company_user->user_id = $user->id;
         $company_user->role_id = $request->input('role_user_create');
         $company_user->save();

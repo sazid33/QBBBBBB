@@ -33,6 +33,7 @@
     <a href="{{ url('superadmin/topics') }}" class="active"><i class="fa fa-book fa-fw"></i> Topics</a>
 
     <a href="{{ url('superadmin/questions') }}" class="active"><i class="fa fa-question fa-fw"></i>Questions</a>
+    <a href="{{ url('questiongeneration/choose') }}" class="active"><i class="fa fa-question fa-fw"></i>Generate Question</a>
   </li>
 </ul>
 @endsection
