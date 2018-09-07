@@ -57,6 +57,18 @@ class UtilityController extends Controller
         return $present_user_role;
     }
 
+    public function getUserCompany()
+    {
+        $present_user_id = Auth::id();
+
+        $present_user_company = DB::table('company_users')
+                            ->where('user_id', '=', $present_user_id)
+                            ->select('company_id as company_id')
+                            ->get();
+
+        return $present_user_company[0]->company_id;
+    }
+
     public function getPageId($page_name)
     {
         $page_id = DB::table('pages')

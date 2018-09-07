@@ -7,10 +7,12 @@
 <script>
 $(document).ready(function(){
 
-    $('#company').on('change', function(event){
+    var zero_value = 0;
+    $('#company_for_searching').on('change', function(event){
         var company_id = event.target.value;
         
         var url = '/programs/getProgramAccordingToCompany';
+
         $.ajax({
             url:url,
             method:'GET',
@@ -20,6 +22,8 @@ $(document).ready(function(){
             dataType: 'json',
             success:function(data)
             {
+                $('#program').empty();
+                $('#program').append('<option value="'+zero_value+'">--Select Program--</option>');
                 $.each(data,function(index,programsObjectForSelectedCompany){
                 
                     programsObjectForSelectedCompany.forEach(function(element) {
@@ -35,7 +39,7 @@ $(document).ready(function(){
     });
 
 
-    $('#company').on('change', function(event){
+    $('#company_for_searching').on('change', function(event){
         company_id = event.target.value;
         
         var url = '/subjects/getSubjectAccordingToCompany';
@@ -48,6 +52,8 @@ $(document).ready(function(){
             dataType: 'json',
             success:function(data)
             {
+                $('#subject').empty();
+                $('#subject').append('<option value="'+zero_value+'">--Select Subject--</option>');
                 $.each(data,function(index,subjectsObjectForSelectedCompany){
                 
                     subjectsObjectForSelectedCompany.forEach(function(element) {
@@ -121,19 +127,15 @@ $(document).ready(function(){
                     <fieldset>
                 
                     <div>
-                        <select class="form-control" name="company_id" data-style="select-with-transition" title="Select Company" id="company" >
-                            <option>--Select Company--</option>
-                            @foreach($company_array as $data)
-                            <option value="{{$data->id}}">{{$data->name}}</option>
-                            @endforeach
+                        <select class="form-control" name="company_for_searching" data-style="select-with-transition" title="Select Company" id="company_for_searching" >
+                            
                         </select>
                     </div>
                     <br>
 
                     <div>
                         <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
-                            <option>--Select Program--</option>
-                            <option value=""></option>
+                            
                         </select>
                     </div>
                     <br>

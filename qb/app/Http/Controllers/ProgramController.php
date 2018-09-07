@@ -9,6 +9,36 @@ use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
+    public function getProgramAccordingToPresentUserCompany()
+    {
+        $util = new UtilityController();
+
+        $is_superAdmin = $util->checkSuperAdmin();
+
+        if($is_superAdmin == 0)
+        {
+            $present_user_company = $util->getUserCompany();
+
+            $company_programs = DB::table('company_programs')
+                        ->join('programs', 'company_programs.program_id', '=', 'programs.id')
+                        ->where('company_programs.company_id', '=', $present_user_company)
+                        ->select('programs.name as program', 'programs.id as program_id')
+                        ->get();
+            $output = array(
+                'company_programs' => $company_programs
+            );
+
+            return response()->json($output);
+        }
+
+        else
+        {
+            
+        }
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *

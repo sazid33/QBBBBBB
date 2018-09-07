@@ -26,8 +26,10 @@
 
   $(document).ready(function(){
     
-    var zero_value =0;
+    
 
+    var zero_value =0;
+    
     function getUserAccordingToPresentUser(present_user_company_id)
     {
       var url='/users/getUsersAccordingToCurrentUser';
@@ -122,6 +124,7 @@
           });
           getUserAccordingToPresentUser(data.company[0].company_id);
           getSubjectAccordingToPresentUser(data.company[0].company_id);
+          //getProgramAccordingToPresentUserCompany(data.company[0].company_id);
         },
         error:function(data)
         {
@@ -161,6 +164,8 @@
           }
       })
     });
+
+    
   });
 
   </script>

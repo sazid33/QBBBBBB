@@ -18,6 +18,7 @@ class ChapterController extends Controller
     public function index()
     {
         //
+        
         $util = new UtilityController();
 
         $page_id = $util->getPageId("Chapter");
