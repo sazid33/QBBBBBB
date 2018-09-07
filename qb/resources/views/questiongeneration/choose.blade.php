@@ -90,6 +90,31 @@ $(document).ready(function(){
             }
         })
     });
+
+    $('#programs_according_to_company').on('change', function(event){
+        var company_id = $('#company_for_searching').val();
+        var program_id = $('#programs_according_to_company').val();
+        
+        var url = '/subjects/getSubjectAccordingToCompanyProgram';
+        
+        $.ajax({
+            url:url,
+            method:'GET',
+            data:{
+                company_id:company_id,
+                program_id:program_id
+            },
+            dataType: 'json',
+            success:function(data)
+            {
+                console.log(data);
+            },
+            error:function(data)
+            {
+                console.log(data);
+            }
+        });
+    });
 });
 
 </script>
@@ -237,6 +262,11 @@ $(document).ready(function(){
     </div>
 </div>
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 @endsection

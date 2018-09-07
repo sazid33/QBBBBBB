@@ -12,6 +12,30 @@ use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
+    public function getSubjectAccordingToCompanyProgram(Request $request)
+    {
+        $company_id = $request->company_id;
+        $program_id = $request->program_id;
+
+        $company_program_id = DB::table('company_programs')
+                            ->where([['company_id','=',$company_id],['program_id','=',$program_id]])
+                            ->select('id as id')
+                            ->get();
+
+        $subjects = DB::table('company_program_subjects')
+                ->join('subjects', 'subjects.id','=', 'company_program_subjects.subject_id')
+                ->where('company_program_subjects.company_program_id', '=', $company_program_id[0]->id)
+                ->select('subjects.id as subject_id', 'subjects.name as subject_name')
+                ->get();
+
+        $output = array(
+            'subjects' => $subjects
+        );
+
+        return response()->json($output);
+    }
+
+
     public function getSubjectAccordingToPresentUser(Request $request)
     {
         $company_id = $request->id;

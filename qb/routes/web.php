@@ -62,7 +62,7 @@ Route::get('/chapters/getChapterAccordingToSubject', 'ChapterController@getChapt
 Route::get('/topics/getTopicAccordingToChapter', 'TopicController@getTopicAccordingToChapter');
 Route::get('/topics/getChapterAccordingToSubject', 'TopicController@getChapterAccordingToSubject');
 Route::get('/programs/getProgramAccordingToPresentUserCompany', 'ProgramController@getProgramAccordingToPresentUserCompany');
-
+Route::get('/subjects/getSubjectAccordingToCompanyProgram', 'SubjectController@getSubjectAccordingToCompanyProgram');
 
 //End routes for dropdowns
 
