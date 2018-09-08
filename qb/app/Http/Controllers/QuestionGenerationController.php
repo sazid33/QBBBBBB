@@ -12,7 +12,7 @@ class QuestionGenerationController extends Controller
     public function index()
     {
         $question_types = QuestionType::all();
-
-        return view('questiongeneration/choose', compact('question_types'));
+        $counter = 0;
+        return view('questiongeneration/choose', compact('question_types', 'counter'));
     }
 }
