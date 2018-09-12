@@ -11,6 +11,7 @@
 
   <title>@yield('SS QB', config('app.name', 'SS QB'))</title>
 
+  
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -21,7 +22,7 @@
   crossorigin="anonymous">
   
   </script>
-
+  
   <script>
 
   $(document).ready(function(){
@@ -61,6 +62,33 @@
       });
     }
 
+    function getProgramAccordingToPresentUserCompany(present_user_company_id)
+    {
+      var url = '/programs/getProgramAccordingToPresentUserCompany';
+
+      $.ajax({
+        url:url,
+        method:'GET',
+        data:{
+          id:present_user_company_id
+        },
+        dataType:'json',
+        success:function(data)
+        {
+          console.log(data);
+          $.each(data,function(index,programsObjectAccordingToPresentUser){                      
+            programsObjectAccordingToPresentUser.forEach(function(element){
+                $('#current_user_company_program').append('<option value="'+element.program_id+'">'+element.program+'</option>');
+            });
+          });
+        },
+        error:function(data)
+        {
+          console.log(data);
+        }
+      });
+    }
+
     function getSubjectAccordingToPresentUser(present_user_company_id)
     {
       var url='/subjects/getSubjectAccordingToPresentUser';
@@ -73,7 +101,15 @@
         },
         success:function(data)
         {
-          console.log(data);
+          $('#current_user_company_program_subject').empty();
+          $('#current_user_company_program_subject').append('<option value="'+zero_value+'">--Select Subject--</option>');
+          
+          //console.log(data);
+          $.each(data,function(index,subjectsObjectAccordingToPresentUser){                      
+            subjectsObjectAccordingToPresentUser.forEach(function(element){
+                $('#current_user_company_program_subject').append('<option value="'+element.subject_id+'">'+element.subject_name+'</option>');
+            });
+          });
         },
         error:function(data)
         {
@@ -124,7 +160,7 @@
           });
           getUserAccordingToPresentUser(data.company[0].company_id);
           getSubjectAccordingToPresentUser(data.company[0].company_id);
-          //getProgramAccordingToPresentUserCompany(data.company[0].company_id);
+          getProgramAccordingToPresentUserCompany(data.company[0].company_id);
         },
         error:function(data)
         {

@@ -193,17 +193,16 @@ $(document).ready(function(){
                 <label>Select Company</label>
                 <select class="form-control" name="current_user_company" data-style="select-with-transition" title="Select Company" id="current_user_company" >
 
-                     
                 </select>
             </div>
-            </br>
+            <br>
             <div>
                 <label>Select Role</label>
                 <select class="form-control" name="role_user_create" data-style="select-with-transition" title="Select Role" id="role_user_create" >
                   
                 </select>
             </div>
-            </br>
+            <br>
 
 
 

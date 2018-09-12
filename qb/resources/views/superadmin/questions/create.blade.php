@@ -41,14 +41,14 @@ $(document).ready(function(){
         
         company_id = event.target.value;
         
-        $('#program').empty();
-        $('#program').append('<option value="0">--Select Program--</option>');
-        $('#subject').empty();
-        $('#subject').append('<option value="0">--Select Subject--</option>');
-        $('#chapter').empty();
-        $('#chapter').append('<option value="0">--Select Chapter--</option>');
-        $('#topic').empty();
-        $('#topic').append('<option value="0">--Select Topic--</option>');
+        $('#current_user_company_program').empty();
+        $('#current_user_company_program').append('<option value="0">--Select Program--</option>');
+        $('#current_user_company_program_subject').empty();
+        $('#current_user_company_program_subject').append('<option value="0">--Select Subject--</option>');
+        $('#current_user_company_program_subject_chapter').empty();
+        $('#current_user_company_program_subject_chapter').append('<option value="0">--Select Chapter--</option>');
+        $('#current_user_company_program_subject_chapter_topic').empty();
+        $('#current_user_company_program_subject_chapter_topic').append('<option value="0">--Select Topic--</option>');
 
         var url = '/programs/getProgramAccordingToCompany';
         
@@ -77,15 +77,17 @@ $(document).ready(function(){
         })
     });
 
-    $('#program').on('change', function(event){
+    $('#current_user_company_program').on('change', function(event){
         
+        company_id = $('#current_user_company').val();
         program_id = event.target.value;
-        $('#subject').empty();
-        $('#subject').append('<option value="0">--Select Subject--</option>');
-        $('#chapter').empty();
-        $('#chapter').append('<option value="0">--Select Chapter--</option>');
-        $('#topic').empty();
-        $('#topic').append('<option value="0">--Select Topic--</option>');
+
+        $('#current_user_company_program_subject').empty();
+        $('#current_user_company_program_subject').append('<option value="0">--Select Subject--</option>');
+        $('#current_user_company_program_subject_chapter').empty();
+        $('#current_user_company_program_subject_chapter').append('<option value="0">--Select Chapter--</option>');
+        $('#current_user_company_program_subject_chapter_topic').empty();
+        $('#current_user_company_program_subject_chapter_topic').append('<option value="0">--Select Topic--</option>');
         var url = '/subjects/getSubjectAccordingToProgram';
         $.ajax({
             url:url,
@@ -97,12 +99,11 @@ $(document).ready(function(){
             dataType: 'json',
             success:function(data)
             {
-                
-                            
+                       
                 $.each(data,function(index,subjectsObjectForSelectedProgram){
                     
                     subjectsObjectForSelectedProgram.forEach(function(element){
-                        $('#subject').append('<option value="'+element.subject_id+'">'+element.subject_name+'</option>');
+                        $('#current_user_company_program_subject').append('<option value="'+element.subject_id+'">'+element.subject_name+'</option>');
                     });
                 });
             },
@@ -113,13 +114,13 @@ $(document).ready(function(){
         })
     });
 
-    $('#subject').on('change', function(event){
+    $('#current_user_company_program_subject').on('change', function(event){
         
         subject_id = event.target.value;
-        $('#chapter').empty();
-        $('#chapter').append('<option value="0">--Select Chapter--</option>');
-        $('#topic').empty();
-        $('#topic').append('<option value="0">--Select Topic--</option>');
+        $('#current_user_company_program_subject_chapter').empty();
+        $('#current_user_company_program_subject_chapter').append('<option value="0">--Select Chapter--</option>');
+        $('#current_user_company_program_subject_chapter_topic').empty();
+        $('#current_user_company_program_subject_chapter_topic').append('<option value="0">--Select Topic--</option>');
         var url = '/chapters/getChapterAccordingToSubject';
         $.ajax({
             url:url,
@@ -132,7 +133,7 @@ $(document).ready(function(){
             {    
                 $.each(data,function(index,chaptersObjectForSelectedSubject){
                     chaptersObjectForSelectedSubject.forEach(function(element){
-                        $('#chapter').append('<option value="'+element.chapter_id+'">'+element.chapter_name+'</option>');
+                        $('#current_user_company_program_subject_chapter').append('<option value="'+element.chapter_id+'">'+element.chapter_name+'</option>');
                     });
                 });
             },
@@ -143,11 +144,11 @@ $(document).ready(function(){
         })
     });
 
-    $('#chapter').on('change', function(event){
+    $('#current_user_company_program_subject_chapter').on('change', function(event){
         
         chapter_id = event.target.value;
-        $('#topic').empty();
-        $('#topic').append('<option value="0">--Select Topic--</option>');
+        $('#current_user_company_program_subject_chapter_topic').empty();
+        $('#current_user_company_program_subject_chapter_topic').append('<option value="0">--Select Topic--</option>');
         var url = '/topics/getTopicAccordingToChapter';
         $.ajax({
             url:url,
@@ -160,7 +161,7 @@ $(document).ready(function(){
             {
                 $.each(data,function(index,topicsObjectForSelectedChapter){
                     topicsObjectForSelectedChapter.forEach(function(element){
-                        $('#topic').append('<option value="'+element.topic_id+'">'+element.topic_name+'</option>');
+                        $('#current_user_company_program_subject_chapter_topic').append('<option value="'+element.topic_id+'">'+element.topic_name+'</option>');
                     });
                 });
             },
@@ -173,7 +174,8 @@ $(document).ready(function(){
 
     $("#form").submit(function(){
         var data = {};
-        data.topic_id = $("#topic").val();
+        data.chapter_id = $("#current_user_company_program_subject_chapter").val();
+        data.topic_id = $("#current_user_company_program_subject_chapter_topic").val();
         data.priority = $("#priority").val();
         data.difficulty = $("#difficulty").val();
         data.question_type_id = 1;
@@ -322,7 +324,7 @@ $(document).ready(function(){
             <tr>
                 <td>Program</td>
                 <td colspan="2">
-                    <select class="form-control" name="program_id" data-style="select-with-transition" title="Select Program" id="program" >
+                    <select class="form-control" name="current_user_company_program" data-style="select-with-transition" title="Select Program" id="current_user_company_program" >
                         <option value="0">--Select Program--</option>
                     </select>
                 </td>
@@ -330,7 +332,7 @@ $(document).ready(function(){
             <tr>
                 <td>Subject</td>
                 <td colspan="2">
-                    <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
+                    <select class="form-control" name="current_user_company_program_subject" data-style="select-with-transition" title="Select Subject" id="current_user_company_program_subject" >
                         <option value="0">--Select Subject--</option> 
                     </select>
                 </td>
@@ -338,7 +340,7 @@ $(document).ready(function(){
             <tr>
                 <td>Chapter</td>
                 <td colspan="2">
-                    <select class="form-control" name="chapter_id" data-style="select-with-transition" title="Select Chapter" id="chapter" >
+                    <select class="form-control" name="current_user_company_program_subject_chapter" data-style="select-with-transition" title="Select Chapter" id="current_user_company_program_subject_chapter" >
                         <option value="0">--Select Chapter--</option>
                     </select>
                 </td>
@@ -346,7 +348,7 @@ $(document).ready(function(){
             <tr>
                 <td>Topic</td>
                 <td colspan="2">
-                    <select class="form-control" name="topic_id" data-style="select-with-transition" title="Select Topic" id="topic" >
+                    <select class="form-control" name="current_user_company_program_subject_chapter_topic" data-style="select-with-transition" title="Select Topic" id="current_user_company_program_subject_chapter_topic" >
                         <option value="0">--Select Topic--</option>
                     </select>
                 </td>

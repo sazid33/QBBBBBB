@@ -7,7 +7,9 @@ use App\User;
 use App\Page;
 use App\UserPage;
 use App\CompanyUser;
+use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -91,6 +93,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users',
+            'name' => 'required|string|max:50',
+            'password' => 'required'
+        ]);
+
+        if($validator->fails())
+        {
+            Session::flash('error', $validator->messages()->first());
+            return redirect()->back()->withInput();
+        }
         //
         $user = new User();
         $user->name = $request->input('name');

@@ -7,13 +7,13 @@
 <script>
 $(document).ready(function(){
 
-    $('#subject').on('change', function(event){
+    $('#current_user_company_program_subject').on('change', function(event){
 
         var subject_id = event.target.value;
 
         $.getJSON('/topics/getChapterAccordingToSubject?subject_id=' +subject_id , function(data){
             $('#chapter').empty();
-            console.log(data);
+            $('#chapter').append('<option value=0>--Select Chapter--</option>');
 
             $.each(data,function(index,chaptersObjectForSelectedSubject){
                 
@@ -65,11 +65,7 @@ $(document).ready(function(){
 
         </div>
     </div>
-
-    <div class="button" pull-right>
-        <button type="button" class="btn btn-default">Update</button>
-    </div>
-        </br>
+        <br>
     <div class="button">
         <button type="button" class="btn btn-primary btn-med" data-toggle="modal" data-target="#ssModal-create">
         Add New Topic
@@ -91,11 +87,8 @@ $(document).ready(function(){
             <fieldset>
                 
                 <div>
-                    <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject" >
-                        <option>--Select Subject--</option>
-                        @foreach($subject_array as $data)
-                        <option value="{{$data->id}}">{{$data->name}}</option>
-                        @endforeach
+                    <select class="form-control" name="current_user_company_program_subject" data-style="select-with-transition" title="Select Subject" id="current_user_company_program_subject" >
+                        
                     </select>
                 
                     @if ($errors->has('subject'))
@@ -104,7 +97,7 @@ $(document).ready(function(){
                     </span>
                     @endif
                 </div>
-                </br>
+                <br>
                 <div>
                     <select class="form-control" name="chapter" data-style="select-with-transition" title="Select Chapter" id="chapter" >
                         <option>--Select Chapter--</option>
@@ -117,7 +110,7 @@ $(document).ready(function(){
                     </span>
                     @endif
                 </div>
-                </br>
+                <br>
                 <div class="form-group">
                     <input class="form-control" placeholder="Topic Name" name="name" type="text" autofocus value="{{ old('name') }}">
                     @if ($errors->has('name'))

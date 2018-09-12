@@ -223,22 +223,19 @@ $(document).ready(function(){
                 <fieldset>
 
                     <div>
-                        <select class="form-control" name="company" data-style="select-with-transition" title="Select Company" id="company" >
-                            <option>--Select Company--</option>
-                            @foreach($company_array as $data)
-                            <option value="{{$data->id}}">{{$data->name}}</option>
-                            @endforeach
+                        <select class="form-control" name="current_user_company" data-style="select-with-transition" title="Select Company" id="current_user_company" >
+                            
                         </select>
                     </div>
                     <br>
                     
                     <div>
-                        <select class="form-control" name="subject_id" data-style="select-with-transition" title="Select Subject" id="subject_id" >
-                            <option>--Select Subject--</option>
+                        <select class="form-control" name="current_user_company_program_subject" data-style="select-with-transition" title="Select Subject" id="current_user_company_program_subject" >
+                            
                         </select>
                     </div>
-                    </br>
-                    </br>
+                    <br>
+                    <br>
                     <div class="form-group">
                         <label>Enter Chapter Name</label>
                         <input class="form-control" placeholder="Chapter Title" name="chapter_name" type="text" autofocus value="{{ old('name') }}">

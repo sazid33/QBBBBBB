@@ -4,13 +4,16 @@
 
 @section('content')
 
+
 <script>
-    
-
-
 $(document).ready(function(){
-    
-    
+
+    var question_type_checkbox;
+    var number_of_questions;
+    var marks_for_each_question;
+    var percentage_of_question;
+    var total_marks_of_type;
+    var i = 0;
 
     $(function()
     {
@@ -38,7 +41,7 @@ $(document).ready(function(){
         },
         error:function(data)
         {
-          console.log(data);
+          //console.log(data);
         }
       });
     });
@@ -50,7 +53,7 @@ $(document).ready(function(){
 
     function getChapterAccordingToSubject(subject_id)
     {      
-        console.log(subject_id);
+        //console.log(subject_id);
         var url = '/chapters/getChapterAccordingToSubject';
         $.ajax({
             url:url,
@@ -62,7 +65,7 @@ $(document).ready(function(){
             success:function(data)
             {
 
-                console.log(data);  
+                //console.log(data);  
                 $.each(data,function(index,chaptersObjectForSelectedSubject){
                     chaptersObjectForSelectedSubject.forEach(function(element){
                         $('#chapters_for_selected_subject').append(
@@ -108,8 +111,9 @@ $(document).ready(function(){
             }
         })
     });
-
+    
     $('#programs_according_to_company').on('change', function(event){
+
         var company_id = $('#company_for_searching').val();
         var program_id = $('#programs_according_to_company').val();
 
@@ -132,7 +136,7 @@ $(document).ready(function(){
             success:function(data)
             {
                 var i = 0;
-                console.log(i);
+                //console.log(i);
                 //console.log(data);
                 $('#select-subject-chapter').prop("hidden", false);
                 $('#submit_button').prop("hidden", false);
@@ -141,15 +145,15 @@ $(document).ready(function(){
                 $.each(data,function(index,subjectsForSelectedCompany){
                    
                     subjectsForSelectedCompany.forEach(function(element) {
-                        console.log(i);
+                        //console.log(element);
                         $('#select-subject-chapter-for-exam-table-body').append(
                             '<tr>'
-                                +'<td class=text-center><input type=checkbox class="subjects_checkboxes" name=subject_select_checkbox['+i+']></td>'
-                                +'<td class=text-center><label value='+element.subject_id+' name="subject_selection['+i+']" id="subject_selection">'+element.subject_name+'</label></td>'
-                                +'<td class=text-center><select  name="chapters_for_selected_subject['+i+']" id="chapters_for_selected_subject"><option>--Select Chapter--</option></select></td>'
+                                +'<td class=text-center><input type=checkbox class="subjects_checkboxes" name=subject_select_checkbox[]></td>'
+                                +'<td class=text-center><label value='+element.subject_id+' name="subject_selection[]" id="subject_selection">'+element.subject_name+'</label></td>'
+                                +'<td name="subjectwise_chapters" id="subjectwise_chapters" align="left"></td>'
+                                +'<td class=text-center><input type="hidden" value='+element.subject_id+' name="subject_id_selection[]" id="subject_id_selection"></td>'
                             +'</tr>');
                         i++;
-
                         //console.log(i);
                     });
                 });
@@ -162,7 +166,7 @@ $(document).ready(function(){
         });
     });
 
-
+    
 
     function question_type_is_checked()
     {
@@ -172,32 +176,115 @@ $(document).ready(function(){
         }
     }
 
-    function doSomething()
-    {
-        if ( this.checked ) 
-        {
-            
-        }
-        
-        else 
-        {
-            // if not checked ...
-        }
-    }
+    
+    
+    $(document).on("change", "input[name='question_type_checkbox[]']", function () {
 
-    $(".question_type_checkboxes").click(function () {
-        var question_type_checkbox = document.forms['question_types'].elements['question_type_checkbox[]'];
         
-        for(var i=0; i<question_type_checkbox.length; i++)
+        var number_of_questions= $(this).closest('tr').find('input[id="number_of_questions"]');
+        var marks_for_each_question = $(this).closest('tr').find('input[id="marks_for_each_question"]');
+        var percentage_of_question = $(this).closest('tr').find('input[id="percentage_of_question"]');
+        var question_type_id = $(this).closest('tr').find('input[id="question_type_id"]');
+
+        
+        if(this.checked)
         {
-            question_type_checkbox[i].onclick = doSomething;
+            //console.log(number_of_questions);
+            number_of_questions.prop("disabled", false);
+            marks_for_each_question.prop("disabled", false);
+            percentage_of_question.prop("disabled", false);
+            var question_type_id_value = question_type_id.prop("value");       
+        }
+
+        else
+        {
+            number_of_questions.prop("disabled", true);
+            marks_for_each_question.prop("disabled", true);
+            percentage_of_question.prop("disabled", true);
+        }
+    });
+
+    $(document).on("change", "input[name='subject_select_checkbox[]']", function () {
+
+        var subject_id_selection = $(this).closest('tr').find('input[id="subject_id_selection"]');
+        var chapters_selection_td = $(this).closest('tr').find('td[id="subjectwise_chapters"]');
+
+        if(this.checked)
+        {
+            chapters_selection_td.empty();
+            chapters_selection_td.append(
+                '<input type="checkbox" class="select_all_chapters_of_subject" name="select_all_chapters_of_subject" id="select_all_chapters_of_subject">'
+                +'<label>Select All</label><br>'
+            );
+
+            //chapters_for_selected_subject.prop("disabled", false);
+            //chapters_for_selected_subject.empty();
+            //chapters_for_selected_subject.append('<option>--Select Chapter--</option>');
+            var selected_subject_id = subject_id_selection.prop("value");
+            
+            var url = '/chapters/getChapterAccordingToSubject';
+            $.ajax({
+                url:url,
+                method:'GET',
+                data:{
+                    subject_id:selected_subject_id,
+                },
+                dataType: 'json',
+                success:function(data)
+                {    
+                    $.each(data,function(index,chaptersObjectForSelectedSubject){
+                        chaptersObjectForSelectedSubject.forEach(function(element){
+                            
+                            chapters_selection_td.append(
+                                '<input type="checkbox" name="chapters_selector_checkboxes[]" id="chapters_selector_checkboxes" value="'+element.chapter_id+'">'
+                                +'<label>'+element.chapter_name+'</label><br>');
+                        });
+                    });
+                    
+                },
+                error:function(data)
+                {
+                    console.log(data);
+                }
+            })
+        }
+
+        else
+        {
+            chapters_selection_td.empty();
         }
     });
 
 
+
+    /*$(".question_type_checkboxes").click(function (){
+        question_type_checkbox = document.forms['question_types'].elements['question_type_checkbox[]'];
+        
+        for(i=0; i<question_type_checkbox.length; i++)
+        {
+            //alert(question_type_checkbox[i]);
+            question_type_checkbox[i].onclick = function ()
+            {
+                if ( this.checked ) 
+                {
+                    alert(i);
+                }
+                
+                else 
+                {
+                    // if not checked ...
+                }
+            };
+        }
+    });
+    */
+    $('#select_all_chapters_of_subject').change(function () {
+        alert("Test");
+        ($(this).is(":checked") ? $('.chapters_selector_checkboxes').prop("checked", true) :    $('.chapters_selector_checkboxes').prop("checked", false)); 
+    });
+
     $('#check_all_question_types').change(function () {
-        ($(this).is(":checked") ? $('.question_type_checkboxes').prop("checked", true) :    $('.question_type_checkboxes').prop("checked", false));
-        doSomething();   
+        ($(this).is(":checked") ? $('.question_type_checkboxes').prop("checked", true) :    $('.question_type_checkboxes').prop("checked", false)); 
     });
 
     $('#check_all_subjects').change(function(){
@@ -281,7 +368,7 @@ $(document).ready(function(){
         <table class="table table-responsive" id="question_type">
             <thead>
                 <td class="text-center">
-                    <input type="checkbox"  id="check_all_question_types">
+                    <!--<input type="checkbox"  id="check_all_question_types">-->
                     <label>Check</label>
                 </td>
                 <td class="text-center" ><label>Question Type</label></td>
@@ -299,13 +386,13 @@ $(document).ready(function(){
                 
                 <tr>
                     <td class="text-center">
-                        <input type="checkbox" class="question_type_checkboxes" name="question_type_checkbox[]" id="question_type_checkbox" value="{{$question_type->id}}">
+                        <input type="checkbox" class="question_type_checkboxes" name="question_type_checkbox[]" id="question_type_checkbox" value="{{$counter}}">
                     </td>
                     <td class="text-center"> 
                         {{$question_type->name}}
                     </td>
                     <td class="text-center">
-                        <input class="class_number_of_questions" type="text" name="number_of_questions[]" id="number_of_questions" disabled>
+                        <input class="class_number_of_questions" type="text" name="number_of_questions[]" id="number_of_questions" value="" disabled>
                     </td>
                     <td class="text-center">
                         <input class="class_marks_for_each_question" type="text" name="marks_for_each_question[]" id="marks_for_each_question" disabled>
@@ -314,10 +401,14 @@ $(document).ready(function(){
                         <input class="class_percentage_of_question" type="text" name="percentage_of_question[]" id="percentage_of_question" disabled>
                     </td>
                     <td class="text-center">
-                        <input  type="text" name="total_marks_of_type[{]" id="total_marks_of_type" disabled>
+                        <input  type="text" class="total_marks_of_types" name="total_marks_of_type[]" id="total_marks_of_type" disabled>
+                    </td>
+                    <td>
+                        <input type="hidden" name="question_type_id[]" id="question_type_id" value="{{$question_type->id}}">
                     </td>
                 </tr>
                 <input type="hidden" value="{{$counter++}}">
+                
                 @endforeach
                 
                 <tr>
@@ -345,7 +436,7 @@ $(document).ready(function(){
             <table id="select-subject-chapter-for-exam" class="table table-responsive">
                 <thead>
                     <td class="text-center">
-                        <input type="checkbox" id="check_all_subjects" class="text-center">
+                        <!--<input type="checkbox" id="check_all_subjects" class="text-center">-->
                         <label>Check</label>
                     </td>
                     <td class="text-center">
@@ -389,3 +480,5 @@ $(document).ready(function(){
 <br>
 
 @endsection
+
+
